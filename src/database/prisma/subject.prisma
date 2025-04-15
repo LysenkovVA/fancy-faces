@@ -1,5 +1,43 @@
 model Subject {
-  id String @id @default(cuid())
+  id   String    @id @default(cuid())
+  date DateTime?
+
+  initiator   Initiator? @relation(fields: [initiatorId], references: [id])
+  initiatorId String?
+
+  objectNumber String?
+  name         String?
+  location     String?
+
+  antropologicalType   AntropologicalType? @relation(fields: [antropologicalTypeId], references: [id])
+  antropologicalTypeId String?
+
+  subgroup   Subgroup? @relation(fields: [subgroupId], references: [id])
+  subgroupId String?
+
+  gender   Gender? @relation(fields: [genderId], references: [id])
+  genderId String?
+
+  age Int?
+
+  durationOfObservation String?
+  lastObservation       String?
+
+  fullFaceObservation    Observation? @relation(name: "fullFace")
+  profileFaceObservation Observation? @relation(name: "profileFace")
+
+  face     String?
+  forehead String?
+  eyes     String?
+  mouth    String?
+  scars    String?
+  hear     String?
+  eyebrow  String?
+  nose     String?
+  chin     String?
+  ears     String?
+
+  portraitMatch String?
 
   // Служебные поля
   createdAt DateTime @default(now())

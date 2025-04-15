@@ -1,0 +1,19 @@
+.FilterTree {
+    width: 100%;
+    max-height: 100px;
+    overflow-y: auto;
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+
+.title {
+    color: lightgray;
+    padding-bottom: 8px;
+}
+
+.withSearch {
+    height: 300px;
+}

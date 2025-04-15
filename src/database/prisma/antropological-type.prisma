@@ -1,0 +1,13 @@
+model AntropologicalType {
+  id   String  @id @default(cuid())
+  name String?
+
+  subjects Subject[]
+
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+  @@map("antropological_types")
+}

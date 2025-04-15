@@ -1,0 +1,13 @@
+model ViewType {
+  id   String @id @default(cuid())
+  name String
+
+  observations Observation[]
+
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+  @@map("view_types")
+}

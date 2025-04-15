@@ -2,7 +2,19 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function main() {}
+async function main() {
+    console.log(`>>> Добавление данных в БД...`);
+
+    await prisma.gender.createMany({
+        data: [{ name: "Женский" }, { name: "Мужской" }],
+    });
+
+    await prisma.viewType.createMany({
+        data: [{ name: "Анфас" }, { name: "Профиль" }],
+    });
+
+    console.log(`>>> БД создана!`);
+}
 
 main()
     .then(async () => {
