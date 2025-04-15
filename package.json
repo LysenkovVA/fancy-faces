@@ -9,17 +9,35 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.2",
+    "@prisma/client": "^6.6.0",
+    "@reduxjs/toolkit": "^2.6.1",
+    "antd": "^5.24.7",
+    "bcryptjs": "^3.0.2",
+    "dayjs": "^1.11.13",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "jose": "^6.0.10",
+    "next": "15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.0"
+    "react-error-boundary": "^5.0.0",
+    "react-redux": "^9.2.0",
+    "uuid": "^11.1.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@eslint/eslintrc": "^3",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
-    "@eslint/eslintrc": "^3"
+    "prettier": "^3.5.3",
+    "prisma": "^6.6.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5",
+    "whatwg-fetch": "^3.6.20"
   }
 }
