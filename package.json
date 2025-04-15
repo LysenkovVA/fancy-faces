@@ -6,7 +6,16 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:client:generate": "npm exec prisma generate --schema",
+    "prisma:db:reset": "npx prisma migrate reset --force --skip-seed",
+    "prisma:db:push": "npm run prisma:client:generate && npm exec prisma db push",
+    "prisma:db:seed": "npx prisma db seed",
+    "prisma:db:init": "npm run prisma:client:generate && npm run prisma:db:reset && npm run prisma:db:push && npm run prisma:db:seed"
+  },
+  "prisma": {
+    "schema": "./src/database/prisma",
+    "seed": "ts-node ./src/database/seed.ts"
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.2",
@@ -22,6 +31,7 @@
     "react-dom": "^19.0.0",
     "react-error-boundary": "^5.0.0",
     "react-redux": "^9.2.0",
+    "sqlite3": "^5.1.7",
     "uuid": "^11.1.0",
     "zod": "^3.24.2"
   },

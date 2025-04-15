@@ -1,0 +1,10 @@
+model Subject {
+  id String @id @default(cuid())
+
+  // Служебные поля
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([id])
+  @@map("subjects")
+}

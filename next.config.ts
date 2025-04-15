@@ -1,7 +1,7 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import("next").NextConfig} */
+const nextConfig = {
+    reactStrictMode: false, // Чтобы не было 2 рендеров в dev режиме
+    transpilePackages: ["antd"],
 };
 
-export default nextConfig;
+module.exports = nextConfig;
