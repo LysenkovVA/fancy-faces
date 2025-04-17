@@ -9,5 +9,5 @@ model Gender {
   updatedAt DateTime @updatedAt
 
   @@index([name])
-  @@map("view-types")
+  @@map("genders")
 }

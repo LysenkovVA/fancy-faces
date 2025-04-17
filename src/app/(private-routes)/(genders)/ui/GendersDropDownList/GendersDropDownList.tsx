@@ -34,7 +34,6 @@ export const GendersDropDownList = memo((props: GendersDropDownListProps) => {
     const data = useAppSelector(getGendersSimpleList.selectAll);
     const isLoading = useAppSelector(getGendersSimpleListIsLoading);
     const error = useAppSelector(getGendersSimpleListError);
-
     const isInitialized = useAppSelector(getGendersSimpleListIsInitialized);
 
     useInitialEffect(() => {

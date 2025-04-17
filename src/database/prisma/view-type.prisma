@@ -2,7 +2,7 @@ model ViewType {
   id   String @id @default(cuid())
   name String
 
-  observations Observation[]
+  subjects Subject[]
 
   // Служебные поля
   createdAt DateTime @default(now())

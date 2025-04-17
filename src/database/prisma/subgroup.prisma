@@ -9,5 +9,5 @@ model Subgroup {
   updatedAt DateTime @updatedAt
 
   @@index([name])
-  @@map("subgroups")
+  @@map("initiators")
 }

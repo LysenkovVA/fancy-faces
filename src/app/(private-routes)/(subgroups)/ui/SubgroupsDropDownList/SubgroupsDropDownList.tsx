@@ -26,7 +26,7 @@ import {
 import { LabelWithIcon } from "@/app/UI/LabelWithIcon";
 import subgroupPng from "../../../../lib/assets/png/subgroup.png";
 import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
-import { subgroupsSimpleListReducer } from "../../model/slices/antropologicalTypesSimpleListSlice";
+import { subgroupsSimpleListReducer } from "../../model/slices/subgroupsSimpleListSlice";
 
 export interface SubgroupsDropDownListProps {
     placeholder?: string;

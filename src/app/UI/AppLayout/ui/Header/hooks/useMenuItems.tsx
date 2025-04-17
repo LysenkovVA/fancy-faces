@@ -26,7 +26,7 @@ export const headerItems: Record<Route, HeaderMenuItem> = {
         label: "Удостоверения",
         routePath: "/certificates",
     },
-    EMPLOYEES: { key: "3", label: "Сотрудники", routePath: "/employees" },
+    EMPLOYEES: { key: "3", label: "Сотрудники", routePath: "/subjects" },
     DEPARTMENTS: {
         key: "4",
         label: "Подразделения",

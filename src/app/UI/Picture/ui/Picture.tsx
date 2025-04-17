@@ -9,6 +9,7 @@ import {
 } from "react";
 import { Button, Flex, Image, Skeleton, Upload } from "antd";
 import noImage from "../assets/no-image.png";
+import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 
 function wrapperPictureStyle(
     borderWidth: number,
@@ -40,8 +41,8 @@ function pictureStyle(shape: "picture" | "avatar"): CSSProperties {
 }
 
 export interface PictureProps {
-    value?: string;
-    onChange?: (value?: string) => void;
+    value?: string | PhotoEntity;
+    onChange?: (value?: PhotoEntity) => void;
     shape: "picture" | "avatar";
     pictureWidth?: number | string;
     pictureHeight?: number;
@@ -49,6 +50,31 @@ export interface PictureProps {
     borderWidth?: number;
     isEditable?: boolean;
 }
+
+// Convert File to base64
+export const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            // The result includes the data URL prefix (e.g., "data:image/jpeg;base64,")
+            // We can either keep it or remove it based on your needs
+            const base64String = reader.result as string;
+            const base64WithoutPrefix = base64String.split(",")[1];
+            resolve(base64WithoutPrefix);
+        };
+        reader.onerror = (error) => reject(error);
+    });
+};
+
+// Convert base64 to URL
+export const convertBase64ToUrl = (
+    base64String: string,
+    mimeType = "image/jpeg",
+): string => {
+    // Create a data URL from the base64 string
+    return `data:${mimeType};base64,${base64String}`;
+};
 
 export const Picture = memo((props: PictureProps) => {
     const {
@@ -68,10 +94,27 @@ export const Picture = memo((props: PictureProps) => {
 
     useLayoutEffect(() => {
         if (value) {
-            setSrcValue(value);
-            setIsLoading(false);
+            if (typeof value === "string") {
+                setSrcValue(value);
+                setIsInitialized(true);
+                setIsLoading(false);
+            } else {
+                if (typeof value === "object") {
+                    const photo = value as PhotoEntity;
+
+                    if (photo && photo.data) {
+                        const url = convertBase64ToUrl(photo.data);
+                        setSrcValue(url);
+                        setIsInitialized(true);
+                        setIsLoading(false);
+                    } else {
+                        alert("WTF!");
+                    }
+                }
+            }
+        } else {
             setIsInitialized(true);
-            return;
+            setIsLoading(false);
         }
     }, [value]);
 
@@ -147,13 +190,17 @@ export const Picture = memo((props: PictureProps) => {
                             const urlCreator = window.URL || window.webkitURL;
                             const objUrl = urlCreator.createObjectURL(blob);
 
-                            // const newValue = {
-                            //     // ...value,
-                            //     fileUrl: objUrl,
-                            // } as FileEntity;
+                            const base64 = await convertFileToBase64(file);
+
+                            const newValue: PhotoEntity = {
+                                id: "",
+                                type: file.type,
+                                size: file.size,
+                                data: base64,
+                            };
 
                             setSrcValue(objUrl);
-                            onChange?.(objUrl);
+                            onChange?.(newValue);
 
                             return false;
                         }}

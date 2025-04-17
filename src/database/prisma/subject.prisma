@@ -1,5 +1,8 @@
 model Subject {
-  id   String    @id @default(cuid())
+  id String @id @default(cuid())
+
+  photos Photo[]
+
   date DateTime?
 
   initiator   Initiator? @relation(fields: [initiatorId], references: [id])
@@ -18,13 +21,17 @@ model Subject {
   gender   Gender? @relation(fields: [genderId], references: [id])
   genderId String?
 
-  age Int?
+  age String?
 
   durationOfObservation String?
   lastObservation       String?
 
-  fullFaceObservation    Observation? @relation(name: "fullFace")
-  profileFaceObservation Observation? @relation(name: "profileFace")
+  viewType   ViewType? @relation(fields: [viewTypeId], references: [id])
+  viewTypeId String?
+
+  eyewitnessCharacteristics String?
+  anatomicCharacteristics   String?
+  functionalCharacteristics String?
 
   face     String?
   forehead String?

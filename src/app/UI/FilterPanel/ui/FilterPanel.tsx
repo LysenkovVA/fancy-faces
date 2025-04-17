@@ -164,7 +164,7 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                 </Flex>
                 {onSearchValueChanged && (
                     <Input
-                        disabled={isFiltering}
+                        // disabled={isFiltering}
                         placeholder={"Найти..."}
                         value={searchValue}
                         allowClear
@@ -185,15 +185,6 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                                 {"Фильтры"}
                             </Typography.Text>
                         </Flex>
-                        {/*{onClearFilters && (*/}
-                        {/*    <Button*/}
-                        {/*        icon={<ClearOutlined />}*/}
-                        {/*        type={"link"}*/}
-                        {/*        onClick={onClearFilters}*/}
-                        {/*    >*/}
-                        {/*        {"очистить"}*/}
-                        {/*    </Button>*/}
-                        {/*)}*/}
                     </Flex>
                 )}
                 <Flex

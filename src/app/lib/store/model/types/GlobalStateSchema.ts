@@ -7,6 +7,10 @@ import { SimpleListReduxSchema } from "@/app/lib/types/SimpleListReduxSchema";
 import { ViewTypeEntity } from "@/app/(private-routes)/(view-types)";
 import { AntropologicalTypeEntity } from "@/app/(private-routes)/(antropological-types)/model/types/AntropologicalTypeEntity";
 import { SubgroupEntity } from "@/app/(private-routes)/(subgroups)/model/types/SubgroupEntity";
+import { SubjectEntity } from "@/app/(private-routes)/(subjects)/model/types/SubjectEntity";
+import { ListReduxSchema } from "@/app/lib/types/ListReduxSchema";
+import { SubjectFilterType } from "@/app/(private-routes)/(subjects)/model/types/SubjectFilterType";
+import { InitiatorEntity } from "@/app/(private-routes)/(initiators)/model/types/InitiatorEntity";
 
 /**
  * Схема глобального состояния
@@ -26,6 +30,13 @@ export interface GlobalStateSchema {
 
     subgroupDetailsSchema?: MultipleDetailsReduxSchema<SubgroupEntity>;
     subgroupsSimpleListSchema?: SimpleListReduxSchema<SubgroupEntity>;
+
+    subjectDetailsSchema?: MultipleDetailsReduxSchema<SubjectEntity>;
+    subjectsSimpleListSchema?: SimpleListReduxSchema<SubjectEntity>;
+    subjectsListSchema?: ListReduxSchema<SubjectEntity, SubjectFilterType>;
+
+    initiatorDetailsSchema?: MultipleDetailsReduxSchema<InitiatorEntity>;
+    initiatorsSimpleListSchema?: SimpleListReduxSchema<InitiatorEntity>;
 }
 
 /**

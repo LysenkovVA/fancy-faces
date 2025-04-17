@@ -20,15 +20,8 @@ export const Footer = memo(() => {
             align={"center"}
             justify={"center"}
         >
-            {/*<Image*/}
-            {/*    style={{ justifyContent: "center" }}*/}
-            {/*    src={llcLogoPNG.src}*/}
-            {/*    height={FOOTER_HEIGHT - FOOTER_HEIGHT / 3}*/}
-            {/*    alt={"logo_llc"}*/}
-            {/*    preview={false}*/}
-            {/*/>*/}
             <Typography.Text style={{ color: FOREGROUND_PRIMARY_COLOR }}>
-                {`${new Date(Date.now()).getFullYear()} © 5 лаборатория`}
+                {`5 лаборатория 3 отдела © ${new Date(Date.now()).getFullYear()}`}
             </Typography.Text>
         </Flex>
     );
