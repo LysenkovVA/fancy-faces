@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { initAuthDataThunk } from "../services/initAuthDataThunk";
 import { UserEntity } from "@/app/(private-routes)/(users)";
 import { loginThunk } from "../services/loginThunk";
-import { setActiveClientThunk } from "@/app/(private-routes)/(users)/model/thunks/setActiveClientThunk";
 import { DetailsReduxSchema } from "@/app/lib/types/MultipleDetailsReduxSchema";
 
 const initialState: DetailsReduxSchema<UserEntity> = {
@@ -74,10 +73,6 @@ export const authSlice = createSlice({
                 state.isFetching = false;
                 state.isSaving = false;
                 state._isInitialized = false;
-            })
-            .addCase(setActiveClientThunk.fulfilled, (state, payload) => {
-                state.entityData = payload.payload.data;
-                state.entityFormData = payload.payload.data;
             });
     },
 });

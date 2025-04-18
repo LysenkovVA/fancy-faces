@@ -2,25 +2,24 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ResponseData } from "@/app/lib/responses/ResponseData";
-import { ThunkConfig } from "@/app/lib/store";
 import { UserEntity } from "../types/UserEntity";
+import { ThunkConfig } from "@/app/lib/store";
 
-export interface GetUserByIdThunkProps {
-    formId: string;
+export interface DeleteUserByIdThunkProps {
     id: string;
 }
 
-export const getUserByIdThunk = createAsyncThunk<
+export const deleteUserByIdThunk = createAsyncThunk<
     ResponseData<UserEntity | undefined>,
-    GetUserByIdThunkProps,
+    DeleteUserByIdThunkProps,
     ThunkConfig<string>
->("getUserByIdThunk", async (props, thunkApi) => {
+>("deleteUserByIdThunk", async (props, thunkApi) => {
     const { rejectWithValue } = thunkApi;
 
     try {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_PATH}/users/${props.id}`,
-            { method: "GET" },
+            { method: "DELETE" },
         );
 
         const data = (await response.json()) as ResponseData<

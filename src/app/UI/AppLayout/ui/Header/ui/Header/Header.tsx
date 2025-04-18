@@ -37,12 +37,12 @@ export const Header = memo((props: HeaderProps) => {
             >
                 <HeaderLogo />
                 <Flex align={"center"} justify={"center"} gap={16}>
-                    {initialized ? (
-                        <Typography.Text>
-                            {authUser?.id ?? "unknown user"}
+                    {initialized && (
+                        <Typography.Text
+                            type={authUser?.id ? undefined : "danger"}
+                        >
+                            {authUser?.name ?? "Ошибка"}
                         </Typography.Text>
-                    ) : (
-                        JSON.stringify(authUser)
                     )}
                     <HeaderLogoutButton />
                 </Flex>

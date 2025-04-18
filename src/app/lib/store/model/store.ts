@@ -10,6 +10,7 @@ import {
 import { createReducerManager } from "./reducerManager";
 import { InfiniteScrollReducer } from "@/app/UI/InfiniteScroll/model/slices/InfiniteScrollSlice";
 import { FilterPanelReducer } from "@/app/UI/FilterPanel/model/slices/FilterPanelSlice";
+import { authReducer } from "@/app/(public-routes)/(login)";
 
 /**
  * Центральное хранилище стейта.
@@ -21,6 +22,7 @@ export const createReduxStore = (initialState?: GlobalStateSchema) => {
     const reducerManger = createReducerManager({
         // В корневой редюсер добавляются только те редюсеры,
         // которые являются обязательными
+        authSchema: authReducer,
         infiniteScrollSchema: InfiniteScrollReducer,
         filterPanelSchema: FilterPanelReducer,
     });
