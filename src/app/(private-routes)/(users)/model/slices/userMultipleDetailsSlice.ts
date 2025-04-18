@@ -1,24 +1,40 @@
 "use client";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SubjectEntity } from "../types/SubjectEntity";
+import { UserEntity } from "../types/UserEntity";
 import { MultipleDetailsReduxSchema } from "@/app/lib/types/MultipleDetailsReduxSchema";
-import { getSubjectByIdThunk } from "../thunks/getSubjectByIdThunk";
-import { upsertSubjectThunk } from "../thunks/upsertSubjectThunk";
+import { getUserByIdThunk } from "../thunks/getUserByIdThunk";
+import { upsertUserThunk } from "../thunks/upsertUserThunk";
 
-const initialState: MultipleDetailsReduxSchema<SubjectEntity> = {
+const initialState: MultipleDetailsReduxSchema<UserEntity> = {
     details: {},
 };
 
-export const subjectMultipleDetailsSlice = createSlice({
-    name: "subjectMultipleDetailsSlice",
+export const userMultipleDetailsSlice = createSlice({
+    name: "userMultipleDetailsSlice",
     initialState,
     reducers: {
         init: (state, action: PayloadAction<{ formId: string }>) => {
             if (!state.details[action.payload.formId]) {
                 state.details[action.payload.formId] = {
-                    entityData: { id: "", name: "", date: new Date() },
-                    entityFormData: { id: "", name: "", date: new Date() },
+                    entityData: {
+                        id: "",
+                        name: "",
+                        login: "",
+                        hashedPassword: "",
+                        surname: "",
+                        patronymic: "",
+                        userRole: { id: "", name: "" },
+                    },
+                    entityFormData: {
+                        id: "",
+                        name: "",
+                        login: "",
+                        hashedPassword: "",
+                        surname: "",
+                        patronymic: "",
+                        userRole: { id: "", name: "" },
+                    },
                     isFetching: false,
                     isSaving: false,
                     error: undefined,
@@ -44,7 +60,7 @@ export const subjectMultipleDetailsSlice = createSlice({
             state,
             action: PayloadAction<{
                 formId: string;
-                data: SubjectEntity;
+                data: UserEntity;
             }>,
         ) => {
             state.details[action.payload.formId].entityFormData =
@@ -54,11 +70,27 @@ export const subjectMultipleDetailsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             // Получение по id
-            .addCase(getSubjectByIdThunk.pending, (state, action) => {
+            .addCase(getUserByIdThunk.pending, (state, action) => {
                 if (!state.details[action.meta.arg.formId]) {
                     state.details[action.meta.arg.formId] = {
-                        entityData: { id: "", name: "", date: new Date() },
-                        entityFormData: { id: "", name: "", date: new Date() },
+                        entityData: {
+                            id: "",
+                            name: "",
+                            login: "",
+                            hashedPassword: "",
+                            surname: "",
+                            patronymic: "",
+                            userRole: { id: "", name: "" },
+                        },
+                        entityFormData: {
+                            id: "",
+                            name: "",
+                            login: "",
+                            hashedPassword: "",
+                            surname: "",
+                            patronymic: "",
+                            userRole: { id: "", name: "" },
+                        },
                         isFetching: false,
                         isSaving: false,
                         error: undefined,
@@ -73,16 +105,24 @@ export const subjectMultipleDetailsSlice = createSlice({
                 state.details[action.meta.arg.formId].entityData = {
                     id: "",
                     name: "",
-                    date: new Date(),
+                    login: "",
+                    hashedPassword: "",
+                    surname: "",
+                    patronymic: "",
+                    userRole: { id: "", name: "" },
                 };
                 state.details[action.meta.arg.formId].entityFormData = {
                     id: "",
                     name: "",
-                    date: new Date(),
+                    login: "",
+                    hashedPassword: "",
+                    surname: "",
+                    patronymic: "",
+                    userRole: { id: "", name: "" },
                 };
                 state.details[action.meta.arg.formId]._isInitialized = false;
             })
-            .addCase(getSubjectByIdThunk.fulfilled, (state, action) => {
+            .addCase(getUserByIdThunk.fulfilled, (state, action) => {
                 state.details[action.meta.arg.formId].isFetching = false;
                 state.details[action.meta.arg.formId].isSaving = false;
                 state.details[action.meta.arg.formId].error = undefined;
@@ -92,28 +132,36 @@ export const subjectMultipleDetailsSlice = createSlice({
                     action.payload.data!;
                 state.details[action.meta.arg.formId]._isInitialized = true;
             })
-            .addCase(getSubjectByIdThunk.rejected, (state, action) => {
+            .addCase(getUserByIdThunk.rejected, (state, action) => {
                 state.details[action.meta.arg.formId].isFetching = false;
                 state.details[action.meta.arg.formId].isSaving = false;
                 state.details[action.meta.arg.formId].error = action.payload;
                 state.details[action.meta.arg.formId].entityData = {
                     id: "",
                     name: "",
-                    date: new Date(),
+                    login: "",
+                    hashedPassword: "",
+                    surname: "",
+                    patronymic: "",
+                    userRole: { id: "", name: "" },
                 };
                 state.details[action.meta.arg.formId].entityFormData = {
                     id: "",
                     name: "",
-                    date: new Date(),
+                    login: "",
+                    hashedPassword: "",
+                    surname: "",
+                    patronymic: "",
+                    userRole: { id: "", name: "" },
                 };
                 state.details[action.meta.arg.formId]._isInitialized = true;
             })
-            .addCase(upsertSubjectThunk.pending, (state, action) => {
+            .addCase(upsertUserThunk.pending, (state, action) => {
                 state.details[action.meta.arg.formId].isFetching = false;
                 state.details[action.meta.arg.formId].isSaving = true;
                 state.details[action.meta.arg.formId].error = undefined;
             })
-            .addCase(upsertSubjectThunk.fulfilled, (state, action) => {
+            .addCase(upsertUserThunk.fulfilled, (state, action) => {
                 state.details[action.meta.arg.formId].isFetching = false;
                 state.details[action.meta.arg.formId].isSaving = false;
                 state.details[action.meta.arg.formId].error = undefined;
@@ -122,7 +170,7 @@ export const subjectMultipleDetailsSlice = createSlice({
                 state.details[action.meta.arg.formId].entityFormData =
                     action.payload.data!;
             })
-            .addCase(upsertSubjectThunk.rejected, (state, action) => {
+            .addCase(upsertUserThunk.rejected, (state, action) => {
                 state.details[action.meta.arg.formId].isFetching = false;
                 state.details[action.meta.arg.formId].isSaving = false;
                 state.details[action.meta.arg.formId].error = action.payload;
@@ -131,6 +179,6 @@ export const subjectMultipleDetailsSlice = createSlice({
 });
 
 export const {
-    actions: subjectMultipleDetailsActions,
-    reducer: subjectMultipleDetailsReducer,
-} = subjectMultipleDetailsSlice;
+    actions: userMultipleDetailsActions,
+    reducer: userMultipleDetailsReducer,
+} = userMultipleDetailsSlice;

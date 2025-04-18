@@ -43,6 +43,9 @@ export interface GlobalStateSchema {
 
     initiatorDetailsSchema?: MultipleDetailsReduxSchema<InitiatorEntity>;
     initiatorsSimpleListSchema?: SimpleListReduxSchema<InitiatorEntity>;
+
+    userDetailsSchema?: MultipleDetailsReduxSchema<UserEntity>;
+    usersSimpleListSchema?: SimpleListReduxSchema<UserEntity>;
 }
 
 /**

@@ -70,7 +70,7 @@ export const SubjectsDropDownList = memo((props: SubjectsDropDownListProps) => {
         return data.map((value: SubjectEntity): DropDownOption => {
             return {
                 value: value.id,
-                label: value.name,
+                label: value.name!,
             };
         });
     }, [data]);
