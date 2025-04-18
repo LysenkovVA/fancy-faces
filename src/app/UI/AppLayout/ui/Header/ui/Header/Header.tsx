@@ -1,16 +1,25 @@
 "use client";
 
 import React, { memo } from "react";
-import { Flex } from "antd";
+import { Flex, Typography } from "antd";
 import {
     BACKGROUND_PRIMARY_COLOR,
     HEADER_HEIGHT,
 } from "@/app/UI/AppLayout/config/consts";
 import { HeaderLogo } from "@/app/UI/AppLayout/ui/Header/ui/HeaderLogo/HeaderLogo";
+import { HeaderLogoutButton } from "@/app/UI/AppLayout/ui/Header/ui/HeaderLogoutButton/HeaderLogoutButton";
+import { useAppSelector } from "@/app/lib/store";
+import {
+    getAuthUser,
+    getUserAuthDataIsInitialized,
+} from "@/app/(public-routes)/(login)/model/selectors/authSelectors";
 
 export interface HeaderProps {}
 
 export const Header = memo((props: HeaderProps) => {
+    const initialized = useAppSelector(getUserAuthDataIsInitialized);
+    const authUser = useAppSelector(getAuthUser);
+
     return (
         <Flex
             style={{
@@ -21,7 +30,23 @@ export const Header = memo((props: HeaderProps) => {
             align={"center"}
             justify={"start"}
         >
-            <HeaderLogo />
+            <Flex
+                style={{ width: "100%", paddingRight: 16 }}
+                align={"center"}
+                justify={"space-between"}
+            >
+                <HeaderLogo />
+                <Flex align={"center"} justify={"center"} gap={16}>
+                    {initialized ? (
+                        <Typography.Text>
+                            {authUser?.id ?? "unknown user"}
+                        </Typography.Text>
+                    ) : (
+                        JSON.stringify(authUser)
+                    )}
+                    <HeaderLogoutButton />
+                </Flex>
+            </Flex>
         </Flex>
     );
 });

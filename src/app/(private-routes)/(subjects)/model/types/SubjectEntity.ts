@@ -5,6 +5,7 @@ import { GenderEntity } from "@/app/(private-routes)/(genders)";
 import { ViewTypeEntity } from "@/app/(private-routes)/(view-types)";
 import { InitiatorEntity } from "@/app/(private-routes)/(initiators)";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
+import { UserEntity } from "@/app/(private-routes)/(users)";
 
 /**
  * Схема валидации
@@ -46,6 +47,7 @@ export type SubjectEntity = Omit<
     subgroup?: SubgroupEntity;
     gender?: GenderEntity;
     viewType?: ViewTypeEntity;
+    user?: UserEntity;
     createdAt?: Date;
     updatedAt?: Date;
 };

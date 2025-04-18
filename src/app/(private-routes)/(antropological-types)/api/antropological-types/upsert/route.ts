@@ -8,11 +8,14 @@ import {
     AntropologicalTypeEntity,
     AntropologicalTypeEntitySchema,
 } from "../../../model/types/AntropologicalTypeEntity";
+import { checkServerAuth } from "@/app/lib/auth/AuthenticatedUser";
 
 export async function POST(
     request: NextRequest,
 ): Promise<NextResponse<ResponseData<AntropologicalTypeEntity | undefined>>> {
     try {
+        await checkServerAuth();
+
         const formData = await request.formData();
         // Получаем данные из формы
         // Идентификатор

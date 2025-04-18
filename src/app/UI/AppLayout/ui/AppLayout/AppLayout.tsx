@@ -24,6 +24,8 @@ export interface AppLayoutProps {
 }
 
 export const AppLayout = memo(({ children }: AppLayoutProps) => {
+    console.log("AppLayout render");
+
     return (
         <Layout style={{ width: "100vw", height: "100vh" }}>
             <AntHeader

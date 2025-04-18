@@ -9,11 +9,13 @@ import {
     SubjectEntitySchema,
 } from "../../../model/types/SubjectEntity";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
+import { checkServerAuth } from "@/app/lib/auth/AuthenticatedUser";
 
 export async function POST(
     request: NextRequest,
 ): Promise<NextResponse<ResponseData<SubjectEntity | undefined>>> {
     try {
+        await checkServerAuth();
         const formData = await request.formData();
         // Получаем данные из формы
         // Идентификатор

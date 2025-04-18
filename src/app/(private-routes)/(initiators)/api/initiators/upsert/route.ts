@@ -8,11 +8,13 @@ import {
     InitiatorEntity,
     InitiatorEntitySchema,
 } from "../../../model/types/InitiatorEntity";
+import { checkServerAuth } from "@/app/lib/auth/AuthenticatedUser";
 
 export async function POST(
     request: NextRequest,
 ): Promise<NextResponse<ResponseData<InitiatorEntity | undefined>>> {
     try {
+        await checkServerAuth();
         const formData = await request.formData();
         // Получаем данные из формы
         // Идентификатор

@@ -3,7 +3,7 @@ import { React19AntdProvider } from "@/app/lib/providers/React19AntdProvider";
 import { ClientErrorBoundary } from "@/app/lib/providers/ClientErrorBoundary";
 import "./global.css";
 import { StoreProvider } from "@/app/lib/store";
-import { AppLayout } from "@/app/UI/AppLayout";
+import { AuthProvider } from "@/app/lib/providers/AuthProvider";
 
 export const metadata: Metadata = {
     title: "FancyFaces",
@@ -20,9 +20,11 @@ export default function RootLayout({
             <body>
                 <ClientErrorBoundary>
                     <StoreProvider>
-                        <React19AntdProvider>
-                            <AppLayout>{children}</AppLayout>
-                        </React19AntdProvider>
+                        <AuthProvider>
+                            <React19AntdProvider>
+                                {children}
+                            </React19AntdProvider>
+                        </AuthProvider>
                     </StoreProvider>
                 </ClientErrorBoundary>
             </body>

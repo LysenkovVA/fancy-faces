@@ -5,12 +5,15 @@ import { ResponseData } from "@/app/lib/responses/ResponseData";
 import { AntropologicalTypeEntity } from "../../../model/types/AntropologicalTypeEntity";
 import { getAntropologicalTypeById } from "./actions/getAntropologicalTypeById";
 import { deleteAntropologicalTypeById } from "./actions/deleteAntropologicalTypeById";
+import { checkServerAuth } from "@/app/lib/auth/AuthenticatedUser";
 
 export async function GET(
     request: NextRequest,
     props: { params: Promise<{ id: string }> },
 ): Promise<NextResponse<ResponseData<AntropologicalTypeEntity | undefined>>> {
     const { id } = await props.params;
+
+    await checkServerAuth();
 
     if (!id) {
         return ResponseData.BadRequest(["ID не задан"]).toNextResponse();
@@ -24,6 +27,8 @@ export async function DELETE(
     props: { params: Promise<{ id: string }> },
 ): Promise<NextResponse<ResponseData<AntropologicalTypeEntity | undefined>>> {
     const { id } = await props.params;
+
+    await checkServerAuth();
 
     if (!id) {
         return ResponseData.BadRequest(["ID не задан"]).toNextResponse();

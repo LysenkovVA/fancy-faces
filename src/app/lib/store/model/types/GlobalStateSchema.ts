@@ -1,7 +1,10 @@
 import { Action, Reducer, ReducersMapObject } from "redux";
 import { InfiniteScrollSchema } from "@/app/UI/InfiniteScroll/model/types/InfiniteScrollSchema";
 import { FilterPanelSchema } from "@/app/UI/FilterPanel/model/types/FilterPanelSchema";
-import { MultipleDetailsReduxSchema } from "@/app/lib/types/MultipleDetailsReduxSchema";
+import {
+    DetailsReduxSchema,
+    MultipleDetailsReduxSchema,
+} from "@/app/lib/types/MultipleDetailsReduxSchema";
 import { GenderEntity } from "@/app/(private-routes)/(genders)/model/types/GenderEntity";
 import { SimpleListReduxSchema } from "@/app/lib/types/SimpleListReduxSchema";
 import { ViewTypeEntity } from "@/app/(private-routes)/(view-types)";
@@ -11,12 +14,15 @@ import { SubjectEntity } from "@/app/(private-routes)/(subjects)/model/types/Sub
 import { ListReduxSchema } from "@/app/lib/types/ListReduxSchema";
 import { SubjectFilterType } from "@/app/(private-routes)/(subjects)/model/types/SubjectFilterType";
 import { InitiatorEntity } from "@/app/(private-routes)/(initiators)/model/types/InitiatorEntity";
+import { UserEntity } from "@/app/(private-routes)/(users)";
 
 /**
  * Схема глобального состояния
  */
 export interface GlobalStateSchema {
     // Обязательные составляющие
+    // Авторизация
+    authSchema: DetailsReduxSchema<UserEntity>;
     // Позиции скроллов для бесконечных страниц
     infiniteScrollSchema: InfiniteScrollSchema;
     // Параметры панелей фильтров
