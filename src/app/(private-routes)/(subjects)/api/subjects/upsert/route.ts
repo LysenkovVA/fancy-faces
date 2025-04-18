@@ -64,6 +64,9 @@ export async function POST(
                 viewType: entityToSave.viewType?.id
                     ? { connect: { id: entityToSave.viewType?.id } }
                     : undefined,
+                user: entityToSave.user?.id
+                    ? { connect: { id: entityToSave.user?.id } }
+                    : undefined,
             },
             update: {
                 ...validatedData,
@@ -102,6 +105,9 @@ export async function POST(
                     : { disconnect: true },
                 viewType: entityToSave.viewType?.id
                     ? { connect: { id: entityToSave.viewType?.id } }
+                    : { disconnect: true },
+                user: entityToSave.user?.id
+                    ? { connect: { id: entityToSave.user?.id } }
                     : { disconnect: true },
             },
             // Если entityId null, тогда будет создана новая запись

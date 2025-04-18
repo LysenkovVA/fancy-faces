@@ -21,6 +21,7 @@ export async function getSubjectById(
                 subgroup: true,
                 gender: true,
                 viewType: true,
+                user: { include: { userRole: true } },
             },
         });
 

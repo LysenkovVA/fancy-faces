@@ -10,7 +10,6 @@ import {
     Spin,
     Tabs,
     TabsProps,
-    Typography,
 } from "antd";
 
 import {
@@ -69,6 +68,7 @@ import { FormItemInitiatorDropDown } from "@/app/(private-routes)/(initiators)/u
 import { formRequiredMark } from "@/app/UI/formRequiredMark";
 import { formItemLayout } from "@/app/UI/AppLayout/config/formItemLayout";
 import { FormImageList } from "@/app/UI/FormImageList";
+import { FormItemUserDropDown } from "@/app/(private-routes)/(users)/ui/FormItemUserDropDown/FormItemUserDropDown";
 
 export interface SubjectFormProps {
     form: FormInstance;
@@ -277,17 +277,19 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                         />
                     </Col>
                 </Row>
-                <Divider orientation={"left"}>
-                    <Typography.Text type={"secondary"}>
-                        {"Степень схожести"}
-                    </Typography.Text>
-                </Divider>
-                <FormItemTextArea
+                <FormItemInput
                     labelText={""}
-                    noStyle
+                    isLoading={isFetching}
                     // imageSrc={earsPng.src}
                     namePath={["portraitMatch"]}
                     placeholder={"Степень схожести"}
+                />
+                <Divider />
+                <FormItemUserDropDown
+                    namePath={["user"]}
+                    isLoading={isFetching}
+                    mode={"single"}
+                    placeholder={"Пользователь"}
                 />
             </>
         ),
