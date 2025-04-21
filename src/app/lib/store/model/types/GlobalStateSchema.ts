@@ -15,6 +15,7 @@ import { ListReduxSchema } from "@/app/lib/types/ListReduxSchema";
 import { SubjectFilterType } from "@/app/(private-routes)/(subjects)/model/types/SubjectFilterType";
 import { InitiatorEntity } from "@/app/(private-routes)/(initiators)/model/types/InitiatorEntity";
 import { UserEntity } from "@/app/(private-routes)/(users)";
+import { UserFilterType } from "@/app/(private-routes)/(users)/model/types/UserFilterType";
 
 /**
  * Схема глобального состояния
@@ -46,6 +47,7 @@ export interface GlobalStateSchema {
 
     userDetailsSchema?: MultipleDetailsReduxSchema<UserEntity>;
     usersSimpleListSchema?: SimpleListReduxSchema<UserEntity>;
+    usersListSchema?: ListReduxSchema<UserEntity, UserFilterType>;
 }
 
 /**

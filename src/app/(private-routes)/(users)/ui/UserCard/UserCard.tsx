@@ -1,23 +1,24 @@
 "use client";
 
 import { CSSProperties, memo } from "react";
-import { SubjectEntity } from "../../model/types/SubjectEntity";
+import { UserEntity } from "../../model/types/UserEntity";
 import { Card, Flex, Skeleton, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import { showDeleteConfirm } from "@/app/UI/showDeleteConfirm";
-import { deleteSubjectByIdThunk } from "../../model/thunks/deleteSubjectByIdThunk";
+import { deleteUserByIdThunk } from "../../model/thunks/deleteUserByIdThunk";
 import { useAppDispatch } from "@/app/lib/store";
 import { EditCardButton } from "@/app/UI/EditCardButton";
 import { DeleteCardButton } from "@/app/UI/DeleteCardButton";
+import { Picture } from "@/app/UI/Picture";
 
-export interface SubjectCardProps {
+export interface UserCardProps {
     style?: CSSProperties;
-    subject?: SubjectEntity;
+    user?: UserEntity;
     isLoading?: boolean;
 }
 
-export const SubjectCard = memo((props: SubjectCardProps) => {
-    const { style, subject, isLoading } = props;
+export const UserCard = memo((props: UserCardProps) => {
+    const { style, user, isLoading } = props;
 
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -31,15 +32,8 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
             }}
             title={
                 !isLoading ? (
-                    <Flex
-                        style={{ cursor: "pointer" }}
-                        align={"center"}
-                        justify={"center"}
-                        onClick={() => {
-                            router.push(`/subjects/${subject?.id}/view`);
-                        }}
-                    >
-                        {"Субъект"}
+                    <Flex align={"center"} justify={"center"}>
+                        {"Пользователь"}
                     </Flex>
                 ) : (
                     <Flex align={"center"} justify={"center"}>
@@ -56,8 +50,8 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                     key={"edit"}
                     isLoading={isLoading}
                     onClick={() => {
-                        if (subject?.id) {
-                            router.push(`/subjects/${subject?.id}`);
+                        if (user?.id) {
+                            router.push(`/users/${user?.id}`);
                         }
                     }}
                 />,
@@ -65,14 +59,14 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                     key={"delete"}
                     isLoading={isLoading}
                     onClick={() => {
-                        if (subject?.id) {
+                        if (user?.id) {
                             showDeleteConfirm(
                                 "Удаление",
-                                `Удалить "${subject?.name}"?`,
+                                `Удалить "${user?.name}"?`,
                                 () =>
                                     dispatch(
-                                        deleteSubjectByIdThunk({
-                                            id: subject?.id,
+                                        deleteUserByIdThunk({
+                                            id: user?.id,
                                         }),
                                     ),
                             );
@@ -81,19 +75,18 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                 />,
             ]}
         >
-            <Flex
-                style={{ cursor: "pointer" }}
-                align={"center"}
-                justify={"start"}
-                gap={16}
-                onClick={() => {
-                    router.push(`/subjects/${subject?.id}/view`);
-                }}
-            >
+            <Flex align={"center"} justify={"start"} gap={16}>
+                <Picture
+                    shape={"avatar"}
+                    pictureHeight={50}
+                    pictureWidth={50}
+                    borderWidth={2}
+                    value={user?.avatar}
+                />
                 {!isLoading ? (
                     <Flex align={"center"} justify={"start"} gap={4}>
                         <Typography.Text style={{ fontSize: 14 }}>
-                            {subject?.name ?? " "}
+                            {user?.name ?? " "}
                         </Typography.Text>
                     </Flex>
                 ) : (

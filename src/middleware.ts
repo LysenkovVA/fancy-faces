@@ -14,8 +14,8 @@ export async function middleware(request: NextRequest) {
         request.nextUrl.pathname === "/" ||
         // request.nextUrl.pathname === "/denied" ||
         request.nextUrl.pathname === "/login" ||
-        request.nextUrl.pathname.startsWith("/api/login") ||
-        request.nextUrl.pathname.startsWith("/api/users/") // Маршрут получения пользователя по id
+        request.nextUrl.pathname.startsWith("/api/login")
+        // request.nextUrl.pathname.startsWith("/api/users/") // Маршрут получения пользователя по id
     ) {
         Console.Log(
             `[${dayjs(Date.now()).format("HH:mm:ss")}][middleware][${request.method}][Публичный маршрут][${request.nextUrl.pathname}][${request.nextUrl.searchParams.toString()}]`,

@@ -108,11 +108,13 @@ export const Picture = memo((props: PictureProps) => {
                         setIsInitialized(true);
                         setIsLoading(false);
                     } else {
-                        alert("WTF!");
+                        setIsInitialized(true);
+                        setIsLoading(false);
                     }
                 }
             }
         } else {
+            setSrcValue(undefined);
             setIsInitialized(true);
             setIsLoading(false);
         }

@@ -8,20 +8,24 @@ import {
 } from "@/app/UI/AppLayout/config/consts";
 import { logoPNG } from "@/app/lib/assets";
 import { Picture } from "@/app/UI/Picture";
+import { useRouter } from "next/navigation";
 
 export interface HeaderLogoProps {}
 
 export const HeaderLogo = memo((props: HeaderLogoProps) => {
+    const router = useRouter();
     return (
         <Flex
-            align={"center"}
-            justify={"center"}
             style={{
                 marginLeft: 16,
                 // width: 250,
                 height: HEADER_HEIGHT,
+                cursor: "pointer",
             }}
+            align={"center"}
+            justify={"center"}
             gap={8}
+            onClick={() => router.push("/subjects")}
         >
             <Picture
                 value={logoPNG.src}

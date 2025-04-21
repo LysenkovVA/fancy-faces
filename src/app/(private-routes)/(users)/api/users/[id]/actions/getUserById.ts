@@ -14,7 +14,7 @@ export async function getUserById(
 
         const candidate = await prisma.user.findFirst({
             where: { id },
-            include: { userRole: true },
+            include: { userRole: true, avatar: true },
         });
 
         if (!candidate) {

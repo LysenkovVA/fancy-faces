@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { UserRoleEntity } from "@/app/(private-routes)/(user-roles)/model/types/UserRoleEntity";
+import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 
 export const UserEntitySchema = z.object({
-    avatar: z.string().nullish(),
     login: z.string(),
     hashedPassword: z.string(),
     surname: z.string(),
@@ -18,6 +18,7 @@ export type UserEntity = Omit<
     "id" | "createdAt" | "updatedAt"
 > & {
     id: string; // Идентификатор необходим для схем redux
+    avatar?: PhotoEntity;
     userRole: UserRoleEntity;
     createdAt?: Date;
     updatedAt?: Date;

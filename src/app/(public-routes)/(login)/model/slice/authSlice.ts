@@ -3,6 +3,7 @@ import { initAuthDataThunk } from "../services/initAuthDataThunk";
 import { UserEntity } from "@/app/(private-routes)/(users)";
 import { loginThunk } from "../services/loginThunk";
 import { DetailsReduxSchema } from "@/app/lib/types/MultipleDetailsReduxSchema";
+import { upsertUserThunk } from "@/app/(private-routes)/(users)/model/thunks/upsertUserThunk";
 
 const initialState: DetailsReduxSchema<UserEntity> = {
     entityData: undefined,
@@ -73,6 +74,12 @@ export const authSlice = createSlice({
                 state.isFetching = false;
                 state.isSaving = false;
                 state._isInitialized = false;
+            })
+            .addCase(upsertUserThunk.fulfilled, (state, payload) => {
+                if (payload.payload.data?.id === state.entityData?.id) {
+                    state.entityData = payload.payload.data;
+                    state.entityFormData = payload.payload.data;
+                }
             });
     },
 });

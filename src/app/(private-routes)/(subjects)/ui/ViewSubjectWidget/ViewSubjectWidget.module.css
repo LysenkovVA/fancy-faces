@@ -1,0 +1,19 @@
+/*Разобраться со стилями печати*/
+
+.page {
+    #myPage {
+        margin-top: 30px;
+    }
+    /*@page {*/
+    /*    margin-top: 40px;*/
+    /*    size: A4;*/
+    /*    !*margin: 20mm;*!*/
+    /*    page-break-inside: auto;*/
+    /*}*/
+    /*@media print {*/
+    /*    body {*/
+    /*        padding: 40px;*/
+    /*        font-size: 8pt;*/
+    /*    }*/
+    /*}*/
+}
