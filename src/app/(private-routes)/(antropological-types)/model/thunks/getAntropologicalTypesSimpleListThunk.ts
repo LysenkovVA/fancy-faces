@@ -13,7 +13,7 @@ export const getAntropologicalTypesSimpleListThunk = createAsyncThunk<
     ResponseData<AntropologicalTypeEntity[] | undefined>,
     GetAntropologicalTypesSimpleListThunkProps,
     ThunkConfig<string>
->("getAntropologicalTypesSimpleListThunk", async (props, thunkApi) => {
+>("getAntropologicalTypesSimpleListThunk", async (_, thunkApi) => {
     const { rejectWithValue } = thunkApi;
 
     try {

@@ -11,6 +11,7 @@ import {
 import userPng from "@/app/lib/assets/png/user.png";
 import { useAppDispatch } from "@/app/lib/store";
 import { changePasswordThunk } from "@/app/(private-routes)/(users)/model/thunks/changePasswordThunk";
+import useNotification from "antd/es/notification/useNotification";
 
 export interface ChangePasswordButtonProps {
     userId: string;
@@ -24,16 +25,18 @@ export const ChangePasswordButton = memo((props: ChangePasswordButtonProps) => {
     );
 
     const dispatch = useAppDispatch();
+    const [notificationApi, notificationContext] = useNotification();
 
     return (
         <>
+            {notificationContext}
             <Button onClick={() => setIsModalOpen(true)}>
                 <Typography.Text>{"Поменять пароль"}</Typography.Text>
             </Button>
             <Modal
                 title={
                     <LabelWithIcon
-                        style={{
+                        textStyle={{
                             marginBottom: MODAL_TITLE_MARGIN_BOTTOM,
                         }}
                         imageSrc={userPng.src}
@@ -45,20 +48,26 @@ export const ChangePasswordButton = memo((props: ChangePasswordButtonProps) => {
                 okText={"Сохранить"}
                 cancelText={"Отмена"}
                 onOk={async () => {
-                    const result = await dispatch(
-                        changePasswordThunk({
-                            userId,
-                            data: {
-                                oldPassword: "",
-                                newPassword: newPassword ?? "",
-                            },
-                        }),
-                    ).unwrap();
+                    try {
+                        const result = await dispatch(
+                            changePasswordThunk({
+                                userId,
+                                data: {
+                                    oldPassword: "",
+                                    newPassword: newPassword ?? "",
+                                },
+                            }),
+                        ).unwrap();
 
-                    if (result.isOk) {
-                        setIsModalOpen(false);
-                    } else {
-                        alert("Ошибка при смене пароля!");
+                        if (result.isOk) {
+                            setIsModalOpen(false);
+                        } else {
+                            notificationApi.error({
+                                message: result.getAllErrors(),
+                            });
+                        }
+                    } catch (e) {
+                        notificationApi.error({ message: String(e) });
                     }
                 }}
                 onCancel={() => {

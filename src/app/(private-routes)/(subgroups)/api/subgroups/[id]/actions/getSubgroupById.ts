@@ -14,6 +14,9 @@ export async function getSubgroupById(
     try {
         const candidate = await prisma.subgroup.findFirst({
             where: { id },
+            include: {
+                antropologicalType: true,
+            },
         });
 
         if (!candidate) {

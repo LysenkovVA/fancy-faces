@@ -18,7 +18,7 @@ export async function getSubjectById(
                 photos: true,
                 initiator: true,
                 antropologicalType: true,
-                subgroup: true,
+                subgroup: { include: { antropologicalType: true } },
                 gender: true,
                 viewType: true,
                 user: { include: { userRole: true } },

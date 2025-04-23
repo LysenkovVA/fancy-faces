@@ -28,7 +28,7 @@ export const getUsers = async (
                 take,
                 where: filters,
                 orderBy: [{ name: "asc" }],
-                include: { userRole: true },
+                include: { userRole: true, avatar: true },
             }),
             prisma.user.count({ where: filters }),
         ]);

@@ -157,7 +157,7 @@ export const SubgroupsDropDownList = memo(
                 <Modal
                     title={
                         <LabelWithIcon
-                            style={{
+                            textStyle={{
                                 marginBottom: MODAL_TITLE_MARGIN_BOTTOM,
                             }}
                             imageSrc={subgroupPng.src}

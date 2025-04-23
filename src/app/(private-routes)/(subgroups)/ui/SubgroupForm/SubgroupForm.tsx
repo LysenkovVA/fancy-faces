@@ -29,6 +29,7 @@ import {
     subgroupMultipleDetailsReducer,
 } from "../../model/slices/subgroupMultipleDetailsSlice";
 import { v4 as uuidv4 } from "uuid";
+import { FormItemAntropologicalTypeDropDown } from "@/app/(private-routes)/(antropological-types)/ui/FormItemAntropologicalTypeDropDown/FormItemAntropologicalTypeDropDown";
 
 export interface SubgroupFormProps {
     form: FormInstance;
@@ -159,6 +160,14 @@ export const SubgroupForm = memo((props: SubgroupFormProps) => {
                         );
                     }}
                 >
+                    <FormItemAntropologicalTypeDropDown
+                        namePath={["antropologicalType"]}
+                        isLoading={isFetching}
+                        mode={"single"}
+                        placeholder={"Укажите антропологический тип"}
+                        required
+                        requiredMessage={"Укажите антропологический тип"}
+                    />
                     <FormItemInput
                         labelText={"Название"}
                         namePath={["name"]}

@@ -15,7 +15,7 @@ export async function deleteSubjectById(
 
         if (!candidate) {
             return ResponseData.BadRequest([
-                `Субъект с ID=${id} не была удален`,
+                `Субъект с ID=${id} не был удален`,
             ]);
         }
 

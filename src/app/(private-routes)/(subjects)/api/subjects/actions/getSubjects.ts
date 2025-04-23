@@ -17,31 +17,68 @@ export const getSubjects = async (
 
         if (search !== undefined && search !== "") {
             searchString.OR = [
-                { initiator: { name: { contains: search } } },
-                { objectNumber: { contains: search } },
-                { name: { contains: search } },
-                { location: { contains: search } },
-                { antropologicalType: { name: { contains: search } } },
-                { subgroup: { name: { contains: search } } },
-                { gender: { name: { contains: search } } },
-                { age: { contains: search } },
-                { durationOfObservation: { contains: search } },
-                { lastObservation: { contains: search } },
-                { viewType: { name: { contains: search } } },
-                { eyewitnessCharacteristics: { contains: search } },
-                { anatomicCharacteristics: { contains: search } },
-                { functionalCharacteristics: { contains: search } },
-                { face: { contains: search } },
-                { forehead: { contains: search } },
-                { eyes: { contains: search } },
-                { mouth: { contains: search } },
-                { scars: { contains: search } },
-                { hear: { contains: search } },
-                { eyebrow: { contains: search } },
-                { nose: { contains: search } },
-                { chin: { contains: search } },
-                { ears: { contains: search } },
-                { portraitMatch: { contains: search } },
+                {
+                    initiator: {
+                        name: { contains: search, mode: "insensitive" },
+                    },
+                },
+                { objectNumber: { contains: search, mode: "insensitive" } },
+                { name: { contains: search, mode: "insensitive" } },
+                { location: { contains: search, mode: "insensitive" } },
+                {
+                    antropologicalType: {
+                        name: { contains: search, mode: "insensitive" },
+                    },
+                },
+                {
+                    subgroup: {
+                        name: { contains: search, mode: "insensitive" },
+                    },
+                },
+                { gender: { name: { contains: search, mode: "insensitive" } } },
+                { age: { contains: search, mode: "insensitive" } },
+                {
+                    durationOfObservation: {
+                        contains: search,
+                        mode: "insensitive",
+                    },
+                },
+                { lastObservation: { contains: search, mode: "insensitive" } },
+                {
+                    viewType: {
+                        name: { contains: search, mode: "insensitive" },
+                    },
+                },
+                {
+                    eyewitnessCharacteristics: {
+                        contains: search,
+                        mode: "insensitive",
+                    },
+                },
+                {
+                    anatomicCharacteristics: {
+                        contains: search,
+                        mode: "insensitive",
+                    },
+                },
+                {
+                    functionalCharacteristics: {
+                        contains: search,
+                        mode: "insensitive",
+                    },
+                },
+                { face: { contains: search, mode: "insensitive" } },
+                { forehead: { contains: search, mode: "insensitive" } },
+                { eyes: { contains: search, mode: "insensitive" } },
+                { mouth: { contains: search, mode: "insensitive" } },
+                { scars: { contains: search, mode: "insensitive" } },
+                { hear: { contains: search, mode: "insensitive" } },
+                { eyebrow: { contains: search, mode: "insensitive" } },
+                { nose: { contains: search, mode: "insensitive" } },
+                { chin: { contains: search, mode: "insensitive" } },
+                { ears: { contains: search, mode: "insensitive" } },
+                { portraitMatch: { contains: search, mode: "insensitive" } },
+                { notes: { contains: search, mode: "insensitive" } },
             ];
         }
 
@@ -116,6 +153,15 @@ export const getSubjects = async (
                 take,
                 where: whereInput,
                 orderBy: [{ name: "asc" }],
+                include: {
+                    initiator: true,
+                    antropologicalType: true,
+                    subgroup: { include: { antropologicalType: true } },
+                    gender: true,
+                    user: { include: { userRole: true } },
+                    viewType: true,
+                    photos: true,
+                },
             }),
             prisma.subject.count({ where: whereInput }),
         ]);

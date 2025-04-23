@@ -151,7 +151,7 @@ export const SubjectsDropDownList = memo((props: SubjectsDropDownListProps) => {
             <Modal
                 title={
                     <LabelWithIcon
-                        style={{
+                        textStyle={{
                             marginBottom: MODAL_TITLE_MARGIN_BOTTOM,
                         }}
                         imageSrc={subjectPng.src}

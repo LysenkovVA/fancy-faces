@@ -27,6 +27,9 @@ export const getSubgroups = async (
                 take,
                 where: filters,
                 orderBy: [{ name: "asc" }],
+                include: {
+                    antropologicalType: true,
+                },
             }),
             prisma.subgroup.count({ where: filters }),
         ]);

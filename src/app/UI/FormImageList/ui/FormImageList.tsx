@@ -16,9 +16,16 @@ import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { convertFileToBase64 } from "@/app/UI/Picture/ui/Picture";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 import { showDeleteConfirm } from "@/app/UI/showDeleteConfirm";
+import {
+    GlobalStateSchema,
+    useAppDispatch,
+    useAppSelector,
+} from "@/app/lib/store";
+import { getSubjectDetailsFormData } from "@/app/(private-routes)/(subjects)/model/selectors/subjectDetailsSelectors";
 
 export interface FormImageListProps {
     form: FormInstance;
+    formId: string;
     title?: string;
     formListName: string[];
     colCount?: 1 | 2 | 3 | 4 | 6 | 8;
@@ -30,6 +37,7 @@ export interface FormImageListProps {
 export const FormImageList = memo((props: FormImageListProps) => {
     const {
         form,
+        formId,
         title,
         formListName,
         colCount = 4,
@@ -37,6 +45,11 @@ export const FormImageList = memo((props: FormImageListProps) => {
         previewImages = false,
         onDelete,
     } = props;
+
+    const dispatch = useAppDispatch();
+    const formData = useAppSelector((state: GlobalStateSchema) =>
+        getSubjectDetailsFormData(state, formId),
+    );
 
     return (
         <>
@@ -75,43 +88,98 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                     <Flex
                                         align={"center"}
                                         justify={"center"}
-                                        style={{
-                                            marginTop: 4,
-                                            cursor: "pointer",
-                                        }}
-                                        gap={4}
-                                        onClick={() => {
-                                            showDeleteConfirm(
-                                                "Удаление?",
-                                                "Удалить изображение?",
-                                                () => {
-                                                    const imgToDelete = {
-                                                        ...form.getFieldValue([
-                                                            formListName,
-                                                            imageIndex,
-                                                        ]),
-                                                    } as PhotoEntity;
-
-                                                    if (imgToDelete.id) {
-                                                        onDelete(
-                                                            imgToDelete.id,
-                                                        );
-                                                        remove(imageIndex);
-                                                    } else {
-                                                        remove(imageIndex);
-                                                    }
-                                                },
-                                            );
-                                        }}
+                                        gap={8}
                                     >
-                                        <DeleteOutlined
+                                        {/*{!form.getFieldValue([*/}
+                                        {/*    formListName,*/}
+                                        {/*    imageIndex,*/}
+                                        {/*]).isDefault ? (*/}
+                                        {/*    <Flex*/}
+                                        {/*        align={"center"}*/}
+                                        {/*        justify={"center"}*/}
+                                        {/*        style={{*/}
+                                        {/*            marginTop: 4,*/}
+                                        {/*            cursor: "pointer",*/}
+                                        {/*        }}*/}
+                                        {/*        gap={4}*/}
+                                        {/*        onClick={() => {*/}
+                                        {/*            // form.setFieldValue(*/}
+                                        {/*            //     [*/}
+                                        {/*            //         formListName,*/}
+                                        {/*            //         imageIndex,*/}
+                                        {/*            //         "isDefault",*/}
+                                        {/*            //     ],*/}
+                                        {/*            //     true,*/}
+                                        {/*            // );*/}
+                                        {/*            // dispatch(*/}
+                                        {/*            //     subjectMultipleDetailsActions.setFormData({*/}
+                                        {/*            //         formId,*/}
+                                        {/*            //         data: {...formData!, photos: [...formData!.photos!, ]},*/}
+                                        {/*            //     }),*/}
+                                        {/*            // );*/}
+                                        {/*        }}*/}
+                                        {/*    >*/}
+                                        {/*        <StarOutlined*/}
+                                        {/*            style={{*/}
+                                        {/*                color: "orange",*/}
+                                        {/*            }}*/}
+                                        {/*        />*/}
+                                        {/*        <Typography.Text*/}
+                                        {/*            type={"warning"}*/}
+                                        {/*        >*/}
+                                        {/*            {"По умолчанию"}*/}
+                                        {/*        </Typography.Text>*/}
+                                        {/*    </Flex>*/}
+                                        {/*) : (*/}
+                                        {/*    <StarFilled*/}
+                                        {/*        style={{*/}
+                                        {/*            color: "orange",*/}
+                                        {/*        }}*/}
+                                        {/*    />*/}
+                                        {/*)}*/}
+                                        <Flex
+                                            align={"center"}
+                                            justify={"center"}
                                             style={{
-                                                color: "red",
+                                                marginTop: 4,
+                                                cursor: "pointer",
                                             }}
-                                        />
-                                        <Typography.Text type={"danger"}>
-                                            {"Удалить"}
-                                        </Typography.Text>
+                                            gap={4}
+                                            onClick={() => {
+                                                showDeleteConfirm(
+                                                    "Удаление?",
+                                                    "Удалить изображение?",
+                                                    () => {
+                                                        const imgToDelete = {
+                                                            ...form.getFieldValue(
+                                                                [
+                                                                    formListName,
+                                                                    imageIndex,
+                                                                ],
+                                                            ),
+                                                        } as PhotoEntity;
+
+                                                        if (imgToDelete.id) {
+                                                            onDelete(
+                                                                imgToDelete.id,
+                                                            );
+                                                            remove(imageIndex);
+                                                        } else {
+                                                            remove(imageIndex);
+                                                        }
+                                                    },
+                                                );
+                                            }}
+                                        >
+                                            <DeleteOutlined
+                                                style={{
+                                                    color: "red",
+                                                }}
+                                            />
+                                            <Typography.Text type={"danger"}>
+                                                {"Удалить"}
+                                            </Typography.Text>
+                                        </Flex>
                                     </Flex>
                                 </Col>
                             ))}
@@ -142,6 +210,7 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                             type: file.type,
                                             size: file.size,
                                             data: base64,
+                                            isDefault: false,
                                         };
 
                                         add(newValue);

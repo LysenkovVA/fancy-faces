@@ -163,7 +163,7 @@ export const AntropologicalTypesDropDownList = memo(
                 <Modal
                     title={
                         <LabelWithIcon
-                            style={{
+                            textStyle={{
                                 marginBottom: MODAL_TITLE_MARGIN_BOTTOM,
                             }}
                             imageSrc={antropologicalTypePng.src}

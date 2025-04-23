@@ -32,6 +32,7 @@ export const SubjectEntitySchema = z.object({
     chin: z.string().nullish(),
     ears: z.string().nullish(),
     portraitMatch: z.string().nullish(),
+    notes: z.string().nullish(),
 });
 
 export type SubjectEntity = Omit<

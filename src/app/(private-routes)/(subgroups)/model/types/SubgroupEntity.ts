@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { AntropologicalTypeEntity } from "@/app/(private-routes)/(antropological-types)";
 
 /**
  * Схема валидации
@@ -12,6 +13,7 @@ export type SubgroupEntity = Omit<
     "id" | "createdAt" | "updatedAt"
 > & {
     id: string; // Идентификатор необходим для схем redux
+    antropologicalType: AntropologicalTypeEntity;
     createdAt?: Date;
     updatedAt?: Date;
 };

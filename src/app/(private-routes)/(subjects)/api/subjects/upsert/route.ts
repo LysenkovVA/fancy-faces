@@ -31,7 +31,7 @@ export async function POST(
             entityToSave,
         );
 
-        console.log(JSON.stringify(entityToSave.photosIdsToDelete));
+        // console.log(JSON.stringify(entityToSave.photosIdsToDelete));
 
         const upsertedData = await prisma.subject.upsert({
             create: {
@@ -114,6 +114,15 @@ export async function POST(
             // В этом месте необходимо задать значение по умолчанию, чтобы prisma
             // не выдавала ошибку
             where: { id: entityId ?? "" },
+            include: {
+                photos: true,
+                initiator: true,
+                antropologicalType: true,
+                subgroup: { include: { antropologicalType: true } },
+                gender: true,
+                viewType: true,
+                user: { include: { userRole: true } },
+            },
         });
 
         return ResponseData.Ok(upsertedData as SubjectEntity).toNextResponse();

@@ -6,7 +6,8 @@ import prisma from "@/database/client";
 import { validateObject } from "@/app/lib/validation/validateObject";
 import { UserEntity, UserEntitySchema } from "../../../model/types/UserEntity";
 import { checkServerAuth } from "@/app/lib/auth/AuthenticatedUser";
-import { getUserById } from "@/app/(private-routes)/(users)/api/users/[id]/actions/getUserById";
+import { getUserById } from "../[id]/actions/getUserById";
+import bcrypt from "bcryptjs";
 
 export async function POST(
     request: NextRequest,
@@ -48,7 +49,11 @@ export async function POST(
         const upsertedData = await prisma.user.upsert({
             create: {
                 ...validatedData,
-                avatar: entityToSave.avatar?.id
+                hashedPassword: bcrypt.hashSync(
+                    validatedData.hashedPassword,
+                    10,
+                ),
+                avatar: entityToSave.avatar
                     ? {
                           create: {
                               type: entityToSave.avatar?.type,

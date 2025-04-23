@@ -11,6 +11,8 @@ import { Button, Flex, Image, Skeleton, Upload } from "antd";
 import noImage from "../assets/no-image.png";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 
+const BORDER_RADIUS = 12;
+
 function wrapperPictureStyle(
     borderWidth: number,
     size: { width: number | string; height: number },
@@ -18,7 +20,7 @@ function wrapperPictureStyle(
 ): CSSProperties {
     return {
         border: `solid ${borderWidth}px darkgray`,
-        borderRadius: shape === "picture" ? 12 : "50%",
+        borderRadius: shape === "picture" ? BORDER_RADIUS : "50%",
         width: `calc(${size.width} + 2 * ${borderWidth})`,
         // height: size.height + 2 * borderWidth,
         height: `calc(${size.height} + 2 * ${borderWidth})`,
@@ -30,9 +32,12 @@ function wrapperPictureStyle(
     };
 }
 
-function pictureStyle(shape: "picture" | "avatar"): CSSProperties {
+function pictureStyle(
+    borderWidth: number,
+    shape: "picture" | "avatar",
+): CSSProperties {
     return {
-        borderRadius: shape === "picture" ? 12 : "50%",
+        borderRadius: shape === "picture" ? BORDER_RADIUS - borderWidth : "50%",
         width: "100%",
         height: "100%",
         objectFit: "cover",
@@ -165,7 +170,7 @@ export const Picture = memo((props: PictureProps) => {
                         width: pictureWidth,
                         height: pictureHeight,
                     }}
-                    style={pictureStyle(shape)}
+                    style={pictureStyle(borderWidth, shape)}
                     alt={shape}
                     fallback={noImage.src}
                     src={srcValue ?? noImage.src}
@@ -199,6 +204,7 @@ export const Picture = memo((props: PictureProps) => {
                                 type: file.type,
                                 size: file.size,
                                 data: base64,
+                                isDefault: false,
                             };
 
                             setSrcValue(objUrl);

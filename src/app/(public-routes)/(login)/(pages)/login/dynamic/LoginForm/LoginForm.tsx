@@ -59,15 +59,21 @@ export const LoginForm = memo((props: LoginFormProps) => {
                 vertical
                 align={"center"}
                 justify={"center"}
-                gap={16}
+                gap={8}
             >
                 <Image
                     preview={false}
                     src={logoPNG.src}
                     alt={"logo"}
-                    height={150}
+                    height={100}
                     width={"auto"}
                 />
+                <Typography.Text
+                    style={{ fontSize: 24, textAlign: "center" }}
+                    type={"secondary"}
+                >
+                    {"Добро пожаловать"}
+                </Typography.Text>
                 <Flex
                     style={{
                         borderRadius: 12,
@@ -80,12 +86,6 @@ export const LoginForm = memo((props: LoginFormProps) => {
                     justify={"center"}
                     gap={16}
                 >
-                    <Typography.Text
-                        style={{ fontSize: 16, textAlign: "center" }}
-                        type={"secondary"}
-                    >
-                        {"АВТОРИЗАЦИЯ"}
-                    </Typography.Text>
                     <Form
                         id={"loginForm"}
                         style={{ width: "100%" }}

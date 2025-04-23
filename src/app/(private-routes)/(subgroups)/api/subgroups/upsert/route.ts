@@ -30,17 +30,32 @@ export async function POST(
             entityToSave,
         );
 
+        if (!entityToSave.antropologicalType?.id) {
+            return ResponseData.BadRequest([
+                "Антропологический тип не задан",
+            ]).toNextResponse();
+        }
+
         const upsertedData = await prisma.subgroup.upsert({
             create: {
                 ...validatedData,
+                antropologicalType: {
+                    connect: { id: entityToSave.antropologicalType?.id },
+                },
             },
             update: {
                 ...validatedData,
+                antropologicalType: {
+                    connect: { id: entityToSave.antropologicalType?.id },
+                },
             },
             // Если entityId null, тогда будет создана новая запись
             // В этом месте необходимо задать значение по умолчанию, чтобы prisma
             // не выдавала ошибку
             where: { id: entityId ?? "" },
+            include: {
+                antropologicalType: true,
+            },
         });
 
         return ResponseData.Ok(upsertedData as SubgroupEntity).toNextResponse();

@@ -97,10 +97,6 @@ export const subjectsListSlice = createSlice({
                     state.totalCount = 0;
                 }
             })
-            .addCase(deleteSubjectByIdThunk.pending, (state) => {
-                state.isLoading = true;
-                state.error = undefined;
-            })
             .addCase(deleteSubjectByIdThunk.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = undefined;

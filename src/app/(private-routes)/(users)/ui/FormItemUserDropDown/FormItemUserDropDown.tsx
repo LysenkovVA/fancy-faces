@@ -22,12 +22,12 @@ export interface FormItemUserDropDown {
 
 export const FormItemUserDropDown = memo((props: FormItemUserDropDown) => {
     const {
-        labelText = "Пользователь",
+        labelText = "Эксперт",
         namePath,
         required = false,
         requiredMessage = undefined,
         isLoading = false,
-        placeholder = "Укажите пользователя",
+        placeholder = "Укажите эксперта",
         noStyle = undefined,
         mode,
         initialNewEntityData,

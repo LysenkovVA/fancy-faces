@@ -23,27 +23,27 @@ async function main() {
             {
                 login: "admin",
                 hashedPassword: bcrypt.hashSync("111", 10),
-                surname: "Лысенков",
-                name: "Виктор",
-                patronymic: "Андреевич",
+                surname: "",
+                name: "Admin",
+                patronymic: "",
                 userRoleId: adminRole.id,
             },
-            {
-                login: "vlada",
-                hashedPassword: bcrypt.hashSync("111", 10),
-                surname: "Белогорцева",
-                name: "Влада",
-                patronymic: "Владимировна",
-                userRoleId: userRole.id,
-            },
-            {
-                login: "tanya",
-                hashedPassword: bcrypt.hashSync("111", 10),
-                surname: "Овдиенко",
-                name: "Татьяна",
-                patronymic: "Васильевна",
-                userRoleId: userRole.id,
-            },
+            // {
+            //     login: "vlada",
+            //     hashedPassword: bcrypt.hashSync("111", 10),
+            //     surname: "Белогорцева",
+            //     name: "Влада",
+            //     patronymic: "Владимировна",
+            //     userRoleId: userRole.id,
+            // },
+            // {
+            //     login: "tanya",
+            //     hashedPassword: bcrypt.hashSync("111", 10),
+            //     surname: "Овдиенко",
+            //     name: "Татьяна",
+            //     patronymic: "Васильевна",
+            //     userRoleId: userRole.id,
+            // },
         ],
     });
 
@@ -57,9 +57,9 @@ async function main() {
 
     await prisma.antropologicalType.createMany({
         data: [
-            { name: "Европеойд" },
-            { name: "Негройд" },
-            { name: "Монголойд" },
+            { name: "Европеоид" },
+            { name: "Негроид" },
+            { name: "Монголоид" },
         ],
     });
 

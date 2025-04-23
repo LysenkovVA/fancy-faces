@@ -17,8 +17,16 @@ export const subgroupMultipleDetailsSlice = createSlice({
         init: (state, action: PayloadAction<{ formId: string }>) => {
             if (!state.details[action.payload.formId]) {
                 state.details[action.payload.formId] = {
-                    entityData: { id: "", name: "" },
-                    entityFormData: { id: "", name: "" },
+                    entityData: {
+                        id: "",
+                        name: "",
+                        antropologicalType: { id: "", name: "" },
+                    },
+                    entityFormData: {
+                        id: "",
+                        name: "",
+                        antropologicalType: { id: "", name: "" },
+                    },
                     isFetching: false,
                     isSaving: false,
                     error: undefined,
@@ -57,8 +65,16 @@ export const subgroupMultipleDetailsSlice = createSlice({
             .addCase(getSubgroupByIdThunk.pending, (state, action) => {
                 if (!state.details[action.meta.arg.formId]) {
                     state.details[action.meta.arg.formId] = {
-                        entityData: { id: "", name: "" },
-                        entityFormData: { id: "", name: "" },
+                        entityData: {
+                            id: "",
+                            name: "",
+                            antropologicalType: { id: "", name: "" },
+                        },
+                        entityFormData: {
+                            id: "",
+                            name: "",
+                            antropologicalType: { id: "", name: "" },
+                        },
                         isFetching: false,
                         isSaving: false,
                         error: undefined,
@@ -73,10 +89,12 @@ export const subgroupMultipleDetailsSlice = createSlice({
                 state.details[action.meta.arg.formId].entityData = {
                     id: "",
                     name: "",
+                    antropologicalType: { id: "", name: "" },
                 };
                 state.details[action.meta.arg.formId].entityFormData = {
                     id: "",
                     name: "",
+                    antropologicalType: { id: "", name: "" },
                 };
                 state.details[action.meta.arg.formId]._isInitialized = false;
             })
@@ -97,10 +115,12 @@ export const subgroupMultipleDetailsSlice = createSlice({
                 state.details[action.meta.arg.formId].entityData = {
                     id: "",
                     name: "",
+                    antropologicalType: { id: "", name: "" },
                 };
                 state.details[action.meta.arg.formId].entityFormData = {
                     id: "",
                     name: "",
+                    antropologicalType: { id: "", name: "" },
                 };
                 state.details[action.meta.arg.formId]._isInitialized = true;
             })

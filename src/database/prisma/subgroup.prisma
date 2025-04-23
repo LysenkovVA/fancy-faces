@@ -2,6 +2,9 @@ model Subgroup {
   id   String  @id @default(cuid())
   name String?
 
+  antropologicalType   AntropologicalType @relation(fields: [antropologicalTypeId], references: [id])
+  antropologicalTypeId String
+
   subjects Subject[]
 
   // Служебные поля
@@ -9,5 +12,5 @@ model Subgroup {
   updatedAt DateTime @updatedAt
 
   @@index([name])
-  @@map("initiators")
+  @@map("subgroups")
 }

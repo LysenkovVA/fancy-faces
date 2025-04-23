@@ -11,6 +11,7 @@ export async function deleteSubgroupById(
         // Удаляем
         const candidate = await prisma.subgroup.delete({
             where: { id },
+            include: { antropologicalType: true },
         });
 
         if (!candidate) {

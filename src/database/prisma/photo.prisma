@@ -1,13 +1,14 @@
 model Photo {
-  id   String  @id @default(cuid())
-  type String?
-  size Int?
-  data String?
+  id        String  @id @default(cuid())
+  type      String?
+  size      Int?
+  data      String?
+  isDefault Boolean @default(false)
 
   user   User?   @relation(fields: [userId], references: [id])
   userId String? @unique
 
-  subject   Subject? @relation(fields: [subjectId], references: [id])
+  subject   Subject? @relation(fields: [subjectId], references: [id], onDelete: Cascade)
   subjectId String?
 
   // Служебные поля

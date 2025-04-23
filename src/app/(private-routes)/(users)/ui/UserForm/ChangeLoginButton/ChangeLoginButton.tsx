@@ -11,6 +11,7 @@ import {
 import userPng from "@/app/lib/assets/png/user.png";
 import { useAppDispatch } from "@/app/lib/store";
 import { changeLoginThunk } from "@/app/(private-routes)/(users)/model/thunks/changeLoginThunk";
+import useNotification from "antd/es/notification/useNotification";
 
 export interface ChangeLoginButtonProps {
     userId: string;
@@ -22,16 +23,18 @@ export const ChangeLoginButton = memo((props: ChangeLoginButtonProps) => {
     const [newLogin, setNewLogin] = useState<string | undefined>(undefined);
 
     const dispatch = useAppDispatch();
+    const [notificationApi, notificationContext] = useNotification();
 
     return (
         <>
+            {notificationContext}
             <Button onClick={() => setIsModalOpen(true)}>
                 <Typography.Text>{"Поменять логин"}</Typography.Text>
             </Button>
             <Modal
                 title={
                     <LabelWithIcon
-                        style={{
+                        textStyle={{
                             marginBottom: MODAL_TITLE_MARGIN_BOTTOM,
                         }}
                         imageSrc={userPng.src}
@@ -43,19 +46,25 @@ export const ChangeLoginButton = memo((props: ChangeLoginButtonProps) => {
                 okText={"Сохранить"}
                 cancelText={"Отмена"}
                 onOk={async () => {
-                    const result = await dispatch(
-                        changeLoginThunk({
-                            userId,
-                            data: {
-                                newLogin: newLogin ?? "",
-                            },
-                        }),
-                    ).unwrap();
+                    try {
+                        const result = await dispatch(
+                            changeLoginThunk({
+                                userId,
+                                data: {
+                                    newLogin: newLogin ?? "",
+                                },
+                            }),
+                        ).unwrap();
 
-                    if (result.isOk) {
-                        setIsModalOpen(false);
-                    } else {
-                        alert("Ошибка при смене логина!");
+                        if (result.isOk) {
+                            setIsModalOpen(false);
+                        } else {
+                            notificationApi.error({
+                                message: result.getAllErrors(),
+                            });
+                        }
+                    } catch (e) {
+                        notificationApi.error({ message: String(e) });
                     }
                 }}
                 onCancel={() => {

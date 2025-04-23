@@ -26,7 +26,6 @@ export function useSubjectFilters() {
     const dispatch = useAppDispatch();
 
     const fetchData = useCallback(() => {
-        console.log("Debounce fetch...");
         dispatch(getSubjectsListThunk({ replaceData: true }));
     }, [dispatch]);
 
@@ -34,7 +33,6 @@ export function useSubjectFilters() {
 
     const onChangeSearch = useCallback(
         (search: string) => {
-            console.log("Change search");
             dispatch(subjectsListActions.setSearch(search));
             debouncedFetchData();
         },

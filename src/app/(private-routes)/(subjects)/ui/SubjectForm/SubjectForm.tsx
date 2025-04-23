@@ -2,8 +2,10 @@
 
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import {
+    Badge,
     Col,
     Divider,
+    Flex,
     Form,
     FormInstance,
     Row,
@@ -64,6 +66,7 @@ import durationPng from "../../../../lib/assets/png/duration.png";
 import lastObservationPng from "../../../../lib/assets/png/lastObservation.png";
 import numberPng from "../../../../lib/assets/png/number.png";
 import imagesPng from "../../../../lib/assets/png/images.png";
+import percentPng from "../../../../lib/assets/png/percent.png";
 import { FormItemInitiatorDropDown } from "@/app/(private-routes)/(initiators)/ui/FormItemInitiatorDropDown/FormItemInitiatorDropDown";
 import { formRequiredMark } from "@/app/UI/formRequiredMark";
 import { formItemLayout } from "@/app/UI/AppLayout/config/formItemLayout";
@@ -180,6 +183,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                         <FormItemDatePicker
                             labelText={"Дата"}
                             namePath={["date"]}
+                            required
+                            requiredMessage={"Укажите дату"}
                             placeholder={"Укажите дату"}
                             isLoading={isFetching}
                         />
@@ -191,6 +196,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["objectNumber"]}
                             placeholder={"Укажите № объекта"}
                             isLoading={isFetching}
+                            required
+                            requiredMessage={"Укажите № объекта"}
                         />
                     </Col>
                 </Row>
@@ -200,6 +207,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["initiator"]}
                             isLoading={isFetching}
                             mode={"single"}
+                            required
+                            requiredMessage={"Укажите инициатора"}
                         />
                     </Col>
                     <Col span={12}>
@@ -218,6 +227,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                     imageSrc={locationPng.src}
                     namePath={["location"]}
                     placeholder={"Укажите место"}
+                    required
+                    requiredMessage={"Укажите место"}
                     isLoading={isFetching}
                 />
                 <Divider />
@@ -227,6 +238,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["antropologicalType"]}
                             isLoading={isFetching}
                             mode={"single"}
+                            required
+                            requiredMessage={"Укажите антропологический тип"}
                         />
                     </Col>
                     <Col span={12}>
@@ -245,6 +258,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["subgroup"]}
                             isLoading={isFetching}
                             mode={"single"}
+                            required
+                            requiredMessage={"Укажите подгруппу"}
                         />
                     </Col>
                     <Col span={12}>
@@ -263,6 +278,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["gender"]}
                             isLoading={isFetching}
                             mode={"single"}
+                            required
+                            requiredMessage={"Укажите пол"}
                         />
                     </Col>
                 </Row>
@@ -274,13 +291,15 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["age"]}
                             placeholder={"Укажите возраст"}
                             isLoading={isFetching}
+                            required
+                            requiredMessage={"Укажите возраст"}
                         />
                     </Col>
                 </Row>
                 <FormItemInput
-                    labelText={""}
+                    labelText={"Степень схожести"}
                     isLoading={isFetching}
-                    // imageSrc={earsPng.src}
+                    imageSrc={percentPng.src}
                     namePath={["portraitMatch"]}
                     placeholder={"Степень схожести"}
                 />
@@ -289,7 +308,16 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                     namePath={["user"]}
                     isLoading={isFetching}
                     mode={"single"}
-                    placeholder={"Пользователь"}
+                    placeholder={"Эксперт"}
+                    required
+                    requiredMessage={"Укажите эксперта"}
+                />
+                <Divider />
+                <FormItemTextArea
+                    noStyle
+                    labelText={" "}
+                    namePath={["notes"]}
+                    placeholder={"Примечания..."}
                 />
             </>
         ),
@@ -426,13 +454,14 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
         () => (
             <FormImageList
                 form={form}
+                formId={formId}
                 formListName={["photos"]}
                 previewImages={true}
                 imageHeight={300}
                 onDelete={(id) => {}}
             />
         ),
-        [form],
+        [form, formId],
     );
 
     const tabsContent: TabsProps["items"] = [
@@ -472,11 +501,20 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
         {
             key: "4",
             label: (
-                <LabelWithIcon
-                    imageSrc={imagesPng.src}
-                    labelText={"Изображения"}
-                    iconSize={FORM_ICON_SIZE}
-                />
+                <Flex align={"center"} justify={"start"} gap={8}>
+                    <LabelWithIcon
+                        imageSrc={imagesPng.src}
+                        labelText={"Изображения"}
+                        iconSize={FORM_ICON_SIZE}
+                    />
+                    {formData?.photos?.length !== undefined && (
+                        <Badge
+                            showZero={false}
+                            count={formData?.photos?.length ?? 0}
+                            color={"green"}
+                        />
+                    )}
+                </Flex>
             ),
             children: imagesContent,
         },

@@ -49,6 +49,8 @@ model Subject {
   user   User?   @relation(fields: [userId], references: [id])
   userId String?
 
+  notes String?
+
   // Служебные поля
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

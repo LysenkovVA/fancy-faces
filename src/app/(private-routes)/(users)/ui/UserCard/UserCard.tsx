@@ -2,7 +2,7 @@
 
 import { CSSProperties, memo } from "react";
 import { UserEntity } from "../../model/types/UserEntity";
-import { Card, Flex, Skeleton, Typography } from "antd";
+import { Card, Flex, Skeleton } from "antd";
 import { useRouter } from "next/navigation";
 import { showDeleteConfirm } from "@/app/UI/showDeleteConfirm";
 import { deleteUserByIdThunk } from "../../model/thunks/deleteUserByIdThunk";
@@ -10,6 +10,8 @@ import { useAppDispatch } from "@/app/lib/store";
 import { EditCardButton } from "@/app/UI/EditCardButton";
 import { DeleteCardButton } from "@/app/UI/DeleteCardButton";
 import { Picture } from "@/app/UI/Picture";
+import { useUserFilters } from "@/app/(private-routes)/(users)/ui/UsersFilterPanel/hooks/useUserFilters";
+import { HighlightedText } from "@/app/UI/HighlightedText/HighlightedText";
 
 export interface UserCardProps {
     style?: CSSProperties;
@@ -23,6 +25,8 @@ export const UserCard = memo((props: UserCardProps) => {
     const dispatch = useAppDispatch();
     const router = useRouter();
 
+    const { search } = useUserFilters();
+
     return (
         <Card
             style={{
@@ -32,16 +36,13 @@ export const UserCard = memo((props: UserCardProps) => {
             }}
             title={
                 !isLoading ? (
-                    <Flex align={"center"} justify={"center"}>
-                        {"Пользователь"}
-                    </Flex>
+                    <HighlightedText
+                        style={{ fontSize: 16, fontWeight: "bold" }}
+                        text={user?.login ?? ""}
+                        search={search}
+                    />
                 ) : (
-                    <Flex align={"center"} justify={"center"}>
-                        <Skeleton.Node
-                            style={{ width: 50, height: 15 }}
-                            active
-                        />
-                    </Flex>
+                    <Skeleton.Node style={{ width: 150, height: 20 }} active />
                 )
             }
             size={"small"}
@@ -78,20 +79,49 @@ export const UserCard = memo((props: UserCardProps) => {
             <Flex align={"center"} justify={"start"} gap={16}>
                 <Picture
                     shape={"avatar"}
-                    pictureHeight={50}
-                    pictureWidth={50}
+                    pictureHeight={100}
+                    pictureWidth={100}
                     borderWidth={2}
                     value={user?.avatar}
                 />
-                {!isLoading ? (
-                    <Flex align={"center"} justify={"start"} gap={4}>
-                        <Typography.Text style={{ fontSize: 14 }}>
-                            {user?.name ?? " "}
-                        </Typography.Text>
-                    </Flex>
-                ) : (
-                    <Skeleton.Node style={{ width: 150, height: 20 }} active />
-                )}
+                <Flex align={"start"} justify={"start"} gap={4} vertical>
+                    {!isLoading ? (
+                        <HighlightedText
+                            style={{ fontSize: 16 }}
+                            text={user?.surname ?? ""}
+                            search={search}
+                        />
+                    ) : (
+                        <Skeleton.Node
+                            style={{ width: 150, height: 20 }}
+                            active
+                        />
+                    )}
+                    {!isLoading ? (
+                        <HighlightedText
+                            style={{ fontSize: 16 }}
+                            text={user?.name ?? ""}
+                            search={search}
+                        />
+                    ) : (
+                        <Skeleton.Node
+                            style={{ width: 150, height: 20 }}
+                            active
+                        />
+                    )}
+                    {!isLoading ? (
+                        <HighlightedText
+                            style={{ fontSize: 16 }}
+                            text={user?.patronymic ?? ""}
+                            search={search}
+                        />
+                    ) : (
+                        <Skeleton.Node
+                            style={{ width: 150, height: 20 }}
+                            active
+                        />
+                    )}
+                </Flex>
             </Flex>
         </Card>
     );

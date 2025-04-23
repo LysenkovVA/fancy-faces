@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useCallback, useEffect, useState } from "react";
-import { Divider, Flex, Form, FormInstance, Spin, Typography } from "antd";
+import { Divider, Flex, Form, FormInstance, Spin } from "antd";
 
 import {
     DynamicModuleLoader,
@@ -175,35 +175,47 @@ export const UserForm = memo((props: UserFormProps) => {
                     </Form.Item>
                     {authUser?.userRole.name === "ADMIN" && (
                         <>
-                            {/*<FormItemInput*/}
-                            {/*    labelText={"Логин"}*/}
-                            {/*    namePath={["login"]}*/}
-                            {/*    required={true}*/}
-                            {/*    requiredMessage={"Укажите логин"}*/}
-                            {/*    placeholder={"Укажите логин"}*/}
-                            {/*    isLoading={isFetching}*/}
-                            {/*/>*/}
-                            {formData?.id && (
+                            {formData?.id ? (
                                 <>
-                                    <Form.Item label={"Логин"}>
+                                    <Form.Item
+                                        label={formData.login}
+                                        style={{
+                                            fontSize: 14,
+                                            fontWeight: "bold",
+                                        }}
+                                    >
                                         <Flex
                                             align={"center"}
                                             justify={"start"}
                                             gap={8}
                                         >
-                                            <Typography.Text>
-                                                {formData.login}
-                                            </Typography.Text>
                                             <ChangeLoginButton
+                                                userId={formData?.id}
+                                            />
+                                            <ChangePasswordButton
                                                 userId={formData?.id}
                                             />
                                         </Flex>
                                     </Form.Item>
-                                    <Form.Item label={" "}>
-                                        <ChangePasswordButton
-                                            userId={formData?.id}
-                                        />
-                                    </Form.Item>
+                                </>
+                            ) : (
+                                <>
+                                    <FormItemInput
+                                        labelText={"Логин"}
+                                        namePath={["login"]}
+                                        isLoading={isFetching}
+                                        placeholder={"Укажите логин"}
+                                        required
+                                        requiredMessage={"Укажите логин"}
+                                    />
+                                    <FormItemInput
+                                        labelText={"Пароль"}
+                                        namePath={["hashedPassword"]}
+                                        isLoading={isFetching}
+                                        placeholder={"Укажите пароль"}
+                                        required
+                                        requiredMessage={"Укажите пароль"}
+                                    />
                                 </>
                             )}
                             <Divider />

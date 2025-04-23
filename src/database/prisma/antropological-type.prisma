@@ -2,7 +2,8 @@ model AntropologicalType {
   id   String  @id @default(cuid())
   name String?
 
-  subjects Subject[]
+  subjects  Subject[]
+  subgroups Subgroup[]
 
   // Служебные поля
   createdAt DateTime @default(now())
