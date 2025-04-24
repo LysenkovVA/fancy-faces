@@ -1,14 +1,19 @@
-import { Modal } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import React from "react";
+import { App } from "antd";
 
-const { confirm } = Modal;
-
-export const showDeleteConfirm = (
+export function showDeleteConfirm(
     title: string,
     description: string,
     okCallback: ((...args: any[]) => any) | undefined,
-) => {
+) {
+    const { confirm } = App.useApp().modal;
+    // modal.confirm()
+
+    if (!confirm) {
+        alert("No modal!");
+    }
+
     confirm({
         title: title,
         icon: <DeleteOutlined style={{ color: "red" }} />,
@@ -23,4 +28,4 @@ export const showDeleteConfirm = (
             // Нет колбэка
         },
     });
-};
+}

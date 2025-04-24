@@ -11,6 +11,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { App, ConfigProvider } from "antd";
 import ru_RU from "antd/lib/locale/ru_RU";
 import dayjs from "dayjs";
+import { primaryTheme } from "@/app/lib/themes/primary-theme";
 
 /**
  * Локализация
@@ -28,18 +29,18 @@ dayjs.locale("ru");
  */
 export function React19AntdProvider({ children }: { children: ReactNode }) {
     return (
-        <App
-            style={{
-                width: "100vw",
-                height: "100vh",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-            }}
-        >
-            <ConfigProvider locale={ru_RU}>
+        <ConfigProvider locale={ru_RU} theme={primaryTheme}>
+            <App
+                style={{
+                    width: "100vw",
+                    height: "100vh",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
                 <AntdRegistry>{children}</AntdRegistry>
-            </ConfigProvider>
-        </App>
+            </App>
+        </ConfigProvider>
     );
 }

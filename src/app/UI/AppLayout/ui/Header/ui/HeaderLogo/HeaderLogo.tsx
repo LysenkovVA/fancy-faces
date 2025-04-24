@@ -2,13 +2,11 @@
 
 import { Flex, Typography } from "antd";
 import React, { memo } from "react";
-import {
-    FOREGROUND_PRIMARY_COLOR,
-    HEADER_HEIGHT,
-} from "@/app/UI/AppLayout/config/consts";
+import { HEADER_HEIGHT } from "@/app/UI/AppLayout/config/consts";
 import { logoPNG } from "@/app/lib/assets";
 import { Picture } from "@/app/UI/Picture";
 import { useRouter } from "next/navigation";
+import { ON_PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
 
 export interface HeaderLogoProps {}
 
@@ -37,10 +35,10 @@ export const HeaderLogo = memo((props: HeaderLogoProps) => {
                 style={{
                     fontSize: 20,
                     fontWeight: "bold",
-                    color: FOREGROUND_PRIMARY_COLOR,
+                    color: ON_PRIMARY_COLOR,
                 }}
             >
-                {"FancyFaces App"}
+                {"Фотопортрет"}
             </Typography.Text>
         </Flex>
     );

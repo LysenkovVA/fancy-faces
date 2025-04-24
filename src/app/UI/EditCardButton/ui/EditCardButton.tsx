@@ -20,14 +20,21 @@ export const EditCardButton = memo((props: EditCardButtonProps) => {
             onClick={onClick}
         >
             {!isLoading ? (
-                <EditOutlined style={{ color: "orange" }} />
+                <EditOutlined />
             ) : (
-                <Skeleton.Node active style={{ width: 40, height: 30 }} />
+                <Skeleton.Node
+                    active
+                    style={{
+                        width: 40,
+                        height: 30,
+                    }}
+                />
             )}
             {!isLoading ? (
                 <Typography.Text
-                    style={{ fontSize: 10, color: "orange" }}
-                    type={"secondary"}
+                    style={{
+                        fontSize: 10,
+                    }}
                 >
                     {`Изменить`}
                 </Typography.Text>

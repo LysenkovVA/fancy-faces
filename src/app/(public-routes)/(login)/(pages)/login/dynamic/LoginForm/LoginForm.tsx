@@ -1,7 +1,7 @@
 "use client";
 
 import { CSSProperties, memo, useCallback, useEffect } from "react";
-import { Button, Flex, Form, Image, Input, Typography } from "antd";
+import { Button, Flex, Form, Image, Input, Tag, Typography } from "antd";
 import { logoPNG } from "@/app/lib/assets";
 import useNotification from "antd/es/notification/useNotification";
 import { useRouter } from "next/navigation";
@@ -24,8 +24,6 @@ export const LoginForm = memo((props: LoginFormProps) => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const error = useAppSelector(getUserAuthDataError);
-
-    console.log("LoginForm error", JSON.stringify(error));
 
     useEffect(() => {
         if (error) {
@@ -127,6 +125,11 @@ export const LoginForm = memo((props: LoginFormProps) => {
                         </Form.Item>
                     </Form>
                 </Flex>
+                {process.env.NODE_ENV !== "production" && (
+                    <Tag
+                        color={"warning"}
+                    >{`${process.env.NODE_ENV} mode`}</Tag>
+                )}
             </Flex>
         </>
     );

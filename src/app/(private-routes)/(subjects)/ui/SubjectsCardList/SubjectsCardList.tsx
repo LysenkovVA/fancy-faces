@@ -19,12 +19,12 @@ import {
 } from "../../model/selectors/subjectsListSelectors";
 import { getSubjectsListThunk } from "../../model/thunks/getSubjectsListThunk";
 import { subjectsListReducer } from "../../model/slices/subjectsListSlice";
-import { PlusOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { SubjectCard } from "@/app/(private-routes)/(subjects)/ui/SubjectCard/SubjectCard";
 import { CONTENT_HEIGHT } from "@/app/UI/AppLayout";
 import { SubjectsFilterPanel } from "@/app/(private-routes)/(subjects)/ui/SubjectsFilterPanel/SubjectsFilterPanel";
 import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
+import { PlusOutlined } from "@ant-design/icons";
 
 export interface SubjectsCardListProps {
     columnsCount: 1 | 2 | 3 | 4 | 6 | 8;
@@ -81,7 +81,11 @@ export const SubjectsCardList = memo((props: SubjectsCardListProps) => {
                 <FloatButton
                     type={"primary"}
                     shape={"circle"}
-                    style={{ bottom: 90 }}
+                    style={{
+                        bottom: 90,
+                        // background: SECONDARY_COLOR,
+                        // color: ON_SECONDARY_COLOR,
+                    }}
                     icon={<PlusOutlined />}
                     onClick={() => router.push("/subjects/create")}
                 />

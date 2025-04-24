@@ -2,10 +2,7 @@
 
 import React, { memo } from "react";
 import { Button, Flex } from "antd";
-import {
-    BACKGROUND_PRIMARY_COLOR,
-    HEADER_HEIGHT,
-} from "@/app/UI/AppLayout/config/consts";
+import { HEADER_HEIGHT } from "@/app/UI/AppLayout/config/consts";
 import { HeaderLogo } from "@/app/UI/AppLayout/ui/Header/ui/HeaderLogo/HeaderLogo";
 import { HeaderLogoutButton } from "@/app/UI/AppLayout/ui/Header/ui/HeaderLogoutButton/HeaderLogoutButton";
 import { useAppSelector } from "@/app/lib/store";
@@ -15,6 +12,7 @@ import {
 } from "@/app/(public-routes)/(login)/model/selectors/authSelectors";
 import { HeaderAvatar } from "@/app/UI/AppLayout/ui/Header/ui/HeaderAvatar/HeaderAvatar";
 import { useRouter } from "next/navigation";
+import { ON_PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
 
 export interface HeaderProps {}
 
@@ -28,7 +26,6 @@ export const Header = memo((props: HeaderProps) => {
     return (
         <Flex
             style={{
-                backgroundColor: BACKGROUND_PRIMARY_COLOR,
                 height: HEADER_HEIGHT,
                 width: `100%`,
             }}
@@ -44,6 +41,7 @@ export const Header = memo((props: HeaderProps) => {
                 <Flex align={"center"} justify={"center"} gap={16}>
                     {isAdmin && (
                         <Button
+                            style={{ color: ON_PRIMARY_COLOR }}
                             type={"link"}
                             onClick={() => router.push("/users")}
                         >

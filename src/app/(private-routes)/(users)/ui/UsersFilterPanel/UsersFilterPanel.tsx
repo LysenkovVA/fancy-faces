@@ -24,7 +24,7 @@ export const UsersFilterPanel = () => {
             onSearchValueChanged={onChangeSearch}
             totalCount={totalCount}
             activeFiltersCount={activeFiltersCount}
-            onClearFilters={() => onChangeFilters?.({})}
+            // onClearFilters={() => onChangeFilters?.({})}
             isFiltering={isLoading}
         />
     );

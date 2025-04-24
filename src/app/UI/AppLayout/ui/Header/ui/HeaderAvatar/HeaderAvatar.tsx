@@ -2,14 +2,12 @@
 
 import React, { memo } from "react";
 import { Picture } from "@/app/UI/Picture";
-import {
-    FOREGROUND_PRIMARY_COLOR,
-    HEADER_HEIGHT,
-} from "@/app/UI/AppLayout/config/consts";
+import { HEADER_HEIGHT } from "@/app/UI/AppLayout/config/consts";
 import { Flex, Typography } from "antd";
 import { useAppSelector } from "@/app/lib/store";
 import { getAuthUser } from "@/app/(public-routes)/(login)/model/selectors/authSelectors";
 import { useRouter } from "next/navigation";
+import { ON_PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
 
 export const HeaderAvatar = memo(() => {
     const authUser = useAppSelector(getAuthUser);
@@ -31,9 +29,9 @@ export const HeaderAvatar = memo(() => {
             />
             <Typography.Text
                 style={{
-                    color: FOREGROUND_PRIMARY_COLOR,
                     fontWeight: "bold",
                     fontSize: 14,
+                    color: ON_PRIMARY_COLOR,
                 }}
                 type={authUser?.id ? undefined : "danger"}
             >

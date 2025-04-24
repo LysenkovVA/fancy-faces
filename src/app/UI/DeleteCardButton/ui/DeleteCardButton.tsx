@@ -20,14 +20,21 @@ export const DeleteCardButton = memo((props: DeleteCardButton) => {
             onClick={onClick}
         >
             {!isLoading ? (
-                <DeleteOutlined style={{ color: "tomato" }} />
+                <DeleteOutlined />
             ) : (
-                <Skeleton.Node active style={{ width: 40, height: 30 }} />
+                <Skeleton.Node
+                    active
+                    style={{
+                        width: 40,
+                        height: 30,
+                    }}
+                />
             )}
             {!isLoading ? (
                 <Typography.Text
-                    style={{ fontSize: 10, color: "tomato" }}
-                    type={"secondary"}
+                    style={{
+                        fontSize: 10,
+                    }}
                 >
                     {`Удалить`}
                 </Typography.Text>

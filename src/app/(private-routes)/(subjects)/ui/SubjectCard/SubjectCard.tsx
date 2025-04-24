@@ -35,7 +35,7 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
     return (
         <Card
             style={{
-                borderWidth: 2,
+                // borderWidth: 2,
                 width: "100%",
                 ...style,
             }}
@@ -45,8 +45,6 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                         <HighlightedText
                             style={{
                                 fontSize: 16,
-                                color: "gray",
-                                fontWeight: "bold",
                             }}
                             text={subject?.name ?? ""}
                             search={search}
@@ -55,7 +53,10 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                 ) : (
                     <Flex align={"center"} justify={"center"}>
                         <Skeleton.Node
-                            style={{ width: 50, height: 15 }}
+                            style={{
+                                width: 50,
+                                height: 15,
+                            }}
                             active
                         />
                     </Flex>

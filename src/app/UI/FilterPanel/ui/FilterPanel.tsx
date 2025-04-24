@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from "@/app/lib/store";
 import { usePathname } from "next/navigation";
 import { getFilterPanelCollapsedByPath } from "../model/selectors/filterPanelSelectors";
 import { FilterPanelActions } from "../model/slices/FilterPanelSlice";
+import { PRIMARY_COLOR, SURFACE_COLOR } from "@/app/lib/themes/primary-theme";
 
 const PANEL_WIDTH = 300;
 const PANEL_WIDTH_COLLAPSED = 50;
@@ -54,8 +55,9 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
 
     const baseStyle: CSSProperties = {
         height: height,
-        border: "solid 1px lightgray",
-        borderRadius: 12,
+        borderRadius: 8,
+        border: `1px solid ${PRIMARY_COLOR}`,
+        background: SURFACE_COLOR,
         padding: 8,
         transition: "0.0s",
     };
@@ -74,6 +76,7 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
     }, [collapsed]);
 
     if (isCollapsed) {
+        let PRIMARY_COLOR;
         return (
             <Flex
                 vertical
@@ -109,7 +112,7 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                                     count={activeFiltersCount}
                                     color={
                                         activeFiltersCount > 0
-                                            ? "orange"
+                                            ? `${PRIMARY_COLOR}`
                                             : undefined
                                     }
                                 />
@@ -144,9 +147,14 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                     align={"center"}
                     justify={"space-between"}
                     gap={4}
-                    style={{ width: "100%" }}
+                    style={{ width: "100%", marginBottom: 8 }}
                 >
-                    <Typography.Text type={"secondary"}>
+                    <Typography.Text
+                        style={{
+                            color: PRIMARY_COLOR,
+                            fontSize: 16,
+                        }}
+                    >
                         {title}
                     </Typography.Text>
                     <Button
@@ -164,7 +172,7 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                 </Flex>
                 {onSearchValueChanged && (
                     <Input
-                        // disabled={isFiltering}
+                        style={{ marginBottom: 8 }}
                         placeholder={"Найти..."}
                         value={searchValue}
                         allowClear
@@ -181,7 +189,9 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                     >
                         <Flex align={"center"} justify={"center"} gap={4}>
                             <FilterOutlined />
-                            <Typography.Text type={"secondary"}>
+                            <Typography.Text
+                                style={{ color: PRIMARY_COLOR, fontSize: 14 }}
+                            >
                                 {"Фильтры"}
                             </Typography.Text>
                         </Flex>
@@ -208,7 +218,9 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                         <Button
                             disabled={isFiltering}
                             icon={<ClearOutlined />}
-                            style={{ width: "100%" }}
+                            style={{
+                                width: "100%",
+                            }}
                             onClick={onClearFilters}
                         />
                     )}

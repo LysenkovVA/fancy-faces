@@ -21,6 +21,7 @@ export interface FilterTreeProps {
     error?: string;
     value?: Key[];
     onChangeChecked?: (checkedIds?: string[]) => void;
+    isExpanded?: boolean;
 }
 
 export const FilterTree = memo((props: FilterTreeProps) => {
@@ -31,6 +32,7 @@ export const FilterTree = memo((props: FilterTreeProps) => {
         isLoading = false,
         error = "",
         title = "Фильтр",
+        isExpanded = false,
     } = props;
 
     const onCheckedChanged = useCallback(
@@ -97,11 +99,15 @@ export const FilterTree = memo((props: FilterTreeProps) => {
             ),
             children: (
                 <Tree
-                    style={{ width: "100%", maxHeight: 100, overflowY: "auto" }}
+                    style={{
+                        width: "100%",
+                        maxHeight: 100,
+                        overflowY: "auto",
+                    }}
                     treeData={treeData}
                     checkable
                     selectable={false}
-                    defaultExpandAll
+                    defaultExpandAll={true}
                     checkedKeys={value}
                     onCheck={onCheckedChanged}
                 />
@@ -112,7 +118,7 @@ export const FilterTree = memo((props: FilterTreeProps) => {
 
     return (
         <Collapse
-            defaultActiveKey={"1"}
+            defaultActiveKey={isExpanded ? "1" : undefined}
             style={{ width: "100%" }}
             items={items}
             size={"small"}

@@ -72,6 +72,7 @@ import { formRequiredMark } from "@/app/UI/formRequiredMark";
 import { formItemLayout } from "@/app/UI/AppLayout/config/formItemLayout";
 import { FormImageList } from "@/app/UI/FormImageList";
 import { FormItemUserDropDown } from "@/app/(private-routes)/(users)/ui/FormItemUserDropDown/FormItemUserDropDown";
+import { PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
 
 export interface SubjectFormProps {
     form: FormInstance;
@@ -511,7 +512,7 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                         <Badge
                             showZero={false}
                             count={formData?.photos?.length ?? 0}
-                            color={"green"}
+                            color={PRIMARY_COLOR}
                         />
                     )}
                 </Flex>

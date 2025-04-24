@@ -22,6 +22,7 @@ import {
     useAppSelector,
 } from "@/app/lib/store";
 import { getSubjectDetailsFormData } from "@/app/(private-routes)/(subjects)/model/selectors/subjectDetailsSelectors";
+import { PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
 
 export interface FormImageListProps {
     form: FormInstance;
@@ -69,7 +70,7 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                     <Form.Item
                                         name={[imageIndex]}
                                         style={{
-                                            border: "solid 2px gray",
+                                            border: `solid 1px ${PRIMARY_COLOR}`,
                                             backgroundColor: "whitesmoke",
                                             borderRadius: 12,
                                             padding: 4,
@@ -227,7 +228,7 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                             alignItems: "center",
                                             justifyContent: "center",
                                             width: "100%",
-                                            border: "solid 2px gray",
+                                            border: `solid 1px ${PRIMARY_COLOR}`,
                                             backgroundColor: "whitesmoke",
                                             borderRadius: 12,
                                             padding: 4,

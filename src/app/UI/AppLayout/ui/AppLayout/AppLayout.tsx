@@ -24,10 +24,13 @@ export interface AppLayoutProps {
 }
 
 export const AppLayout = memo(({ children }: AppLayoutProps) => {
-    console.log("AppLayout render");
-
     return (
-        <Layout style={{ width: "100vw", height: "100vh" }}>
+        <Layout
+            style={{
+                width: "100vw",
+                height: "100vh",
+            }}
+        >
             <AntHeader
                 style={{
                     margin: 0,
@@ -54,7 +57,6 @@ export const AppLayout = memo(({ children }: AppLayoutProps) => {
                         height: SIDE_MENU_HEIGHT,
                         marginLeft: 0,
                         marginRight: 0,
-                        backgroundColor: "white",
                         paddingTop: CONTENT_PADDING_TOP,
                         paddingBottom: CONTENT_PADDING_BOTTOM,
                         paddingLeft: CONTENT_PADDING_LEFT,

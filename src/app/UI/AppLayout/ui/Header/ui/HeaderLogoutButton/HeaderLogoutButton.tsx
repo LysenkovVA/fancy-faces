@@ -20,10 +20,14 @@ export const HeaderLogoutButton = memo((props: LogoutButtonProps) => {
 
     return (
         <Button
-            style={{ ...style }}
+            style={{
+                // background: SECONDARY_COLOR,
+                // color: ON_SECONDARY_COLOR,
+                ...style,
+            }}
             type="primary"
             variant={"outlined"}
-            danger
+            // danger
             shape={"round"}
             icon={<LogoutOutlined />}
             onClick={async () => {

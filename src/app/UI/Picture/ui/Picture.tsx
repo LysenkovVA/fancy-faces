@@ -10,6 +10,7 @@ import {
 import { Button, Flex, Image, Skeleton, Upload } from "antd";
 import noImage from "../assets/no-image.png";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
+import { PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
 
 const BORDER_RADIUS = 12;
 
@@ -19,7 +20,7 @@ function wrapperPictureStyle(
     shape: "picture" | "avatar",
 ): CSSProperties {
     return {
-        border: `solid ${borderWidth}px darkgray`,
+        border: `solid ${borderWidth}px ${PRIMARY_COLOR}`,
         borderRadius: shape === "picture" ? BORDER_RADIUS : "50%",
         width: `calc(${size.width} + 2 * ${borderWidth})`,
         // height: size.height + 2 * borderWidth,

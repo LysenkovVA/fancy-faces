@@ -24,7 +24,7 @@ export const SubjectsFilterPanel = () => {
 
     return (
         <FilterPanel
-            title={"Субъекты"}
+            title={"Объекты"}
             height={CONTENT_HEIGHT}
             searchValue={search}
             onSearchValueChanged={onChangeSearch}
