@@ -14,6 +14,7 @@ export const Footer = memo(() => {
             }}
             align={"center"}
             justify={"center"}
+            gap={8}
         >
             <Typography.Text style={{ color: ON_PRIMARY_COLOR }}>
                 {`V lab. © ${new Date(Date.now()).getFullYear()}`}

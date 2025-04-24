@@ -1,0 +1,24 @@
+name: "fancy-faces-production"
+services:
+  frontend:
+    container_name: "frontend"
+    build:
+      context: ../../
+      dockerfile: docker/production/Dockerfile
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - db
+  db:
+    container_name: "db"
+    image: postgres:15.3
+    ports:
+      - "5432:5432"
+#      - "${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+    volumes:
+      - ${POSTGRES_VOLUME_DATA}:/var/lib/postgresql/data
+    restart: unless-stopped

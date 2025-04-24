@@ -18,8 +18,8 @@
     "db:push:prod": "npm run db:client:generate:prod && dotenv -e .env.production -- npm exec prisma db push",
     "db:seed:prod": "dotenv -e .env.production -- npx prisma db seed",
     "db:init:prod": "npm run db:client:generate:prod && npm run db:reset:prod && npm run db:push:prod && npm run db:seed:prod",
-    "docker:compose:up": "docker compose -f old_docker_test/docker-compose.yml --env-file .env up -d",
-    "docker:compose:build": "docker compose -f old_docker_test/docker-compose.yml --env-file .env build"
+    "docker:compose:up:prod": "docker compose -f docker/production/compose.yaml --env-file .env.production up -d",
+    "docker:compose:build:prod": "docker compose -f docker/production/compose.yaml --env-file .env.production build"
   },
   "prisma": {
     "schema": "./src/database/prisma",
