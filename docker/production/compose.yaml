@@ -12,10 +12,6 @@ services:
       dockerfile: docker/production/Dockerfile
     ports:
       - "${PORT}:${PORT}"
-    environment:
-      # Строка подключения к Postgres отличается, потому что
-      # должна содержать имя контейнера
-      POSTGRES_PRISMA_URL: "${POSTGRES_PRISMA_URL_FOR_DOCKER}"
     depends_on:
       - db
   db:
