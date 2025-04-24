@@ -9,7 +9,7 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
+# 1. Установка зависимостей из предпочтительного источника
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
@@ -19,20 +19,22 @@ RUN \
   fi
 
 
-# 2. Rebuild the source code only when needed
+# 2. Пересборка исходников только когда необходимо
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# 3. Копирование файла с переменными окржения
 COPY .env.production .
 
-# Generate Prisma client
+# 4. Генерация клиента для Prisma ORM
 RUN npx prisma generate --schema ./src/database/prisma
 
+# 5. Сборка продуктовой версии приложения
 RUN npm run build
 
-# 3. Production image, copy all the files and run next
+# 6. Сборка продуктового образа, копирование всех файлов и запуск standalone версии Next-приложения
 FROM base AS runner
 WORKDIR /app
 
@@ -47,7 +49,6 @@ COPY --from=builder /app/public ./public
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
 
 USER nextjs
 
