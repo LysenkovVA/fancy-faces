@@ -13,6 +13,10 @@
     "db:push:dev": "npm run db:client:generate:dev && dotenv -e .env.development -- npm exec prisma db push",
     "db:seed:dev": "dotenv -e .env.development -- npx prisma db seed",
     "db:init:dev": "npm run db:client:generate:dev && npm run db:reset:dev && npm run db:push:dev && npm run db:seed:dev",
+    "docker:compose:up:dev": "docker compose -f docker/development/compose.yaml --env-file .env.development up -d",
+    "docker:compose:build:dev": "docker compose -f docker/development/compose.yaml --env-file .env.development build",
+    "dev:build": "npm run docker:compose:build:dev && npm run docker:compose:up:dev && npm run open:dev",
+    "dev:start": "npm run docker:compose:up:dev && npm run dev",
     "db:client:generate:prod": "dotenv -e .env.production -- npm exec prisma generate --schema",
     "db:reset:prod": "dotenv -e .env.production -- npx prisma migrate reset --force --skip-seed",
     "db:push:prod": "npm run db:client:generate:prod && dotenv -e .env.production -- npm exec prisma db push",
@@ -21,7 +25,8 @@
     "docker:compose:up:prod": "docker compose -f docker/production/compose.yaml --env-file .env.production up -d",
     "docker:compose:build:prod": "docker compose -f docker/production/compose.yaml --env-file .env.production build",
     "open:prod": "open http://localhost:8080",
-    "production": "npm run docker:compose:build:prod && npm run docker:compose:up:prod && npm run open:prod"
+    "prod:build": "npm run docker:compose:build:prod && npm run docker:compose:up:prod && npm run open:prod",
+    "prod:start": "npm run docker:compose:up:prod && npm run open:prod"
   },
   "prisma": {
     "schema": "./src/database/prisma",
