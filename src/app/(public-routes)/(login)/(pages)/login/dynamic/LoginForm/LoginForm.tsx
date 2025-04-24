@@ -1,7 +1,7 @@
 "use client";
 
 import { CSSProperties, memo, useCallback, useEffect } from "react";
-import { Button, Flex, Form, Image, Input, Tag, Typography } from "antd";
+import { Button, Flex, Form, Image, Input, Typography } from "antd";
 import { logoPNG } from "@/app/lib/assets";
 import useNotification from "antd/es/notification/useNotification";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ import {
 } from "@/app/lib/store/model/hooks/hooks";
 import { loginThunk } from "@/app/(public-routes)/(login)/model/services/loginThunk";
 import { getUserAuthDataError } from "@/app/(public-routes)/(login)/model/selectors/authSelectors";
+import { Version } from "@/app/UI/Version";
 
 export interface LoginFormProps {
     style?: CSSProperties;
@@ -125,11 +126,7 @@ export const LoginForm = memo((props: LoginFormProps) => {
                         </Form.Item>
                     </Form>
                 </Flex>
-                {process.env.NODE_ENV !== "production" && (
-                    <Tag
-                        color={"warning"}
-                    >{`${process.env.NODE_ENV} mode`}</Tag>
-                )}
+                <Version />
             </Flex>
         </>
     );
