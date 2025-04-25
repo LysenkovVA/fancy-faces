@@ -14,12 +14,21 @@ export const getUsersSimpleListThunk = createAsyncThunk<
     GetUsersSimpleListThunkProps,
     ThunkConfig<string>
 >("getUsersSimpleListThunk", async (props, thunkApi) => {
-    const { rejectWithValue } = thunkApi;
+    const { rejectWithValue, getState } = thunkApi;
 
     try {
+        // БРАТЬ ЗНАЧЕНИЯ ИЗ СТЕЙТА НУЖНО ТОЛЬКО ТАК
+        // useSelector будет выдавать ошибку
+        const state = getState();
+
+        const search = state.usersSimpleListSchema?.search;
+
+        // Строка параметров фильтров
+        const filtersSearchParams = new URLSearchParams();
+
         // Отправляем запрос
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_PATH}/users`,
+            `${process.env.NEXT_PUBLIC_API_PATH}/users?search=${search}${filtersSearchParams.toString() !== "" ? `&${filtersSearchParams.toString()}` : ""}`,
             { method: "GET" },
         );
 

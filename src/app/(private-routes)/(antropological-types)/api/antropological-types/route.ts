@@ -22,6 +22,7 @@ export async function GET(
             skip ? Number(skip) : undefined,
             take ? Number(take) : undefined,
             search ?? "",
+            undefined,
         )
     ).toNextResponse();
 }

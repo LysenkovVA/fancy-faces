@@ -1,23 +1,47 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getAntropologicalTypesSimpleListThunk } from "../thunks/getAntropologicalTypesSimpleListThunk";
 import { upsertAntropologicalTypeThunk } from "../thunks/upsertAntropologicalTypeThunk";
 import { deleteAntropologicalTypeByIdThunk } from "../thunks/deleteAntropologicalTypeByIdThunk";
 import { SimpleListReduxSchema } from "@/app/lib/types/SimpleListReduxSchema";
 import { AntropologicalTypeEntity } from "../types/AntropologicalTypeEntity";
 import { antropologicalTypeAdapter } from "../adapter/antropologicalTypeAdapter";
+import { AntropologicalTypeFilterType } from "@/app/(private-routes)/(antropological-types)/model/types/AntropologicalTypeFilterType";
 
-const initialState: SimpleListReduxSchema<AntropologicalTypeEntity> = {
+const initialState: SimpleListReduxSchema<
+    AntropologicalTypeEntity,
+    AntropologicalTypeFilterType
+> = {
     ids: [],
     entities: {},
     isLoading: false,
     error: undefined,
+    search: "",
+    filters: undefined,
     _isInitialized: false,
 };
 
 export const antropologicalTypesSimpleListSlice = createSlice({
     name: "antropologicalTypesSimpleListSlice",
     initialState,
-    reducers: {},
+    reducers: {
+        setSearch: (state, action: PayloadAction<string | undefined>) => {
+            state.search = action.payload;
+            state._isInitialized = false;
+        },
+        setFilters: (
+            state,
+            action: PayloadAction<
+                | OptionalRecord<
+                      AntropologicalTypeFilterType,
+                      string[] | undefined
+                  >
+                | undefined
+            >,
+        ) => {
+            state.filters = action.payload;
+            state._isInitialized = false;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(

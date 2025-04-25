@@ -20,3 +20,11 @@ export const getUsersSimpleListError = (state: GlobalStateSchema) => {
 export const getUsersSimpleListIsInitialized = (state: GlobalStateSchema) => {
     return state.usersSimpleListSchema?._isInitialized ?? false;
 };
+
+export const getUsersSimpleListSearch = (state: GlobalStateSchema) => {
+    return state.usersSimpleListSchema?.search ?? "";
+};
+
+export const getUsersSimpleListFilters = (state: GlobalStateSchema) => {
+    return state.usersSimpleListSchema?.filters ?? undefined;
+};

@@ -1,23 +1,40 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getUsersSimpleListThunk } from "../thunks/getUsersSimpleListThunk";
 import { upsertUserThunk } from "../thunks/upsertUserThunk";
 import { deleteUserByIdThunk } from "../thunks/deleteUserByIdThunk";
 import { SimpleListReduxSchema } from "@/app/lib/types/SimpleListReduxSchema";
 import { UserEntity } from "../types/UserEntity";
 import { userAdapter } from "../adapter/userAdapter";
+import { UserFilterType } from "@/app/(private-routes)/(users)/model/types/UserFilterType";
 
-const initialState: SimpleListReduxSchema<UserEntity> = {
+const initialState: SimpleListReduxSchema<UserEntity, UserFilterType> = {
     ids: [],
     entities: {},
     isLoading: false,
     error: undefined,
+    search: "",
+    filters: undefined,
     _isInitialized: false,
 };
 
 export const usersSimpleListSlice = createSlice({
     name: "usersSimpleListSlice",
     initialState,
-    reducers: {},
+    reducers: {
+        setSearch: (state, action: PayloadAction<string | undefined>) => {
+            state.search = action.payload;
+            state._isInitialized = false;
+        },
+        setFilters: (
+            state,
+            action: PayloadAction<
+                OptionalRecord<UserFilterType, string[] | undefined> | undefined
+            >,
+        ) => {
+            state.filters = action.payload;
+            state._isInitialized = false;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getUsersSimpleListThunk.pending, (state, action) => {

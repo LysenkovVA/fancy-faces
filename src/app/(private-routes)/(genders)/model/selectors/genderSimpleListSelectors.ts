@@ -21,3 +21,11 @@ export const getGendersSimpleListError = (state: GlobalStateSchema) => {
 export const getGendersSimpleListIsInitialized = (state: GlobalStateSchema) => {
     return state.gendersSimpleListSchema?._isInitialized ?? false;
 };
+
+export const getGendersSimpleListSearch = (state: GlobalStateSchema) => {
+    return state.gendersSimpleListSchema?.search ?? "";
+};
+
+export const getGendersSimpleListFilters = (state: GlobalStateSchema) => {
+    return state.gendersSimpleListSchema?.filters ?? undefined;
+};

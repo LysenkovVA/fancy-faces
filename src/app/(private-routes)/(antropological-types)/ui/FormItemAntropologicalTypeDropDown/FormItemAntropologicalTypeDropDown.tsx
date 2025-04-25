@@ -18,6 +18,9 @@ export interface FormItemAntropologicalTypeDropDownProps {
     noStyle?: boolean;
     mode: "single" | "multiple";
     initialNewEntityData?: AntropologicalTypeEntity;
+    onChange?: (
+        entity?: AntropologicalTypeEntity | AntropologicalTypeEntity[],
+    ) => void;
 }
 
 export const FormItemAntropologicalTypeDropDown = memo(
@@ -32,6 +35,7 @@ export const FormItemAntropologicalTypeDropDown = memo(
             noStyle = undefined,
             mode,
             initialNewEntityData,
+            onChange,
         } = props;
         return (
             <Form.Item
@@ -51,6 +55,7 @@ export const FormItemAntropologicalTypeDropDown = memo(
                         mode={mode}
                         placeholder={placeholder}
                         initialNewEntityData={initialNewEntityData}
+                        onChange={onChange}
                     />
                 ) : (
                     <Skeleton.Input active block />

@@ -73,6 +73,9 @@ import { formItemLayout } from "@/app/UI/AppLayout/config/formItemLayout";
 import { FormImageList } from "@/app/UI/FormImageList";
 import { FormItemUserDropDown } from "@/app/(private-routes)/(users)/ui/FormItemUserDropDown/FormItemUserDropDown";
 import { PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
+import { AntropologicalType } from "@prisma/client";
+import { subgroupsSimpleListActions } from "@/app/(private-routes)/(subgroups)/model/slices/subgroupsSimpleListSlice";
+import { getSubgroupsSimpleListThunk } from "@/app/(private-routes)/(subgroups)/model/thunks/getSubgroupsSimpleListThunk";
 
 export interface SubjectFormProps {
     form: FormInstance;
@@ -241,6 +244,45 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             mode={"single"}
                             required
                             requiredMessage={"Укажите антропологический тип"}
+                            onChange={(value) => {
+                                if (value) {
+                                    if (value instanceof Array) {
+                                        // TODO обработка массива
+                                    } else {
+                                        const selectedValue =
+                                            value as AntropologicalType;
+
+                                        if (selectedValue) {
+                                            dispatch(
+                                                subgroupsSimpleListActions.setFilters(
+                                                    {
+                                                        "antropological-type": [
+                                                            selectedValue.id,
+                                                        ],
+                                                    },
+                                                ),
+                                            );
+                                            dispatch(
+                                                getSubgroupsSimpleListThunk({
+                                                    replaceData: true,
+                                                }),
+                                            );
+                                        }
+                                    }
+                                } else {
+                                    // Обнуляем фильтр
+                                    dispatch(
+                                        subgroupsSimpleListActions.setFilters(
+                                            undefined,
+                                        ),
+                                    );
+                                    dispatch(
+                                        getSubgroupsSimpleListThunk({
+                                            replaceData: true,
+                                        }),
+                                    );
+                                }
+                            }}
                         />
                     </Col>
                     <Col span={12}>

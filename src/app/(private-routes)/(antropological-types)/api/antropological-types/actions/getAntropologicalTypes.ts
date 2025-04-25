@@ -4,11 +4,13 @@ import { ResponseData } from "@/app/lib/responses/ResponseData";
 import { AntropologicalTypeEntity } from "../../../model/types/AntropologicalTypeEntity";
 import prisma from "@/database/client";
 import { Prisma } from "@prisma/client";
+import { AntropologicalTypeFilterType } from "@/app/(private-routes)/(antropological-types)/model/types/AntropologicalTypeFilterType";
 
 export async function getAntropologicalTypes(
     skip?: number,
     take?: number,
     search?: string,
+    filters?: OptionalRecord<AntropologicalTypeFilterType, string[]>,
 ): Promise<ResponseData<AntropologicalTypeEntity[] | undefined>> {
     try {
         // Поисковая строка
@@ -18,7 +20,7 @@ export async function getAntropologicalTypes(
             searchString.OR = [{ name: { contains: search } }];
         }
 
-        const filters: Prisma.AntropologicalTypeWhereInput = {
+        const whereInput: Prisma.AntropologicalTypeWhereInput = {
             ...searchString,
         };
 
@@ -26,10 +28,10 @@ export async function getAntropologicalTypes(
             prisma.antropologicalType.findMany({
                 skip,
                 take,
-                where: filters,
+                where: whereInput,
                 orderBy: [{ name: "asc" }],
             }),
-            prisma.antropologicalType.count({ where: filters }),
+            prisma.antropologicalType.count({ where: whereInput }),
         ]);
 
         return ResponseData.Ok<AntropologicalTypeEntity[]>(

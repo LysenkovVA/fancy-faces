@@ -27,3 +27,15 @@ export const getAntropologicalTypesSimpleListIsInitialized = (
 ) => {
     return state.antropologicalTypesSimpleListSchema?._isInitialized ?? false;
 };
+
+export const getAntropologicalTypesSimpleListSearch = (
+    state: GlobalStateSchema,
+) => {
+    return state.antropologicalTypesSimpleListSchema?.search ?? "";
+};
+
+export const getAntropologicalTypesSimpleListFilters = (
+    state: GlobalStateSchema,
+) => {
+    return state.antropologicalTypesSimpleListSchema?.filters ?? undefined;
+};

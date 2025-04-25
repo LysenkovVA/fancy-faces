@@ -1,23 +1,44 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getInitiatorsSimpleListThunk } from "../thunks/getInitiatorsSimpleListThunk";
 import { upsertInitiatorThunk } from "../thunks/upsertInitiatorThunk";
 import { deleteInitiatorByIdThunk } from "../thunks/deleteInitiatorByIdThunk";
 import { SimpleListReduxSchema } from "@/app/lib/types/SimpleListReduxSchema";
 import { InitiatorEntity } from "../types/InitiatorEntity";
 import { initiatorAdapter } from "../adapter/initiatorAdapter";
+import { InitiatorFilterType } from "@/app/(private-routes)/(initiators)/model/types/InitiatorFilterType";
 
-const initialState: SimpleListReduxSchema<InitiatorEntity> = {
+const initialState: SimpleListReduxSchema<
+    InitiatorEntity,
+    InitiatorFilterType
+> = {
     ids: [],
     entities: {},
     isLoading: false,
     error: undefined,
+    search: "",
+    filters: undefined,
     _isInitialized: false,
 };
 
 export const initiatorsSimpleListSlice = createSlice({
     name: "initiatorsSimpleListSlice",
     initialState,
-    reducers: {},
+    reducers: {
+        setSearch: (state, action: PayloadAction<string | undefined>) => {
+            state.search = action.payload;
+            state._isInitialized = false;
+        },
+        setFilters: (
+            state,
+            action: PayloadAction<
+                | OptionalRecord<InitiatorFilterType, string[] | undefined>
+                | undefined
+            >,
+        ) => {
+            state.filters = action.payload;
+            state._isInitialized = false;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getInitiatorsSimpleListThunk.pending, (state, action) => {

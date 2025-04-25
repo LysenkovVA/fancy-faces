@@ -23,3 +23,11 @@ export const getViewTypesSimpleListIsInitialized = (
 ) => {
     return state.viewTypesSimpleListSchema?._isInitialized ?? false;
 };
+
+export const getViewTypesSimpleListSearch = (state: GlobalStateSchema) => {
+    return state.viewTypesSimpleListSchema?.search ?? "";
+};
+
+export const getViewTypesSimpleListFilters = (state: GlobalStateSchema) => {
+    return state.viewTypesSimpleListSchema?.filters ?? undefined;
+};

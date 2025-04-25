@@ -1,23 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getSubjectsSimpleListThunk } from "../thunks/getSubjectsSimpleListThunk";
 import { upsertSubjectThunk } from "../thunks/upsertSubjectThunk";
 import { deleteSubjectByIdThunk } from "../thunks/deleteSubjectByIdThunk";
 import { SimpleListReduxSchema } from "@/app/lib/types/SimpleListReduxSchema";
 import { SubjectEntity } from "../types/SubjectEntity";
 import { subjectAdapter } from "../adapter/subjectAdapter";
+import { SubjectFilterType } from "@/app/(private-routes)/(subjects)/model/types/SubjectFilterType";
 
-const initialState: SimpleListReduxSchema<SubjectEntity> = {
+const initialState: SimpleListReduxSchema<SubjectEntity, SubjectFilterType> = {
     ids: [],
     entities: {},
     isLoading: false,
     error: undefined,
+    search: "",
+    filters: undefined,
     _isInitialized: false,
 };
 
 export const subjectsSimpleListSlice = createSlice({
     name: "subjectsSimpleListSlice",
     initialState,
-    reducers: {},
+    reducers: {
+        setSearch: (state, action: PayloadAction<string | undefined>) => {
+            state.search = action.payload;
+            state._isInitialized = false;
+        },
+        setFilters: (
+            state,
+            action: PayloadAction<
+                | OptionalRecord<SubjectFilterType, string[] | undefined>
+                | undefined
+            >,
+        ) => {
+            state.filters = action.payload;
+            state._isInitialized = false;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getSubjectsSimpleListThunk.pending, (state, action) => {

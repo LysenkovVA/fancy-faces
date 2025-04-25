@@ -14,12 +14,21 @@ export const getViewTypesSimpleListThunk = createAsyncThunk<
     GetViewTypesSimpleListThunkProps,
     ThunkConfig<string>
 >("getViewTypesSimpleListThunk", async (_, thunkApi) => {
-    const { rejectWithValue } = thunkApi;
+    const { rejectWithValue, getState } = thunkApi;
 
     try {
+        // БРАТЬ ЗНАЧЕНИЯ ИЗ СТЕЙТА НУЖНО ТОЛЬКО ТАК
+        // useSelector будет выдавать ошибку
+        const state = getState();
+
+        const search = state.viewTypesSimpleListSchema?.search;
+
+        // Строка параметров фильтров
+        const filtersSearchParams = new URLSearchParams();
+
         // Отправляем запрос
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_PATH}/view-types`,
+            `${process.env.NEXT_PUBLIC_API_PATH}/view-types?search=${search}${filtersSearchParams.toString() !== "" ? `&${filtersSearchParams.toString()}` : ""}`,
             { method: "GET" },
         );
 

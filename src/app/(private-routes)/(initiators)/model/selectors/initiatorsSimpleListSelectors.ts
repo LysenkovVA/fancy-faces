@@ -23,3 +23,11 @@ export const getInitiatorsSimpleListIsInitialized = (
 ) => {
     return state.initiatorsSimpleListSchema?._isInitialized ?? false;
 };
+
+export const getInitiatorsSimpleListSearch = (state: GlobalStateSchema) => {
+    return state.initiatorsSimpleListSchema?.search ?? "";
+};
+
+export const getInitiatorsSimpleListFilters = (state: GlobalStateSchema) => {
+    return state.initiatorsSimpleListSchema?.filters ?? undefined;
+};

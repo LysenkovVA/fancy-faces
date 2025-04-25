@@ -14,12 +14,21 @@ export const getAntropologicalTypesSimpleListThunk = createAsyncThunk<
     GetAntropologicalTypesSimpleListThunkProps,
     ThunkConfig<string>
 >("getAntropologicalTypesSimpleListThunk", async (_, thunkApi) => {
-    const { rejectWithValue } = thunkApi;
+    const { rejectWithValue, getState } = thunkApi;
 
     try {
+        // БРАТЬ ЗНАЧЕНИЯ ИЗ СТЕЙТА НУЖНО ТОЛЬКО ТАК
+        // useSelector будет выдавать ошибку
+        const state = getState();
+
+        const search = state.antropologicalTypesSimpleListSchema?.search;
+
+        // Строка параметров фильтров
+        const filtersSearchParams = new URLSearchParams();
+
         // Отправляем запрос
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_PATH}/antropological-types`,
+            `${process.env.NEXT_PUBLIC_API_PATH}/antropological-types?search=${search}${filtersSearchParams.toString() !== "" ? `&${filtersSearchParams.toString()}` : ""}`,
             { method: "GET" },
         );
 

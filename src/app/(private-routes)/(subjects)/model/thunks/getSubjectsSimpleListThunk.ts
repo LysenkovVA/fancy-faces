@@ -14,12 +14,39 @@ export const getSubjectsSimpleListThunk = createAsyncThunk<
     GetSubjectsSimpleListThunkProps,
     ThunkConfig<string>
 >("getSubjectsSimpleListThunk", async (props, thunkApi) => {
-    const { rejectWithValue } = thunkApi;
+    const { rejectWithValue, getState } = thunkApi;
 
     try {
+        // БРАТЬ ЗНАЧЕНИЯ ИЗ СТЕЙТА НУЖНО ТОЛЬКО ТАК
+        // useSelector будет выдавать ошибку
+        const state = getState();
+
+        const search = state.subjectsSimpleListSchema?.search;
+        const filters = state.subjectsSimpleListSchema?.filters;
+
+        // Строка параметров фильтров
+        const filtersSearchParams = new URLSearchParams();
+
+        // Добавление
+        filters?.["initiator"]?.map((id) => {
+            filtersSearchParams.append("initiator", id);
+        });
+        filters?.["gender"]?.map((id) => {
+            filtersSearchParams.append("gender", id);
+        });
+        filters?.["antropological-type"]?.map((id) => {
+            filtersSearchParams.append("antropological-type", id);
+        });
+        filters?.["subgroup"]?.map((id) => {
+            filtersSearchParams.append("subgroup", id);
+        });
+        filters?.["view-type"]?.map((id) => {
+            filtersSearchParams.append("view-type", id);
+        });
+
         // Отправляем запрос
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_PATH}/subjects`,
+            `${process.env.NEXT_PUBLIC_API_PATH}/subjects?search=${search}${filtersSearchParams.toString() !== "" ? `&${filtersSearchParams.toString()}` : ""}`,
             { method: "GET" },
         );
 

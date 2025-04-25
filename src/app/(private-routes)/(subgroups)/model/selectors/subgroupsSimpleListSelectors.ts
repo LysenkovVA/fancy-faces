@@ -23,3 +23,11 @@ export const getSubgroupsSimpleListIsInitialized = (
 ) => {
     return state.subgroupsSimpleListSchema?._isInitialized ?? false;
 };
+
+export const getSubgroupsSimpleListSearch = (state: GlobalStateSchema) => {
+    return state.subgroupsSimpleListSchema?.search ?? "";
+};
+
+export const getSubgroupsSimpleListFilters = (state: GlobalStateSchema) => {
+    return state.subgroupsSimpleListSchema?.filters ?? undefined;
+};

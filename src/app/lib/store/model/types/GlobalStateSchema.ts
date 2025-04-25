@@ -16,6 +16,10 @@ import { SubjectFilterType } from "@/app/(private-routes)/(subjects)/model/types
 import { InitiatorEntity } from "@/app/(private-routes)/(initiators)/model/types/InitiatorEntity";
 import { UserEntity } from "@/app/(private-routes)/(users)";
 import { UserFilterType } from "@/app/(private-routes)/(users)/model/types/UserFilterType";
+import { GenderFilterType } from "@/app/(private-routes)/(genders)/model/types/GenderFilterType";
+import { ViewTypeFilterType } from "@/app/(private-routes)/(view-types)/model/types/ViewTypeFilterType";
+import { AntropologicalTypeFilterType } from "@/app/(private-routes)/(antropological-types)/model/types/AntropologicalTypeFilterType";
+import { InitiatorFilterType } from "@/app/(private-routes)/(initiators)/model/types/InitiatorFilterType";
 
 /**
  * Схема глобального состояния
@@ -29,24 +33,42 @@ export interface GlobalStateSchema {
     // Параметры панелей фильтров
     filterPanelSchema: FilterPanelSchema;
 
-    gendersSimpleListSchema?: SimpleListReduxSchema<GenderEntity>;
-    viewTypesSimpleListSchema?: SimpleListReduxSchema<ViewTypeEntity>;
+    gendersSimpleListSchema?: SimpleListReduxSchema<
+        GenderEntity,
+        GenderFilterType
+    >;
+    viewTypesSimpleListSchema?: SimpleListReduxSchema<
+        ViewTypeEntity,
+        ViewTypeFilterType
+    >;
 
     antropologicalTypeDetailsSchema?: MultipleDetailsReduxSchema<AntropologicalTypeEntity>;
-    antropologicalTypesSimpleListSchema?: SimpleListReduxSchema<AntropologicalTypeEntity>;
+    antropologicalTypesSimpleListSchema?: SimpleListReduxSchema<
+        AntropologicalTypeEntity,
+        AntropologicalTypeFilterType
+    >;
 
     subgroupDetailsSchema?: MultipleDetailsReduxSchema<SubgroupEntity>;
-    subgroupsSimpleListSchema?: SimpleListReduxSchema<SubgroupEntity>;
+    subgroupsSimpleListSchema?: SimpleListReduxSchema<
+        SubgroupEntity,
+        SubjectFilterType
+    >;
 
     subjectDetailsSchema?: MultipleDetailsReduxSchema<SubjectEntity>;
-    subjectsSimpleListSchema?: SimpleListReduxSchema<SubjectEntity>;
+    subjectsSimpleListSchema?: SimpleListReduxSchema<
+        SubjectEntity,
+        SubjectFilterType
+    >;
     subjectsListSchema?: ListReduxSchema<SubjectEntity, SubjectFilterType>;
 
     initiatorDetailsSchema?: MultipleDetailsReduxSchema<InitiatorEntity>;
-    initiatorsSimpleListSchema?: SimpleListReduxSchema<InitiatorEntity>;
+    initiatorsSimpleListSchema?: SimpleListReduxSchema<
+        InitiatorEntity,
+        InitiatorFilterType
+    >;
 
     userDetailsSchema?: MultipleDetailsReduxSchema<UserEntity>;
-    usersSimpleListSchema?: SimpleListReduxSchema<UserEntity>;
+    usersSimpleListSchema?: SimpleListReduxSchema<UserEntity, UserFilterType>;
     usersListSchema?: ListReduxSchema<UserEntity, UserFilterType>;
 }
 

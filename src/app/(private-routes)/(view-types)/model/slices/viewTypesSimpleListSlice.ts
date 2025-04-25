@@ -1,21 +1,40 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getViewTypesSimpleListThunk } from "../thunks/getViewTypesSimpleListThunk";
 import { SimpleListReduxSchema } from "@/app/lib/types/SimpleListReduxSchema";
 import { ViewTypeEntity } from "../types/ViewTypeEntity";
 import { viewTypeAdapter } from "../adapter/viewTypeAdapter";
+import { ViewTypeFilterType } from "@/app/(private-routes)/(view-types)/model/types/ViewTypeFilterType";
 
-const initialState: SimpleListReduxSchema<ViewTypeEntity> = {
-    ids: [],
-    entities: {},
-    isLoading: false,
-    error: undefined,
-    _isInitialized: false,
-};
+const initialState: SimpleListReduxSchema<ViewTypeEntity, ViewTypeFilterType> =
+    {
+        ids: [],
+        entities: {},
+        isLoading: false,
+        error: undefined,
+        search: "",
+        filters: undefined,
+        _isInitialized: false,
+    };
 
 export const viewTypesSimpleListSlice = createSlice({
     name: "viewTypesSimpleListSlice",
     initialState,
-    reducers: {},
+    reducers: {
+        setSearch: (state, action: PayloadAction<string | undefined>) => {
+            state.search = action.payload;
+            state._isInitialized = false;
+        },
+        setFilters: (
+            state,
+            action: PayloadAction<
+                | OptionalRecord<ViewTypeFilterType, string[] | undefined>
+                | undefined
+            >,
+        ) => {
+            state.filters = action.payload;
+            state._isInitialized = false;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getViewTypesSimpleListThunk.pending, (state, action) => {

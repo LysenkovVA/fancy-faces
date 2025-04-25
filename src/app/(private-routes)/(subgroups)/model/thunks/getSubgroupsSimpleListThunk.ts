@@ -14,12 +14,27 @@ export const getSubgroupsSimpleListThunk = createAsyncThunk<
     GetSubgroupsSimpleListThunkProps,
     ThunkConfig<string>
 >("getSubgroupsSimpleListThunk", async (props, thunkApi) => {
-    const { rejectWithValue } = thunkApi;
+    const { rejectWithValue, getState } = thunkApi;
 
     try {
+        // БРАТЬ ЗНАЧЕНИЯ ИЗ СТЕЙТА НУЖНО ТОЛЬКО ТАК
+        // useSelector будет выдавать ошибку
+        const state = getState();
+
+        const search = state.subgroupsSimpleListSchema?.search;
+        const filters = state.subgroupsSimpleListSchema?.filters;
+
+        // Строка параметров фильтров
+        const filtersSearchParams = new URLSearchParams();
+
+        // Добавление
+        filters?.["antropological-type"]?.map((id) => {
+            filtersSearchParams.append("antropological-type", id);
+        });
+
         // Отправляем запрос
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_PATH}/subgroups`,
+            `${process.env.NEXT_PUBLIC_API_PATH}/subgroups?search=${search}${filtersSearchParams.toString() !== "" ? `&${filtersSearchParams.toString()}` : ""}`,
             { method: "GET" },
         );
 

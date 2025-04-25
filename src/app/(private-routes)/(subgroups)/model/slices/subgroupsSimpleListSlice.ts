@@ -1,23 +1,42 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getSubgroupsSimpleListThunk } from "../thunks/getSubgroupsSimpleListThunk";
 import { upsertSubgroupThunk } from "../thunks/upsertSubgroupThunk";
 import { deleteSubgroupByIdThunk } from "../thunks/deleteSubgroupByIdThunk";
 import { SimpleListReduxSchema } from "@/app/lib/types/SimpleListReduxSchema";
 import { SubgroupEntity } from "../types/SubgroupEntity";
 import { subgroupAdapter } from "../adapter/subgroupAdapter";
+import { SubgroupFilterType } from "@/app/(private-routes)/(subgroups)/model/types/SubgroupFilterType";
 
-const initialState: SimpleListReduxSchema<SubgroupEntity> = {
-    ids: [],
-    entities: {},
-    isLoading: false,
-    error: undefined,
-    _isInitialized: false,
-};
+const initialState: SimpleListReduxSchema<SubgroupEntity, SubgroupFilterType> =
+    {
+        ids: [],
+        entities: {},
+        isLoading: false,
+        error: undefined,
+        search: "",
+        filters: undefined,
+        _isInitialized: false,
+    };
 
 export const subgroupsSimpleListSlice = createSlice({
     name: "subgroupsSimpleListSlice",
     initialState,
-    reducers: {},
+    reducers: {
+        setSearch: (state, action: PayloadAction<string | undefined>) => {
+            state.search = action.payload;
+            state._isInitialized = false;
+        },
+        setFilters: (
+            state,
+            action: PayloadAction<
+                | OptionalRecord<SubgroupFilterType, string[] | undefined>
+                | undefined
+            >,
+        ) => {
+            state.filters = action.payload;
+            state._isInitialized = false;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getSubgroupsSimpleListThunk.pending, (state, action) => {

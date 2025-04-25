@@ -9,7 +9,6 @@ export interface StoreProviderProps {
 }
 
 export const StoreProvider = (props: StoreProviderProps) => {
-    console.log("StoreProvider render");
     const storeRef = useRef<AppStore | null>(null);
 
     if (!storeRef.current) {

@@ -23,3 +23,11 @@ export const getSubjectsSimpleListIsInitialized = (
 ) => {
     return state.subjectsSimpleListSchema?._isInitialized ?? false;
 };
+
+export const getSubjectsSimpleListSearch = (state: GlobalStateSchema) => {
+    return state.subjectsSimpleListSchema?.search ?? "";
+};
+
+export const getSubjectsSimpleListFilters = (state: GlobalStateSchema) => {
+    return state.subjectsSimpleListSchema?.filters ?? undefined;
+};
