@@ -12,6 +12,7 @@ import {
 import { loginThunk } from "@/app/(public-routes)/(login)/model/services/loginThunk";
 import { getUserAuthDataError } from "@/app/(public-routes)/(login)/model/selectors/authSelectors";
 import { Version } from "@/app/UI/Version";
+import { PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
 
 export interface LoginFormProps {
     style?: CSSProperties;
@@ -58,25 +59,28 @@ export const LoginForm = memo((props: LoginFormProps) => {
                 vertical
                 align={"center"}
                 justify={"center"}
-                gap={8}
+                gap={4}
             >
                 <Image
                     preview={false}
                     src={logoPNG.src}
                     alt={"logo"}
-                    height={100}
+                    height={80}
                     width={"auto"}
                 />
                 <Typography.Text
-                    style={{ fontSize: 24, textAlign: "center" }}
-                    type={"secondary"}
+                    style={{
+                        fontSize: 24,
+                        textAlign: "center",
+                        color: PRIMARY_COLOR,
+                    }}
                 >
-                    {"Добро пожаловать"}
+                    {"Фотопортрет"}
                 </Typography.Text>
                 <Flex
                     style={{
                         borderRadius: 12,
-                        border: "solid lightgray 1px",
+                        border: `solid 1px ${PRIMARY_COLOR}`,
                         padding: 16,
                         width: "100%",
                     }}
