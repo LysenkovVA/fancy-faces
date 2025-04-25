@@ -30,7 +30,7 @@ export const UserCard = memo((props: UserCardProps) => {
     return (
         <Card
             style={{
-                borderWidth: 2,
+                borderWidth: 1,
                 width: "100%",
                 ...style,
             }}
