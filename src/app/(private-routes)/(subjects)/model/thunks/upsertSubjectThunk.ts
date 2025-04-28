@@ -52,6 +52,9 @@ export const upsertSubjectThunk = createAsyncThunk<
             {
                 method: "POST",
                 body: formData,
+                headers: {
+                    encoding: `multipart/form-data`,
+                },
             },
         );
 

@@ -10,13 +10,16 @@ import {
 } from "../../../model/types/SubjectEntity";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 import { checkServerAuth } from "@/app/lib/auth/AuthenticatedUser";
+import { ConsoleColor, ConsoleLog } from "@/app/lib/console/consoleLog";
 
 export async function POST(
     request: NextRequest,
 ): Promise<NextResponse<ResponseData<SubjectEntity | undefined>>> {
     try {
         await checkServerAuth();
-        const formData = await request.formData();
+
+        const formData = await request.formData(); // <-- Pending...
+
         // Получаем данные из формы
         // Идентификатор
         const entityId = formData.get("entity-id") as string;
@@ -25,11 +28,15 @@ export async function POST(
         const dataString = formData.get("entity-data") as string;
         const entityToSave = JSON.parse(dataString);
 
+        ConsoleLog("Validating data...", ConsoleColor.Yellow);
+
         // Валидация данных
         const validatedData = await validateObject(
             SubjectEntitySchema,
             entityToSave,
         );
+
+        ConsoleLog("Data validated...Upserting...", ConsoleColor.Yellow);
 
         // console.log(JSON.stringify(entityToSave.photosIdsToDelete));
 
@@ -124,6 +131,8 @@ export async function POST(
                 user: { include: { userRole: true } },
             },
         });
+
+        ConsoleLog("Data upserted...", ConsoleColor.Yellow);
 
         return ResponseData.Ok(upsertedData as SubjectEntity).toNextResponse();
     } catch (error) {

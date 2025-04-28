@@ -15,7 +15,7 @@
     "db:init:dev": "npm run db:client:generate:dev && npm run db:reset:dev && npm run db:push:dev && npm run db:seed:dev",
     "docker:compose:up:dev": "docker compose -f docker/development/compose.yaml --env-file .env.development up -d",
     "docker:compose:build:dev": "docker compose -f docker/development/compose.yaml --env-file .env.development build",
-    "dev:build": "npm run docker:compose:build:dev && npm run docker:compose:up:dev && npm run open:dev",
+    "dev:build": "npm run docker:compose:build:dev && npm run docker:compose:up:dev",
     "dev:start": "npm run docker:compose:up:dev && npm run dev",
     "db:client:generate:prod": "dotenv -e .env.production -- npm exec prisma generate --schema",
     "db:reset:prod": "dotenv -e .env.production -- npx prisma migrate reset --force --skip-seed",
