@@ -1,8 +1,10 @@
 "use client";
 
 import React, { memo } from "react";
-import { DeleteOutlined } from "@ant-design/icons";
 import { Flex, Skeleton, Typography } from "antd";
+import deletePng from "@/app/lib/assets/png/delete.png";
+import { Picture } from "@/app/UI/Picture";
+import { ON_SECONDARY_COLOR } from "@/app/lib/themes/primary-theme";
 
 export interface DeleteCardButton {
     onClick?: () => void;
@@ -20,7 +22,14 @@ export const DeleteCardButton = memo((props: DeleteCardButton) => {
             onClick={onClick}
         >
             {!isLoading ? (
-                <DeleteOutlined />
+                <Picture
+                    value={deletePng.src}
+                    shape={"picture"}
+                    borderWidth={0}
+                    borderRadius={0}
+                    pictureWidth={16}
+                    pictureHeight={16}
+                />
             ) : (
                 <Skeleton.Node
                     active
@@ -34,6 +43,7 @@ export const DeleteCardButton = memo((props: DeleteCardButton) => {
                 <Typography.Text
                     style={{
                         fontSize: 10,
+                        color: ON_SECONDARY_COLOR,
                     }}
                 >
                     {`Удалить`}

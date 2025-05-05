@@ -26,7 +26,7 @@ export interface FormItemAntropologicalTypeDropDownProps {
 export const FormItemAntropologicalTypeDropDown = memo(
     (props: FormItemAntropologicalTypeDropDownProps) => {
         const {
-            labelText = "Антроп-ий тип",
+            labelText = "Антропологический тип",
             namePath,
             required = false,
             requiredMessage = undefined,

@@ -12,7 +12,11 @@ import {
 } from "@/app/(public-routes)/(login)/model/selectors/authSelectors";
 import { HeaderAvatar } from "@/app/UI/AppLayout/ui/Header/ui/HeaderAvatar/HeaderAvatar";
 import { useRouter } from "next/navigation";
-import { ON_PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
+import {
+    ON_PRIMARY_COLOR,
+    PRIMARY_COLOR,
+    PRIMARY_VARIANT_COLOR,
+} from "@/app/lib/themes/primary-theme";
 
 export interface HeaderProps {}
 
@@ -28,6 +32,9 @@ export const Header = memo((props: HeaderProps) => {
             style={{
                 height: HEADER_HEIGHT,
                 width: `100%`,
+                border: `1px solid ${PRIMARY_VARIANT_COLOR}`,
+                borderRadius: "0 0 16px 16px",
+                background: PRIMARY_COLOR,
             }}
             align={"center"}
             justify={"start"}

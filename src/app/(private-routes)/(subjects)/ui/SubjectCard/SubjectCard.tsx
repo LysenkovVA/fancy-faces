@@ -1,10 +1,9 @@
 "use client";
 
-import { CSSProperties, memo } from "react";
+import React, { CSSProperties, memo } from "react";
 import { SubjectEntity } from "../../model/types/SubjectEntity";
-import { Card, Flex, Skeleton } from "antd";
+import { App, Card, Flex, Skeleton } from "antd";
 import { useRouter } from "next/navigation";
-import { showDeleteConfirm } from "@/app/UI/showDeleteConfirm";
 import { deleteSubjectByIdThunk } from "../../model/thunks/deleteSubjectByIdThunk";
 import { useAppDispatch } from "@/app/lib/store";
 import { EditCardButton } from "@/app/UI/EditCardButton";
@@ -17,6 +16,8 @@ import { CARD_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
 import percentPng from "../../../../lib/assets/png/percent.png";
 import agePng from "../../../../lib/assets/png/age.png";
 import genderPng from "../../../../lib/assets/png/gender.png";
+import { DeleteOutlined } from "@ant-design/icons";
+import { PRIMARY_VARIANT_COLOR } from "@/app/lib/themes/primary-theme";
 
 export interface SubjectCardProps {
     style?: CSSProperties;
@@ -29,6 +30,7 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
 
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const { confirm } = App.useApp().modal;
 
     const { search } = useSubjectFilters();
 
@@ -37,6 +39,8 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
             style={{
                 // borderWidth: 2,
                 width: "100%",
+                margin: 5,
+                boxShadow: `0px 0px 5px ${PRIMARY_VARIANT_COLOR}`,
                 ...style,
             }}
             title={
@@ -78,16 +82,23 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                     isLoading={isLoading}
                     onClick={() => {
                         if (subject?.id) {
-                            showDeleteConfirm(
-                                "Удаление",
-                                `Удалить "${subject?.name}"?`,
-                                () =>
+                            confirm({
+                                title: "Удаление",
+                                icon: (
+                                    <DeleteOutlined style={{ color: "red" }} />
+                                ),
+                                content: `Удалить "${subject?.name}"?`,
+                                okText: "Да",
+                                okType: "danger",
+                                cancelText: "Нет",
+                                onOk() {
                                     dispatch(
                                         deleteSubjectByIdThunk({
                                             id: subject?.id,
                                         }),
-                                    ),
-                            );
+                                    );
+                                },
+                            });
                         }
                     }}
                 />,

@@ -16,12 +16,13 @@ const BORDER_RADIUS = 12;
 
 function wrapperPictureStyle(
     borderWidth: number,
+    borderRadius: number,
     size: { width: number | string; height: number },
     shape: "picture" | "avatar",
 ): CSSProperties {
     return {
         border: `solid ${borderWidth}px ${PRIMARY_COLOR}`,
-        borderRadius: shape === "picture" ? BORDER_RADIUS : "50%",
+        borderRadius: shape === "picture" ? borderRadius : "50%",
         width: `calc(${size.width} + 2 * ${borderWidth})`,
         // height: size.height + 2 * borderWidth,
         height: `calc(${size.height} + 2 * ${borderWidth})`,
@@ -35,10 +36,11 @@ function wrapperPictureStyle(
 
 function pictureStyle(
     borderWidth: number,
+    borderRadius: number,
     shape: "picture" | "avatar",
 ): CSSProperties {
     return {
-        borderRadius: shape === "picture" ? BORDER_RADIUS - borderWidth : "50%",
+        borderRadius: shape === "picture" ? borderRadius - borderWidth : "50%",
         width: "100%",
         height: "100%",
         objectFit: "cover",
@@ -47,6 +49,7 @@ function pictureStyle(
 }
 
 export interface PictureProps {
+    style?: CSSProperties;
     value?: string | PhotoEntity;
     onChange?: (value?: PhotoEntity) => void;
     shape: "picture" | "avatar";
@@ -54,6 +57,7 @@ export interface PictureProps {
     pictureHeight?: number;
     picturePreview?: boolean;
     borderWidth?: number;
+    borderRadius?: number;
     isEditable?: boolean;
 }
 
@@ -84,6 +88,7 @@ export const convertBase64ToUrl = (
 
 export const Picture = memo((props: PictureProps) => {
     const {
+        style,
         value,
         onChange,
         shape = "picture",
@@ -91,6 +96,7 @@ export const Picture = memo((props: PictureProps) => {
         pictureHeight = 50,
         picturePreview = false,
         borderWidth = 2,
+        borderRadius = BORDER_RADIUS,
         isEditable = false,
     } = props;
 
@@ -134,14 +140,17 @@ export const Picture = memo((props: PictureProps) => {
     if (isLoading && !isInitialized) {
         return (
             <div
-                style={wrapperPictureStyle(
-                    borderWidth,
-                    {
-                        width: pictureWidth,
-                        height: pictureHeight,
-                    },
-                    shape,
-                )}
+                style={{
+                    ...wrapperPictureStyle(
+                        borderWidth,
+                        borderRadius,
+                        {
+                            width: pictureWidth,
+                            height: pictureHeight,
+                        },
+                        shape,
+                    ),
+                }}
             >
                 <Skeleton.Node
                     style={{
@@ -157,21 +166,25 @@ export const Picture = memo((props: PictureProps) => {
     const pictureContent = () => {
         return (
             <div
-                style={wrapperPictureStyle(
-                    borderWidth,
-                    {
-                        width: pictureWidth,
-                        height: pictureHeight,
-                    },
-                    shape,
-                )}
+                style={{
+                    ...wrapperPictureStyle(
+                        borderWidth,
+                        borderRadius,
+                        {
+                            width: pictureWidth,
+                            height: pictureHeight,
+                        },
+                        shape,
+                    ),
+                    ...style,
+                }}
             >
                 <Image
                     wrapperStyle={{
                         width: pictureWidth,
                         height: pictureHeight,
                     }}
-                    style={pictureStyle(borderWidth, shape)}
+                    style={pictureStyle(borderWidth, borderRadius, shape)}
                     alt={shape}
                     fallback={noImage.src}
                     src={srcValue ?? noImage.src}

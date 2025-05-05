@@ -1,18 +1,28 @@
 import { ThemeConfig } from "antd";
 import { HEADER_HEIGHT } from "@/app/UI/AppLayout/config/consts";
 
-export const PRIMARY_COLOR = "#89ABE3";
-export const PRIMARY_VARIANT_COLOR = "#538fec";
-export const SECONDARY_COLOR = "#a7b0df";
-export const SECONDARY_VARIANT_COLOR = "#BDDDE4";
+// Header/Footer
+export const PRIMARY_COLOR = "#CCCCCC";
+// Границы Header/Footer
+export const PRIMARY_VARIANT_COLOR = "#757575";
+// Кнопки
+export const SECONDARY_COLOR = "#CCCCCC";
+// Границы, цвет под указаетелем мыши
+export const SECONDARY_VARIANT_COLOR = "#757575";
+// Фон
 export const BACKGROUND_COLOR = "#f9f9fb";
+// Фон контролов
 export const SURFACE_COLOR = "#FFFFFF";
 export const ERROR_COLOR = "#B00020";
 export const WARNING_COLOR = "#c88240";
 export const SUCCESS_COLOR = "#43ae3b";
-export const ON_PRIMARY_COLOR = "#FFFFFF";
+// Текст Header/Footer
+export const ON_PRIMARY_COLOR = "#000000";
+// Альтернативный текст Header/Footer
 export const ON_SECONDARY_COLOR = "#000000";
+// Текст на фоне
 export const ON_BACKGROUND_COLOR = "#000000";
+// Текст на фоне контролов
 export const ON_SURFACE_COLOR = "#000000";
 export const ON_ERROR_COLOR = "#FFFFFF";
 
@@ -46,7 +56,13 @@ export const primaryTheme: ThemeConfig = {
             primaryColor: ON_SECONDARY_COLOR,
             colorPrimary: SECONDARY_COLOR,
             colorPrimaryHover: SECONDARY_VARIANT_COLOR,
-            defaultBorderColor: PRIMARY_COLOR,
+            defaultBorderColor: SECONDARY_VARIANT_COLOR,
+            defaultActiveBorderColor: SECONDARY_VARIANT_COLOR,
+            defaultActiveColor: SECONDARY_VARIANT_COLOR,
+            // defaultShadow: "0 2px 0 rgba(0,0,0,0.02)",
+            defaultShadow: `0px 0px 1px 1px ${SECONDARY_VARIANT_COLOR}`,
+            // primaryShadow: "0 2px 0 rgba(5,145,255,0.1)",
+            primaryShadow: `0px 0px 1px 1px ${SECONDARY_VARIANT_COLOR}`,
             // Global token
         },
         FloatButton: {
@@ -74,8 +90,8 @@ export const primaryTheme: ThemeConfig = {
             colorBorderSecondary: PRIMARY_COLOR,
         },
         Tabs: {
-            cardBg: SURFACE_COLOR,
-            cardGutter: 2,
+            cardBg: PRIMARY_COLOR,
+            cardGutter: 10,
             cardHeight: 40,
             cardPadding: "8px 16px",
             cardPaddingLG: "8px 16px 6px",
@@ -108,6 +124,7 @@ export const primaryTheme: ThemeConfig = {
             hoverBorderColor: SECONDARY_VARIANT_COLOR,
             // Global token
             colorBorder: PRIMARY_VARIANT_COLOR,
+            // boxShadow: `0px 1px 5px ${PRIMARY_VARIANT_COLOR}`,
         },
         DatePicker: {
             // Component token

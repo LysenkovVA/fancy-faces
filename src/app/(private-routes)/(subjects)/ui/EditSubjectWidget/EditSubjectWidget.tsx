@@ -1,7 +1,7 @@
 "use client";
 
-import { memo } from "react";
-import { Form } from "antd";
+import React, { memo, useState } from "react";
+import { App, Form } from "antd";
 import { useRouter } from "next/navigation";
 import { EditablePageWrapper } from "@/app/UI/EditablePageWrapper";
 import { DynamicModuleLoader } from "@/app/lib/store";
@@ -18,6 +18,8 @@ export const EditSubjectWidget = memo((props: EditSubjectWidgetProps) => {
 
     const [form] = Form.useForm();
     const router = useRouter();
+    const [isDataChanged, setIsDataChanged] = useState(false);
+    const { confirm } = App.useApp().modal;
 
     return (
         <DynamicModuleLoader
@@ -26,18 +28,42 @@ export const EditSubjectWidget = memo((props: EditSubjectWidgetProps) => {
             }}
         >
             <EditablePageWrapper
-                title={subjectId ? "Изменение" : "Новый субъект"}
+                // title={subjectId ? "Изменение" : "Новый субъект"}
                 // additionalTitle={
                 //     SubjectHelper.getSurnameWithInitials(formData) ?? undefined
                 // }
                 height={CONTENT_HEIGHT}
                 onSave={() => form.submit()}
-                onCancel={() => router.back()}
+                onCancel={() => {
+                    if (isDataChanged) {
+                        confirm({
+                            title: "Несохраненные изменения",
+                            // icon: (
+                            //     <DeleteOutlined style={{ color: "red" }} />
+                            // ),
+                            content: `Вы собираетесь закрыть страницу с редактированием записи, однако имеются несохраненные изменения. Выберите действие`,
+                            okText: "Сохранить",
+                            okType: "primary",
+                            cancelText: "Не сохранять",
+                            destroyOnClose: true,
+                            type: "info",
+                            onOk() {
+                                form.submit();
+                            },
+                            onCancel() {
+                                router.back();
+                            },
+                        });
+                    } else {
+                        router.back();
+                    }
+                }}
             >
                 <SubjectForm
                     form={form}
                     onSubmitted={() => router.back()}
                     entityId={subjectId}
+                    onDataChanged={() => setIsDataChanged(true)}
                 />
             </EditablePageWrapper>
         </DynamicModuleLoader>

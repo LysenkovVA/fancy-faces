@@ -2,11 +2,12 @@
 
 import React, { memo } from "react";
 import { Button } from "antd";
-import { LogoutOutlined } from "@ant-design/icons";
 import { clearSession } from "@/app/lib/auth/cookies";
 import { authActions } from "@/app/(public-routes)/(login)";
 import { useAppDispatch } from "@/app/lib/store";
 import { useRouter } from "next/navigation";
+import { Picture } from "@/app/UI/Picture";
+import logoutPng from "../../../../../../lib/assets/png/logout.png";
 
 export interface LogoutButtonProps {
     style?: React.CSSProperties;
@@ -28,15 +29,21 @@ export const HeaderLogoutButton = memo((props: LogoutButtonProps) => {
             type="primary"
             variant={"outlined"}
             // danger
-            shape={"round"}
-            icon={<LogoutOutlined />}
+            shape={"default"}
+            icon={
+                <Picture
+                    shape={"picture"}
+                    value={logoutPng.src}
+                    pictureHeight={20}
+                    pictureWidth={20}
+                    borderWidth={0}
+                />
+            }
             onClick={async () => {
                 await clearSession();
                 dispatch(authActions.logout());
                 router.push("/login");
             }}
-        >
-            {"Выйти"}
-        </Button>
+        />
     );
 });

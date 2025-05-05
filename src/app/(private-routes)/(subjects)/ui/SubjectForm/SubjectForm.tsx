@@ -4,7 +4,6 @@ import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import {
     Badge,
     Col,
-    Divider,
     Flex,
     Form,
     FormInstance,
@@ -67,25 +66,30 @@ import lastObservationPng from "../../../../lib/assets/png/lastObservation.png";
 import numberPng from "../../../../lib/assets/png/number.png";
 import imagesPng from "../../../../lib/assets/png/images.png";
 import percentPng from "../../../../lib/assets/png/percent.png";
+import anatomicCharacteristicsPng from "../../../../lib/assets/png/anatomicCharacteristics.png";
+import functionalCharacteristicsPng from "../../../../lib/assets/png/functionalCharacteristics.png";
+import eyewitnessCharacteristicsPng from "../../../../lib/assets/png/eyewitnessCharacteristics.png";
+import notesPng from "../../../../lib/assets/png/notes.png";
 import { FormItemInitiatorDropDown } from "@/app/(private-routes)/(initiators)/ui/FormItemInitiatorDropDown/FormItemInitiatorDropDown";
 import { formRequiredMark } from "@/app/UI/formRequiredMark";
-import { formItemLayout } from "@/app/UI/AppLayout/config/formItemLayout";
 import { FormImageList } from "@/app/UI/FormImageList";
 import { FormItemUserDropDown } from "@/app/(private-routes)/(users)/ui/FormItemUserDropDown/FormItemUserDropDown";
 import { PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
 import { AntropologicalType } from "@prisma/client";
 import { subgroupsSimpleListActions } from "@/app/(private-routes)/(subgroups)/model/slices/subgroupsSimpleListSlice";
 import { getSubgroupsSimpleListThunk } from "@/app/(private-routes)/(subgroups)/model/thunks/getSubgroupsSimpleListThunk";
+import { formItemLayout } from "@/app/UI/AppLayout/config/formItemLayout";
 
 export interface SubjectFormProps {
     form: FormInstance;
     entityId?: string;
     initialData?: SubjectEntity;
     onSubmitted: (data: SubjectEntity) => void;
+    onDataChanged: (data: SubjectEntity) => void;
 }
 
 export const SubjectForm = memo((props: SubjectFormProps) => {
-    const { form, entityId, onSubmitted, initialData } = props;
+    const { form, entityId, onSubmitted, initialData, onDataChanged } = props;
 
     // Идентификатор формы (используется в стейте, поскольку может возникнуть
     // ситуация, что где-то будет открываться эта форма еще раз и у нее
@@ -235,7 +239,6 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                     requiredMessage={"Укажите место"}
                     isLoading={isFetching}
                 />
-                <Divider />
                 <Row gutter={[32, 4]}>
                     <Col span={12}>
                         <FormItemAntropologicalTypeDropDown
@@ -287,11 +290,13 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                     </Col>
                     <Col span={12}>
                         <FormItemInput
-                            labelText={"Длит. наблюдения"}
-                            imageSrc={durationPng.src}
-                            namePath={["durationOfObservation"]}
-                            placeholder={"Укажите длительность наблюдения"}
+                            labelText={"Возраст"}
+                            imageSrc={agePng.src}
+                            namePath={["age"]}
+                            placeholder={"Укажите возраст"}
                             isLoading={isFetching}
+                            required
+                            requiredMessage={"Укажите возраст"}
                         />
                     </Col>
                 </Row>
@@ -307,10 +312,10 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                     </Col>
                     <Col span={12}>
                         <FormItemInput
-                            labelText={"Посл. наблюдение"}
-                            imageSrc={lastObservationPng.src}
-                            namePath={["lastObservation"]}
-                            placeholder={"Укажите последнее наблюдение"}
+                            labelText={"Длительность наблюдения"}
+                            imageSrc={durationPng.src}
+                            namePath={["durationOfObservation"]}
+                            placeholder={"Укажите длительность наблюдения"}
                             isLoading={isFetching}
                         />
                     </Col>
@@ -325,46 +330,47 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             requiredMessage={"Укажите пол"}
                         />
                     </Col>
+                    <Col span={12}>
+                        <FormItemInput
+                            labelText={"Давность наблюдения"}
+                            imageSrc={lastObservationPng.src}
+                            namePath={["lastObservation"]}
+                            placeholder={"Укажите давность наблюдения"}
+                            isLoading={isFetching}
+                        />
+                    </Col>
                 </Row>
                 <Row gutter={[32, 4]}>
                     <Col span={12}>
                         <FormItemInput
-                            labelText={"Возраст"}
-                            imageSrc={agePng.src}
-                            namePath={["age"]}
-                            placeholder={"Укажите возраст"}
+                            labelText={"Степень схожести"}
                             isLoading={isFetching}
+                            imageSrc={percentPng.src}
+                            namePath={["portraitMatch"]}
+                            placeholder={"Степень схожести"}
+                        />
+                        <FormItemUserDropDown
+                            namePath={["user"]}
+                            isLoading={isFetching}
+                            mode={"single"}
+                            placeholder={"Специалист"}
                             required
-                            requiredMessage={"Укажите возраст"}
+                            requiredMessage={"Укажите специалиста"}
+                        />
+                    </Col>
+                    <Col span={12}>
+                        <FormItemTextArea
+                            layout={"vertical"}
+                            labelText={"Дополнительно"}
+                            backgroundImageSrc={notesPng.src}
+                            namePath={["notes"]}
+                            placeholder={""}
                         />
                     </Col>
                 </Row>
-                <FormItemInput
-                    labelText={"Степень схожести"}
-                    isLoading={isFetching}
-                    imageSrc={percentPng.src}
-                    namePath={["portraitMatch"]}
-                    placeholder={"Степень схожести"}
-                />
-                <Divider />
-                <FormItemUserDropDown
-                    namePath={["user"]}
-                    isLoading={isFetching}
-                    mode={"single"}
-                    placeholder={"Эксперт"}
-                    required
-                    requiredMessage={"Укажите эксперта"}
-                />
-                <Divider />
-                <FormItemTextArea
-                    noStyle
-                    labelText={" "}
-                    namePath={["notes"]}
-                    placeholder={"Примечания..."}
-                />
             </>
         ),
-        [isFetching],
+        [dispatch, isFetching],
     );
 
     const observationContent = useMemo(
@@ -375,20 +381,41 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                     isLoading={isFetching}
                     mode={"single"}
                 />
+                <Row gutter={[32, 4]}>
+                    <Col span={12}>
+                        <FormItemTextArea
+                            layout={"vertical"}
+                            labelText={"Анатомические признаки объекта"}
+                            namePath={["anatomicCharacteristics"]}
+                            placeholder={
+                                "Укажите анатомические признаки объекта"
+                            }
+                            backgroundImageSrc={anatomicCharacteristicsPng.src}
+                            rowsCount={6}
+                        />
+                    </Col>
+                    <Col span={12}>
+                        <FormItemTextArea
+                            layout={"vertical"}
+                            labelText={"Функциональные признаки объекта"}
+                            namePath={["functionalCharacteristics"]}
+                            placeholder={
+                                "Укажите функциональные признаки объекта"
+                            }
+                            backgroundImageSrc={
+                                functionalCharacteristicsPng.src
+                            }
+                            rowsCount={6}
+                        />
+                    </Col>
+                </Row>
                 <FormItemTextArea
-                    labelText={"Особенности очевидца"}
+                    layout={"vertical"}
+                    labelText={"Особенности запоминания очевидца"}
                     namePath={["eyewitnessCharacteristics"]}
-                    placeholder={"Укажите особенности очевидца"}
-                />
-                <FormItemTextArea
-                    labelText={"Анатомические признаки"}
-                    namePath={["anatomicCharacteristics"]}
-                    placeholder={"Укажите анатомические признаки"}
-                />
-                <FormItemTextArea
-                    labelText={"Функциональные признаки"}
-                    namePath={["functionalCharacteristics"]}
-                    placeholder={"Укажите функциональные признаки"}
+                    placeholder={"Укажите особенности запоминания очевидца"}
+                    backgroundImageSrc={eyewitnessCharacteristicsPng.src}
+                    rowsCount={6}
                 />
             </>
         ),
@@ -401,16 +428,18 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                 <Row gutter={[32, 4]}>
                     <Col span={12}>
                         <FormItemTextArea
+                            layout={"vertical"}
                             labelText={"Лицо"}
-                            imageSrc={facePng.src}
+                            backgroundImageSrc={facePng.src}
                             namePath={["face"]}
                             placeholder={"Лицо"}
                         />
                     </Col>
                     <Col span={12}>
                         <FormItemTextArea
+                            layout={"vertical"}
                             labelText={"Волосяной покров"}
-                            imageSrc={hearPng.src}
+                            backgroundImageSrc={hearPng.src}
                             namePath={["hear"]}
                             placeholder={"Волосяной покров"}
                         />
@@ -419,16 +448,18 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                 <Row gutter={[32, 4]}>
                     <Col span={12}>
                         <FormItemTextArea
+                            layout={"vertical"}
                             labelText={"Лоб"}
-                            imageSrc={foreheadPng.src}
+                            backgroundImageSrc={foreheadPng.src}
                             namePath={["forehead"]}
                             placeholder={"Лоб"}
                         />
                     </Col>
                     <Col span={12}>
                         <FormItemTextArea
+                            layout={"vertical"}
                             labelText={"Брови"}
-                            imageSrc={eyebrowPng.src}
+                            backgroundImageSrc={eyebrowPng.src}
                             namePath={["eyebrow"]}
                             placeholder={"Брови"}
                         />
@@ -437,16 +468,18 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                 <Row gutter={[32, 4]}>
                     <Col span={12}>
                         <FormItemTextArea
+                            layout={"vertical"}
                             labelText={"Глаза"}
-                            imageSrc={eyesPng.src}
+                            backgroundImageSrc={eyesPng.src}
                             namePath={["eyes"]}
                             placeholder={"Глаза"}
                         />
                     </Col>
                     <Col span={12}>
                         <FormItemTextArea
+                            layout={"vertical"}
                             labelText={"Нос"}
-                            imageSrc={nosePng.src}
+                            backgroundImageSrc={nosePng.src}
                             namePath={["nose"]}
                             placeholder={"Нос"}
                         />
@@ -455,16 +488,18 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                 <Row gutter={[32, 4]}>
                     <Col span={12}>
                         <FormItemTextArea
+                            layout={"vertical"}
                             labelText={"Рот"}
-                            imageSrc={mouthPng.src}
+                            backgroundImageSrc={mouthPng.src}
                             namePath={["mouth"]}
                             placeholder={"Рот"}
                         />
                     </Col>
                     <Col span={12}>
                         <FormItemTextArea
+                            layout={"vertical"}
                             labelText={"Подбородок"}
-                            imageSrc={chinPng.src}
+                            backgroundImageSrc={chinPng.src}
                             namePath={["chin"]}
                             placeholder={"Подбородок"}
                         />
@@ -473,16 +508,18 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                 <Row gutter={[32, 4]}>
                     <Col span={12}>
                         <FormItemTextArea
+                            layout={"vertical"}
                             labelText={"Морщины, шрамы, родинки"}
-                            imageSrc={scarsPng.src}
+                            backgroundImageSrc={scarsPng.src}
                             namePath={["scars"]}
                             placeholder={"Морщины, шрамы, родинки"}
                         />
                     </Col>
                     <Col span={12}>
                         <FormItemTextArea
+                            layout={"vertical"}
                             labelText={"Уши"}
-                            imageSrc={earsPng.src}
+                            backgroundImageSrc={earsPng.src}
                             namePath={["ears"]}
                             placeholder={"Уши"}
                         />
@@ -524,7 +561,7 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
             label: (
                 <LabelWithIcon
                     imageSrc={observePng.src}
-                    labelText={"Наблюдение"}
+                    labelText={"Наблюдения"}
                     iconSize={FORM_ICON_SIZE}
                 />
             ),
@@ -535,7 +572,7 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
             label: (
                 <LabelWithIcon
                     imageSrc={characteristicsPng.src}
-                    labelText={"Признаки внешности объекта"}
+                    labelText={"Описание внешности"}
                     iconSize={FORM_ICON_SIZE}
                 />
             ),
@@ -572,7 +609,7 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
             {notificationContext}
             <Spin spinning={isSaving} tip={"Сохранение..."} size={"large"}>
                 <Form
-                    id={"specialityForm"}
+                    id={"subjectForm"}
                     form={form}
                     layout={"horizontal"}
                     {...formItemLayout}
@@ -590,6 +627,10 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                                 },
                             }),
                         );
+                        onDataChanged?.({
+                            ...formData,
+                            ...values,
+                        });
                     }}
                 >
                     <Tabs

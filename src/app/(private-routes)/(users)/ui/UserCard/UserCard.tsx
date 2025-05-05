@@ -1,10 +1,9 @@
 "use client";
 
-import { CSSProperties, memo } from "react";
+import React, { CSSProperties, memo } from "react";
 import { UserEntity } from "../../model/types/UserEntity";
-import { Card, Flex, Skeleton } from "antd";
+import { App, Card, Flex, Skeleton } from "antd";
 import { useRouter } from "next/navigation";
-import { showDeleteConfirm } from "@/app/UI/showDeleteConfirm";
 import { deleteUserByIdThunk } from "../../model/thunks/deleteUserByIdThunk";
 import { useAppDispatch } from "@/app/lib/store";
 import { EditCardButton } from "@/app/UI/EditCardButton";
@@ -12,6 +11,7 @@ import { DeleteCardButton } from "@/app/UI/DeleteCardButton";
 import { Picture } from "@/app/UI/Picture";
 import { useUserFilters } from "@/app/(private-routes)/(users)/ui/UsersFilterPanel/hooks/useUserFilters";
 import { HighlightedText } from "@/app/UI/HighlightedText/HighlightedText";
+import { DeleteOutlined } from "@ant-design/icons";
 
 export interface UserCardProps {
     style?: CSSProperties;
@@ -24,6 +24,7 @@ export const UserCard = memo((props: UserCardProps) => {
 
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const { confirm } = App.useApp().modal;
 
     const { search } = useUserFilters();
 
@@ -61,16 +62,23 @@ export const UserCard = memo((props: UserCardProps) => {
                     isLoading={isLoading}
                     onClick={() => {
                         if (user?.id) {
-                            showDeleteConfirm(
-                                "Удаление",
-                                `Удалить "${user?.name}"?`,
-                                () =>
+                            confirm({
+                                title: "Удаление",
+                                icon: (
+                                    <DeleteOutlined style={{ color: "red" }} />
+                                ),
+                                content: `Удалить "${user?.name}"?`,
+                                okText: "Да",
+                                okType: "danger",
+                                cancelText: "Нет",
+                                onOk() {
                                     dispatch(
                                         deleteUserByIdThunk({
                                             id: user?.id,
                                         }),
-                                    ),
-                            );
+                                    );
+                                },
+                            });
                         }
                     }}
                 />,

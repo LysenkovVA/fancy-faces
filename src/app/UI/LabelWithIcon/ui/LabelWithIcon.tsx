@@ -6,9 +6,9 @@ import { HighlightedText } from "@/app/UI/HighlightedText/HighlightedText";
 
 export interface LabelWithIconProps {
     textStyle?: CSSProperties;
-    imageSrc: string;
+    imageSrc?: string;
     labelFontSize?: number;
-    labelText: string;
+    labelText?: string;
     iconSize: number;
     search?: string;
 }
@@ -30,16 +30,15 @@ export const LabelWithIcon = memo((props: LabelWithIconProps) => {
             gap={8}
             style={{ lineHeight: 0, width: "100%", ...textStyle }}
         >
-            <Image
-                src={imageSrc}
-                preview={false}
-                alt={""}
-                width={iconSize}
-                height={iconSize}
-            />
-            {/*<Typography.Text style={{ fontSize: labelFontSize }}>*/}
-            {/*    {labelText}*/}
-            {/*</Typography.Text>*/}
+            {imageSrc && (
+                <Image
+                    src={imageSrc}
+                    preview={false}
+                    alt={""}
+                    width={iconSize}
+                    height={iconSize}
+                />
+            )}
             <HighlightedText
                 style={{
                     ...textStyle,

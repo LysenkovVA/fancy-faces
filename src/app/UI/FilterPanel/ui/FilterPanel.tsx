@@ -18,7 +18,12 @@ import { useAppDispatch, useAppSelector } from "@/app/lib/store";
 import { usePathname } from "next/navigation";
 import { getFilterPanelCollapsedByPath } from "../model/selectors/filterPanelSelectors";
 import { FilterPanelActions } from "../model/slices/FilterPanelSlice";
-import { PRIMARY_COLOR, SURFACE_COLOR } from "@/app/lib/themes/primary-theme";
+import {
+    ON_SURFACE_COLOR,
+    PRIMARY_COLOR,
+    PRIMARY_VARIANT_COLOR,
+    SURFACE_COLOR,
+} from "@/app/lib/themes/primary-theme";
 
 const PANEL_WIDTH = 300;
 const PANEL_WIDTH_COLLAPSED = 50;
@@ -58,6 +63,8 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
         borderRadius: 8,
         border: `1px solid ${PRIMARY_COLOR}`,
         background: SURFACE_COLOR,
+        margin: 5,
+        boxShadow: `0px 0px 5px ${PRIMARY_VARIANT_COLOR}`,
         padding: 8,
         transition: "0.0s",
     };
@@ -119,7 +126,7 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                             </Flex>
                         )}
                 </Flex>
-                <Typography.Text type={"secondary"}>
+                <Typography.Text style={{ color: ON_SURFACE_COLOR }}>
                     {totalCount}
                 </Typography.Text>
             </Flex>
@@ -151,7 +158,7 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                 >
                     <Typography.Text
                         style={{
-                            color: PRIMARY_COLOR,
+                            color: ON_SURFACE_COLOR,
                             fontSize: 16,
                         }}
                     >
@@ -190,7 +197,10 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                         <Flex align={"center"} justify={"center"} gap={4}>
                             <FilterOutlined />
                             <Typography.Text
-                                style={{ color: PRIMARY_COLOR, fontSize: 14 }}
+                                style={{
+                                    color: ON_SURFACE_COLOR,
+                                    fontSize: 14,
+                                }}
                             >
                                 {"Фильтры"}
                             </Typography.Text>
@@ -230,7 +240,9 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                 {isFiltering ? (
                     <div>{"loading..."}</div>
                 ) : (
-                    <Typography.Text>{`Записей: ${totalCount}`}</Typography.Text>
+                    <Typography.Text
+                        style={{ color: ON_SURFACE_COLOR }}
+                    >{`Записей: ${totalCount}`}</Typography.Text>
                 )}
             </Divider>
         </Flex>

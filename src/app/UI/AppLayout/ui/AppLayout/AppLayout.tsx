@@ -18,6 +18,7 @@ import {
 } from "../../config/consts";
 import { Header } from "@/app/UI/AppLayout/ui/Header";
 import { Footer } from "@/app/UI/AppLayout/ui/Footer/Footer";
+import { BACKGROUND_COLOR } from "@/app/lib/themes/primary-theme";
 
 export interface AppLayoutProps {
     children: ReactNode;
@@ -36,6 +37,7 @@ export const AppLayout = memo(({ children }: AppLayoutProps) => {
                     margin: 0,
                     padding: 0,
                     lineHeight: 0,
+                    background: BACKGROUND_COLOR,
                     height: HEADER_HEIGHT,
                     width: "100%",
                 }}
@@ -71,6 +73,7 @@ export const AppLayout = memo(({ children }: AppLayoutProps) => {
                     height: FOOTER_HEIGHT,
                     margin: 0,
                     padding: 0,
+                    background: BACKGROUND_COLOR,
                 }}
             >
                 <Footer />

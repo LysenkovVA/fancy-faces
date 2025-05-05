@@ -1,7 +1,8 @@
 "use client";
 
-import { memo } from "react";
+import React, { memo } from "react";
 import {
+    App,
     Col,
     Divider,
     Flex,
@@ -15,14 +16,7 @@ import { Picture } from "@/app/UI/Picture";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { convertFileToBase64 } from "@/app/UI/Picture/ui/Picture";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
-import { showDeleteConfirm } from "@/app/UI/showDeleteConfirm";
-import {
-    GlobalStateSchema,
-    useAppDispatch,
-    useAppSelector,
-} from "@/app/lib/store";
-import { getSubjectDetailsFormData } from "@/app/(private-routes)/(subjects)/model/selectors/subjectDetailsSelectors";
-import { PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
+import { PRIMARY_VARIANT_COLOR } from "@/app/lib/themes/primary-theme";
 
 export interface FormImageListProps {
     form: FormInstance;
@@ -47,10 +41,7 @@ export const FormImageList = memo((props: FormImageListProps) => {
         onDelete,
     } = props;
 
-    const dispatch = useAppDispatch();
-    const formData = useAppSelector((state: GlobalStateSchema) =>
-        getSubjectDetailsFormData(state, formId),
-    );
+    const { confirm } = App.useApp().modal;
 
     return (
         <>
@@ -70,7 +61,7 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                     <Form.Item
                                         name={[imageIndex]}
                                         style={{
-                                            border: `solid 1px ${PRIMARY_COLOR}`,
+                                            border: `solid 1px ${PRIMARY_VARIANT_COLOR}`,
                                             backgroundColor: "whitesmoke",
                                             borderRadius: 12,
                                             padding: 4,
@@ -91,53 +82,6 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                         justify={"center"}
                                         gap={8}
                                     >
-                                        {/*{!form.getFieldValue([*/}
-                                        {/*    formListName,*/}
-                                        {/*    imageIndex,*/}
-                                        {/*]).isDefault ? (*/}
-                                        {/*    <Flex*/}
-                                        {/*        align={"center"}*/}
-                                        {/*        justify={"center"}*/}
-                                        {/*        style={{*/}
-                                        {/*            marginTop: 4,*/}
-                                        {/*            cursor: "pointer",*/}
-                                        {/*        }}*/}
-                                        {/*        gap={4}*/}
-                                        {/*        onClick={() => {*/}
-                                        {/*            // form.setFieldValue(*/}
-                                        {/*            //     [*/}
-                                        {/*            //         formListName,*/}
-                                        {/*            //         imageIndex,*/}
-                                        {/*            //         "isDefault",*/}
-                                        {/*            //     ],*/}
-                                        {/*            //     true,*/}
-                                        {/*            // );*/}
-                                        {/*            // dispatch(*/}
-                                        {/*            //     subjectMultipleDetailsActions.setFormData({*/}
-                                        {/*            //         formId,*/}
-                                        {/*            //         data: {...formData!, photos: [...formData!.photos!, ]},*/}
-                                        {/*            //     }),*/}
-                                        {/*            // );*/}
-                                        {/*        }}*/}
-                                        {/*    >*/}
-                                        {/*        <StarOutlined*/}
-                                        {/*            style={{*/}
-                                        {/*                color: "orange",*/}
-                                        {/*            }}*/}
-                                        {/*        />*/}
-                                        {/*        <Typography.Text*/}
-                                        {/*            type={"warning"}*/}
-                                        {/*        >*/}
-                                        {/*            {"По умолчанию"}*/}
-                                        {/*        </Typography.Text>*/}
-                                        {/*    </Flex>*/}
-                                        {/*) : (*/}
-                                        {/*    <StarFilled*/}
-                                        {/*        style={{*/}
-                                        {/*            color: "orange",*/}
-                                        {/*        }}*/}
-                                        {/*    />*/}
-                                        {/*)}*/}
                                         <Flex
                                             align={"center"}
                                             justify={"center"}
@@ -147,10 +91,20 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                             }}
                                             gap={4}
                                             onClick={() => {
-                                                showDeleteConfirm(
-                                                    "Удаление?",
-                                                    "Удалить изображение?",
-                                                    () => {
+                                                confirm({
+                                                    title: "Удаление",
+                                                    icon: (
+                                                        <DeleteOutlined
+                                                            style={{
+                                                                color: "red",
+                                                            }}
+                                                        />
+                                                    ),
+                                                    content: `Удалить изображение?`,
+                                                    okText: "Да",
+                                                    okType: "danger",
+                                                    cancelText: "Нет",
+                                                    onOk() {
                                                         const imgToDelete = {
                                                             ...form.getFieldValue(
                                                                 [
@@ -169,7 +123,7 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                                             remove(imageIndex);
                                                         }
                                                     },
-                                                );
+                                                });
                                             }}
                                         >
                                             <DeleteOutlined
@@ -228,7 +182,7 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                             alignItems: "center",
                                             justifyContent: "center",
                                             width: "100%",
-                                            border: `solid 1px ${PRIMARY_COLOR}`,
+                                            border: `solid 1px ${PRIMARY_VARIANT_COLOR}`,
                                             backgroundColor: "whitesmoke",
                                             borderRadius: 12,
                                             padding: 4,

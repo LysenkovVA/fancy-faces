@@ -7,6 +7,7 @@ import { memo } from "react";
 import dayjs from "dayjs";
 import ru_RU from "antd/lib/locale/ru_RU";
 import imagePng from "../../../lib/assets/png/calendar.png";
+import { PRIMARY_VARIANT_COLOR } from "@/app/lib/themes/primary-theme";
 
 export interface FormItemDatePickerProps {
     imageSrc?: string;
@@ -54,7 +55,10 @@ export const FormItemDatePicker = memo((props: FormItemDatePickerProps) => {
                     placeholder={placeholder}
                     format={"DD.MM.YYYY"}
                     locale={ru_RU.DatePicker}
-                    style={{ width: "100%" }}
+                    style={{
+                        width: "100%",
+                        boxShadow: `0px 1px 5px ${PRIMARY_VARIANT_COLOR}`,
+                    }}
                 />
             ) : (
                 <Skeleton.Input active block />

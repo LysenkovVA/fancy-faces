@@ -1,8 +1,6 @@
 export const formItemLayout = {
-    // labelCol: { span: 4 },
-    // wrapperCol: { span: 16 },
-    labelCol: { flex: "200px" },
+    // labelCol: { flex: "220px" },
     wrapperCol: { flex: 1 },
-    labelWrap: true,
+    labelWrap: false,
     colon: false,
 };

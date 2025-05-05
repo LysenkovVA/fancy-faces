@@ -4,7 +4,6 @@ import { LabelWithIcon } from "@/app/UI/LabelWithIcon";
 import { FORM_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
 import { Form, Skeleton } from "antd";
 import { memo } from "react";
-import imagePng from "../../../../lib/assets/png/viewType.png";
 import { ViewTypeEntity } from "../../model/types/ViewTypeEntity";
 import { ViewTypesDropDownList } from "../ViewTypesDropDownList/ViewTypesDropDownList";
 
@@ -38,7 +37,7 @@ export const FormItemViewTypeDropDown = memo(
                 noStyle={noStyle}
                 label={
                     <LabelWithIcon
-                        imageSrc={imagePng.src}
+                        // imageSrc={imagePng.src}
                         labelText={labelText}
                         iconSize={FORM_ICON_SIZE}
                     />

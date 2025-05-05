@@ -1,6 +1,12 @@
 import React, { memo } from "react";
 import { Button, Card, Flex, Typography } from "antd";
-import { ArrowLeftOutlined, SaveOutlined } from "@ant-design/icons";
+import {
+    ON_SECONDARY_COLOR,
+    PRIMARY_VARIANT_COLOR,
+} from "@/app/lib/themes/primary-theme";
+import backArrow from "../../../lib/assets/png/left.png";
+import savePng from "../../../lib/assets/png/save.png";
+import { Picture } from "@/app/UI/Picture";
 
 export interface EditableCardWrapperProps {
     children?: React.ReactNode;
@@ -17,32 +23,62 @@ export const EditablePageWrapper = memo((props: EditableCardWrapperProps) => {
 
     const extraContent = (
         <Flex gap={8}>
-            <Button icon={<SaveOutlined />} type={"primary"} onClick={onSave}>
+            <Button
+                icon={
+                    <Picture
+                        value={savePng.src}
+                        shape={"picture"}
+                        borderWidth={0}
+                        pictureWidth={24}
+                        pictureHeight={24}
+                    />
+                }
+                type={"primary"}
+                onClick={onSave}
+            >
                 {"Сохранить"}
             </Button>
         </Flex>
     );
 
     const titleContent = (
-        <Flex gap={16}>
+        <Flex
+            style={{ cursor: "pointer" }}
+            align={"center"}
+            justify={"start"}
+            gap={4}
+            onClick={onCancel}
+        >
             <Button
-                type={"dashed"}
-                onClick={onCancel}
-                icon={<ArrowLeftOutlined />}
+                type={"text"}
+                icon={
+                    <Picture
+                        value={backArrow.src}
+                        shape={"picture"}
+                        borderWidth={0}
+                        pictureWidth={24}
+                        pictureHeight={24}
+                    />
+                }
             />
-            <Flex align={"center"} gap={8}>
-                <Typography.Text style={{ fontSize: 16 }} type={"danger"}>
-                    {title}
-                </Typography.Text>
-                {additionalTitle && (
-                    <Typography.Text
-                        style={{ fontSize: 16 }}
-                        type={"secondary"}
-                    >
-                        {`"${additionalTitle}"`}
-                    </Typography.Text>
-                )}
-            </Flex>
+            <Typography.Text
+                style={{ fontSize: 16, color: ON_SECONDARY_COLOR }}
+            >
+                {"Назад"}
+            </Typography.Text>
+            {/*<Flex align={"center"} gap={8}>*/}
+            {/*    <Typography.Text style={{ fontSize: 16 }} type={"danger"}>*/}
+            {/*        {title}*/}
+            {/*    </Typography.Text>*/}
+            {/*    {additionalTitle && (*/}
+            {/*        <Typography.Text*/}
+            {/*            style={{ fontSize: 16 }}*/}
+            {/*            type={"secondary"}*/}
+            {/*        >*/}
+            {/*            {`"${additionalTitle}"`}*/}
+            {/*        </Typography.Text>*/}
+            {/*    )}*/}
+            {/*</Flex>*/}
         </Flex>
     );
 
@@ -55,6 +91,7 @@ export const EditablePageWrapper = memo((props: EditableCardWrapperProps) => {
                     overflowY: "auto",
                 },
             }}
+            style={{ boxShadow: `0px 0px 5px ${PRIMARY_VARIANT_COLOR}` }}
             title={titleContent}
             extra={extraContent}
         >

@@ -33,7 +33,7 @@ export const HeaderLogo = memo((props: HeaderLogoProps) => {
             />
             <Typography.Text
                 style={{
-                    fontSize: 20,
+                    fontSize: 26,
                     fontWeight: "bold",
                     color: ON_PRIMARY_COLOR,
                 }}

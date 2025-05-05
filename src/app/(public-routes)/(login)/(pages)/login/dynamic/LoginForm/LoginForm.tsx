@@ -1,7 +1,7 @@
 "use client";
 
 import { CSSProperties, memo, useCallback, useEffect } from "react";
-import { Button, Flex, Form, Image, Input, Typography } from "antd";
+import { Button, Flex, Form, Image, Typography } from "antd";
 import { logoPNG } from "@/app/lib/assets";
 import useNotification from "antd/es/notification/useNotification";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,13 @@ import {
 import { loginThunk } from "@/app/(public-routes)/(login)/model/services/loginThunk";
 import { getUserAuthDataError } from "@/app/(public-routes)/(login)/model/selectors/authSelectors";
 import { Version } from "@/app/UI/Version";
-import { PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
+import {
+    ON_PRIMARY_COLOR,
+    PRIMARY_VARIANT_COLOR,
+} from "@/app/lib/themes/primary-theme";
+import { FormItemInput } from "@/app/UI/FormItemInput";
+import userPng from "../../../../../../lib/assets/png/user.png";
+import passwordPng from "../../../../../../lib/assets/png/password.png";
 
 export interface LoginFormProps {
     style?: CSSProperties;
@@ -70,9 +76,9 @@ export const LoginForm = memo((props: LoginFormProps) => {
                 />
                 <Typography.Text
                     style={{
-                        fontSize: 24,
+                        fontSize: 30,
                         textAlign: "center",
-                        color: PRIMARY_COLOR,
+                        color: ON_PRIMARY_COLOR,
                     }}
                 >
                     {"Фотопортрет"}
@@ -80,7 +86,7 @@ export const LoginForm = memo((props: LoginFormProps) => {
                 <Flex
                     style={{
                         borderRadius: 12,
-                        border: `solid 1px ${PRIMARY_COLOR}`,
+                        border: `solid 1px ${PRIMARY_VARIANT_COLOR}`,
                         padding: 16,
                         width: "100%",
                     }}
@@ -91,46 +97,54 @@ export const LoginForm = memo((props: LoginFormProps) => {
                 >
                     <Form
                         id={"loginForm"}
+                        colon={false}
+                        requiredMark={false}
                         style={{ width: "100%" }}
                         form={form}
                         onFinish={onSubmitForm}
                     >
-                        <Form.Item
-                            name={["login"]}
-                            rules={[
-                                { required: true, message: "Не указан логин" },
-                            ]}
-                        >
-                            <Input placeholder={"Логин"} />
-                        </Form.Item>
-                        <Form.Item
-                            name={["password"]}
-                            rules={[
-                                { required: true, message: "Не указан пароль" },
-                            ]}
-                        >
-                            <Input placeholder={"Пароль"} type={"password"} />
-                        </Form.Item>
-                        <Form.Item
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <Button
-                                htmlType={"submit"}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    form.submit();
-                                }}
+                        <FormItemInput
+                            labelText={""}
+                            imageSrc={userPng.src}
+                            namePath={["login"]}
+                            isLoading={false}
+                            placeholder={"Логин"}
+                            required
+                            requiredMessage={"Не указан логин"}
+                        />
+                        <FormItemInput
+                            labelText={""}
+                            imageSrc={passwordPng.src}
+                            type={"password"}
+                            namePath={["password"]}
+                            isLoading={false}
+                            placeholder={"Пароль"}
+                            required
+                            requiredMessage={"Не указан пароль"}
+                        />
+                        <Form.Item noStyle>
+                            <Flex
+                                style={{ width: "100%" }}
+                                align={"center"}
+                                justify={"center"}
+                                vertical
+                                gap={12}
                             >
-                                {"Войти"}
-                            </Button>
+                                <Button
+                                    style={{ width: "100%" }}
+                                    htmlType={"submit"}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        form.submit();
+                                    }}
+                                >
+                                    {"Войти"}
+                                </Button>
+                                <Version />
+                            </Flex>
                         </Form.Item>
                     </Form>
                 </Flex>
-                <Version />
             </Flex>
         </>
     );

@@ -1,12 +1,15 @@
 "use client";
 
-import { memo } from "react";
+import React, { memo } from "react";
 import { Button, Flex, Select, SelectProps, Space, Tag } from "antd";
+import { EditOutlined } from "@ant-design/icons";
 import {
-    EditFilled,
-    EditOutlined,
-    PlusCircleOutlined,
-} from "@ant-design/icons";
+    BACKGROUND_COLOR,
+    PRIMARY_VARIANT_COLOR,
+} from "@/app/lib/themes/primary-theme";
+import plusPng from "@/app/lib/assets/png/plus.png";
+import editPng from "@/app/lib/assets/png/edit.png";
+import { Picture } from "@/app/UI/Picture";
 
 export type DropDownOption = {
     value: string; // Идентификатор
@@ -79,7 +82,13 @@ export const DropDownList = memo((props: DropDownListProps) => {
         >
             <Select
                 disabled={isLoading}
-                style={{ width: "100%", textAlign: "start" }}
+                style={{
+                    width: "100%",
+                    textAlign: "start",
+                    background: BACKGROUND_COLOR,
+                    borderRadius: 8,
+                    boxShadow: `0px 1px 5px ${PRIMARY_VARIANT_COLOR}`,
+                }}
                 placeholder={placeholder}
                 mode={mode === "single" ? undefined : "multiple"}
                 tagRender={tagRender}
@@ -96,7 +105,16 @@ export const DropDownList = memo((props: DropDownListProps) => {
             {mode === "single" && onEditClick && (
                 <Button
                     disabled={value === undefined}
-                    icon={<EditFilled style={{ color: "orange" }} />}
+                    icon={
+                        <Picture
+                            value={editPng.src}
+                            shape={"picture"}
+                            borderWidth={0}
+                            borderRadius={0}
+                            pictureWidth={20}
+                            pictureHeight={20}
+                        />
+                    }
                     onClick={() => {
                         if (typeof value === "string") {
                             onEditClick(value);
@@ -107,7 +125,16 @@ export const DropDownList = memo((props: DropDownListProps) => {
             {onAddClick && (
                 <Button
                     type={"primary"}
-                    icon={<PlusCircleOutlined />}
+                    icon={
+                        <Picture
+                            value={plusPng.src}
+                            shape={"picture"}
+                            borderWidth={0}
+                            borderRadius={0}
+                            pictureWidth={20}
+                            pictureHeight={20}
+                        />
+                    }
                     onClick={onAddClick}
                 />
             )}
