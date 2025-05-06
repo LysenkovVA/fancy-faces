@@ -27,7 +27,7 @@ export const UserCard = memo((props: UserCardProps) => {
     const router = useRouter();
     const { confirm } = App.useApp().modal;
 
-    const { search } = useUserFilters();
+    const { highlightedSearch } = useUserFilters();
 
     return (
         <Card
@@ -41,7 +41,7 @@ export const UserCard = memo((props: UserCardProps) => {
                     <HighlightedText
                         style={{ fontSize: 16, fontWeight: "bold" }}
                         text={user?.login ?? ""}
-                        search={search}
+                        search={highlightedSearch}
                     />
                 ) : (
                     <Skeleton.Node style={{ width: 150, height: 20 }} active />
@@ -115,7 +115,7 @@ export const UserCard = memo((props: UserCardProps) => {
                         <HighlightedText
                             style={{ fontSize: 16 }}
                             text={user?.surname ?? ""}
-                            search={search}
+                            search={highlightedSearch}
                         />
                     ) : (
                         <Skeleton.Node
@@ -127,7 +127,7 @@ export const UserCard = memo((props: UserCardProps) => {
                         <HighlightedText
                             style={{ fontSize: 16 }}
                             text={user?.name ?? ""}
-                            search={search}
+                            search={highlightedSearch}
                         />
                     ) : (
                         <Skeleton.Node
@@ -139,7 +139,7 @@ export const UserCard = memo((props: UserCardProps) => {
                         <HighlightedText
                             style={{ fontSize: 16 }}
                             text={user?.patronymic ?? ""}
-                            search={search}
+                            search={highlightedSearch}
                         />
                     ) : (
                         <Skeleton.Node

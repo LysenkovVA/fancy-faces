@@ -15,6 +15,7 @@ const initialState: ListReduxSchema<SubjectEntity, SubjectFilterType> = {
     take: 9,
     skip: 0,
     search: "",
+    highlightedSearch: "",
     filters: undefined,
     totalCount: 0,
     hasMore: true,
@@ -27,6 +28,7 @@ export const subjectsListSlice = createSlice({
     reducers: {
         setSearch: (state, action: PayloadAction<string | undefined>) => {
             state.search = action.payload;
+            state.highlightedSearch = "";
             state.skip = 0;
             state.totalCount = 0;
             state.hasMore = true;
@@ -51,6 +53,7 @@ export const subjectsListSlice = createSlice({
             .addCase(getSubjectsListThunk.pending, (state, action) => {
                 state.isLoading = true;
                 state.error = undefined;
+                state.highlightedSearch = state.search;
 
                 // Если данные заменяются
                 if (action.meta.arg.replaceData) {

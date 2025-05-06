@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/app/lib/store";
 import {
     getUsersListFilters,
     getUsersListHasMore,
+    getUsersListHighlightedSearch,
     getUsersListIsLoading,
     getUsersListSearch,
     getUsersListSkip,
@@ -19,6 +20,7 @@ export function useUserFilters() {
     const take = useAppSelector(getUsersListTake);
     const skip = useAppSelector(getUsersListSkip);
     const search = useAppSelector(getUsersListSearch);
+    const highlightedSearch = useAppSelector(getUsersListHighlightedSearch);
     const totalCount = useAppSelector(getUsersListTotalCount);
     const hasMore = useAppSelector(getUsersListHasMore);
     const filters = useAppSelector(getUsersListFilters);
@@ -60,6 +62,7 @@ export function useUserFilters() {
         take,
         skip,
         search,
+        highlightedSearch,
         totalCount,
         hasMore,
         onChangeSearch,

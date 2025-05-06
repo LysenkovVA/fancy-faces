@@ -33,6 +33,10 @@ export const getSubjectsListSearch = (state: GlobalStateSchema) => {
     return state.subjectsListSchema?.search ?? "";
 };
 
+export const getSubjectsListHighlightedSearch = (state: GlobalStateSchema) => {
+    return state.subjectsListSchema?.highlightedSearch ?? "";
+};
+
 export const getSubjectsListTotalCount = (state: GlobalStateSchema) => {
     return state.subjectsListSchema?.totalCount ?? 0;
 };

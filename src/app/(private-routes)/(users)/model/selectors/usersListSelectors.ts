@@ -33,6 +33,10 @@ export const getUsersListSearch = (state: GlobalStateSchema) => {
     return state.usersListSchema?.search ?? "";
 };
 
+export const getUsersListHighlightedSearch = (state: GlobalStateSchema) => {
+    return state.usersListSchema?.highlightedSearch ?? "";
+};
+
 export const getUsersListTotalCount = (state: GlobalStateSchema) => {
     return state.usersListSchema?.totalCount ?? 0;
 };

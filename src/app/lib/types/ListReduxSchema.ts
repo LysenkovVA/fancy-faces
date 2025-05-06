@@ -8,6 +8,7 @@ export interface ListReduxSchema<EntityType, FilterType extends string>
     take: number;
     skip: number;
     search?: string;
+    highlightedSearch?: string;
     filters?: OptionalRecord<FilterType, string[] | undefined>;
     totalCount: number;
     hasMore: boolean;

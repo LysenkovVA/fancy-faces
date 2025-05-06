@@ -35,7 +35,7 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
     const router = useRouter();
     const { confirm } = App.useApp().modal;
 
-    const { search } = useSubjectFilters();
+    const { highlightedSearch } = useSubjectFilters();
 
     return (
         <Card
@@ -54,7 +54,7 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                                 fontSize: 16,
                             }}
                             text={subject?.name ?? ""}
-                            search={search}
+                            search={highlightedSearch}
                         />
                     </Flex>
                 ) : (
@@ -159,26 +159,26 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                         <HighlightedText
                             style={{ fontSize: 20, fontWeight: "bold" }}
                             text={subject?.antropologicalType?.name}
-                            search={search}
+                            search={highlightedSearch}
                         />
                         <HighlightedText
                             style={{ fontSize: 18 }}
                             text={subject?.subgroup?.name}
-                            search={search}
+                            search={highlightedSearch}
                         />
                         <LabelWithIcon
                             imageSrc={genderPng.src}
                             labelText={subject?.gender?.name[0] ?? ""}
                             iconSize={CARD_ICON_SIZE}
                             textStyle={{ color: "navy", fontSize: 16 }}
-                            search={search}
+                            search={highlightedSearch}
                         />
                         <LabelWithIcon
                             imageSrc={agePng.src}
                             labelText={subject?.age ?? ""}
                             iconSize={CARD_ICON_SIZE}
                             textStyle={{ color: "gray", fontSize: 16 }}
-                            search={search}
+                            search={highlightedSearch}
                         />
                         <Flex
                             style={{ width: "100%" }}
@@ -191,7 +191,7 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                                 labelText={subject?.portraitMatch ?? ""}
                                 iconSize={CARD_ICON_SIZE}
                                 textStyle={{ color: "indianred", fontSize: 16 }}
-                                search={search}
+                                search={highlightedSearch}
                             />
                         </Flex>
                     </Flex>
@@ -200,7 +200,7 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                     style={{ fontSize: 12, color: "gray" }}
                     text={subject?.notes ?? ""}
                     rowsCount={2}
-                    search={search}
+                    search={highlightedSearch}
                 />
             </Flex>
         </Card>

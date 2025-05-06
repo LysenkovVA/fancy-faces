@@ -14,7 +14,12 @@ export const getUsers = async (
         const searchString: Prisma.UserWhereInput = {};
 
         if (search !== undefined && search !== "") {
-            searchString.OR = [{ name: { contains: search } }];
+            searchString.OR = [
+                { login: { contains: search, mode: "insensitive" } },
+                { surname: { contains: search, mode: "insensitive" } },
+                { name: { contains: search, mode: "insensitive" } },
+                { patronymic: { contains: search, mode: "insensitive" } },
+            ];
         }
 
         const filters: Prisma.UserWhereInput = {

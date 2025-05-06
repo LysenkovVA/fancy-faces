@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/app/lib/store";
 import {
     getSubjectsListFilters,
     getSubjectsListHasMore,
+    getSubjectsListHighlightedSearch,
     getSubjectsListIsLoading,
     getSubjectsListSearch,
     getSubjectsListSkip,
@@ -19,6 +20,7 @@ export function useSubjectFilters() {
     const take = useAppSelector(getSubjectsListTake);
     const skip = useAppSelector(getSubjectsListSkip);
     const search = useAppSelector(getSubjectsListSearch);
+    const highlightedSearch = useAppSelector(getSubjectsListHighlightedSearch);
     const totalCount = useAppSelector(getSubjectsListTotalCount);
     const hasMore = useAppSelector(getSubjectsListHasMore);
     const filters = useAppSelector(getSubjectsListFilters);
@@ -75,6 +77,7 @@ export function useSubjectFilters() {
         take,
         skip,
         search,
+        highlightedSearch,
         totalCount,
         hasMore,
         onChangeSearch,
