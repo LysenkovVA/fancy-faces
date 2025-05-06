@@ -7,10 +7,13 @@ import {
     useLayoutEffect,
     useState,
 } from "react";
-import { Button, Flex, Image, Skeleton, Upload } from "antd";
+import { Button, Flex, Image, Upload } from "antd";
 import noImage from "../assets/no-image.png";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 import { PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
+import { useAppDispatch } from "@/app/lib/store";
+import { getPhotoByIdThunk } from "@/app/(private-routes)/(photos)/model/thunks/getPhotoByIdThunk";
+import { ResponseData } from "@/app/lib/responses/ResponseData";
 
 const BORDER_RADIUS = 12;
 
@@ -100,68 +103,123 @@ export const Picture = memo((props: PictureProps) => {
         isEditable = false,
     } = props;
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [isInitialized, setIsInitialized] = useState(false);
+    // const [isLoading, setIsLoading] = useState(true);
+    // const [isInitialized, setIsInitialized] = useState(false);
     const [srcValue, setSrcValue] = useState<string | undefined>(undefined);
+
+    const dispatch = useAppDispatch();
 
     useLayoutEffect(() => {
         if (value) {
+            // Стринговое значение
             if (typeof value === "string") {
                 setSrcValue(value);
-                setIsInitialized(true);
-                setIsLoading(false);
+                // setIsInitialized(true);
+                // setIsLoading(false);
             } else {
+                // Если объект (значит PhotoEntity)
                 if (typeof value === "object") {
                     const photo = value as PhotoEntity;
 
-                    if (photo && photo.data) {
-                        const url = convertBase64ToUrl(photo.data);
-                        setSrcValue(url);
-                        setIsInitialized(true);
-                        setIsLoading(false);
-                    } else {
-                        setIsInitialized(true);
-                        setIsLoading(false);
+                    // Если есть идентификатор
+                    if (photo?.id) {
+                        // Если данные оригинала есть
+                        if (photo?.data) {
+                            const url = convertBase64ToUrl(photo.data);
+                            setSrcValue(url);
+                            // setIsInitialized(true);
+                            // setIsLoading(false);
+                        } else {
+                            // Если есть предпросмотр изображения
+                            if (photo?.thumbnail) {
+                                const url = convertBase64ToUrl(photo.thumbnail);
+                                setSrcValue(url);
+
+                                // simulateDelay(2000).then(() => {
+                                dispatch(
+                                    getPhotoByIdThunk({ id: photo.id }),
+                                ).then((result) => {
+                                    if (
+                                        result.meta.requestStatus ===
+                                        "fulfilled"
+                                    ) {
+                                        const loadedPhoto =
+                                            result.payload as ResponseData<PhotoEntity>;
+
+                                        if (
+                                            loadedPhoto.isOk &&
+                                            loadedPhoto.data.data
+                                        ) {
+                                            const url = convertBase64ToUrl(
+                                                loadedPhoto.data.data,
+                                            );
+                                            setSrcValue(url);
+                                        }
+                                    }
+                                    // setIsInitialized(true);
+                                    // setIsLoading(false);
+                                });
+                                // });
+                            }
+                        }
+                    }
+                    // Если идентификатора нет
+                    else {
+                        // Если есть оригинал изображения
+                        if (photo?.data) {
+                            const url = convertBase64ToUrl(photo.data);
+                            setSrcValue(url);
+                        } else {
+                            // Если есть предпросмотр изображения
+                            if (photo?.thumbnail) {
+                                const url = convertBase64ToUrl(photo.thumbnail);
+                                setSrcValue(url);
+                            }
+                        }
+
+                        // setIsInitialized(true);
+                        // setIsLoading(false);
                     }
                 }
             }
         } else {
             setSrcValue(undefined);
-            setIsInitialized(true);
-            setIsLoading(false);
+            // setIsInitialized(true);
+            // setIsLoading(false);
         }
-    }, [value]);
+    }, [dispatch, value]);
 
     const onClear = useCallback(() => {
         setSrcValue(undefined);
         onChange?.(undefined);
     }, [onChange]);
 
-    if (isLoading && !isInitialized) {
-        return (
-            <div
-                style={{
-                    ...wrapperPictureStyle(
-                        borderWidth,
-                        borderRadius,
-                        {
-                            width: pictureWidth,
-                            height: pictureHeight,
-                        },
-                        shape,
-                    ),
-                }}
-            >
-                <Skeleton.Node
-                    style={{
-                        width: pictureWidth,
-                        height: pictureHeight,
-                    }}
-                    active
-                />
-            </div>
-        );
-    }
+    // if (isLoading && !isInitialized) {
+    // if (!isInitialized) {
+    //     return (
+    //         <div
+    //             style={{
+    //                 ...wrapperPictureStyle(
+    //                     borderWidth,
+    //                     borderRadius,
+    //                     {
+    //                         width: pictureWidth,
+    //                         height: pictureHeight,
+    //                     },
+    //                     shape,
+    //                 ),
+    //             }}
+    //         >
+    //             <Skeleton.Node
+    //                 style={{
+    //                     width: pictureWidth,
+    //                     height: pictureHeight,
+    //                 }}
+    //                 active
+    //             />
+    //         </div>
+    //     );
+    // }
 
     const pictureContent = () => {
         return (
@@ -194,53 +252,56 @@ export const Picture = memo((props: PictureProps) => {
         );
     };
 
-    if (isInitialized && !isLoading) {
-        return (
-            <Flex align={"center"} justify={"center"} vertical gap={4}>
-                {isEditable ? (
-                    <Upload
-                        showUploadList={false}
-                        beforeUpload={async (file) => {
-                            // TODO Здесь можно проверять различные параметры файлов
-                            const arrayBufferView = new Uint8Array(
-                                await file.arrayBuffer(),
-                            );
-                            const blob = new Blob([arrayBufferView], {
-                                type: file.type,
-                            });
-                            const urlCreator = window.URL || window.webkitURL;
-                            const objUrl = urlCreator.createObjectURL(blob);
+    // if (isInitialized && !isLoading) {
+    // if (isInitialized) {
+    return (
+        <Flex align={"center"} justify={"center"} vertical gap={4}>
+            {isEditable ? (
+                <Upload
+                    showUploadList={false}
+                    beforeUpload={async (file) => {
+                        // TODO Здесь можно проверять различные параметры файлов
+                        const arrayBufferView = new Uint8Array(
+                            await file.arrayBuffer(),
+                        );
+                        const blob = new Blob([arrayBufferView], {
+                            type: file.type,
+                        });
+                        const urlCreator = window.URL || window.webkitURL;
+                        const objUrl = urlCreator.createObjectURL(blob);
 
-                            const base64 = await convertFileToBase64(file);
+                        const base64 = await convertFileToBase64(file);
 
-                            const newValue: PhotoEntity = {
-                                id: "",
-                                type: file.type,
-                                size: file.size,
-                                data: base64,
-                                isDefault: false,
-                            };
+                        const newValue: PhotoEntity = {
+                            id: "",
+                            type: file.type,
+                            size: file.size,
+                            thumbnail: "",
+                            extension: "", // TODO - getFileExtension
+                            data: base64,
+                            isDefault: false,
+                        };
 
-                            setSrcValue(objUrl);
-                            onChange?.(newValue);
+                        setSrcValue(objUrl);
+                        onChange?.(newValue);
 
-                            return false;
-                        }}
-                        maxCount={1}
-                    >
-                        {pictureContent()}
-                    </Upload>
-                ) : (
-                    pictureContent()
-                )}
-                {isEditable && srcValue && (
-                    <Button type={"link"} danger onClick={onClear}>
-                        {"Удалить"}
-                    </Button>
-                )}
-            </Flex>
-        );
-    }
+                        return false;
+                    }}
+                    maxCount={1}
+                >
+                    {pictureContent()}
+                </Upload>
+            ) : (
+                pictureContent()
+            )}
+            {isEditable && srcValue && (
+                <Button type={"link"} danger onClick={onClear}>
+                    {"Удалить"}
+                </Button>
+            )}
+        </Flex>
+    );
+    // }
 
-    return null;
+    // return null;
 });

@@ -58,6 +58,8 @@ export async function POST(
                           create: {
                               type: entityToSave.avatar?.type,
                               size: entityToSave.avatar?.size,
+                              thumbnail: "",
+                              extension: "",
                               data: entityToSave.avatar?.data,
                           },
                       }
@@ -72,6 +74,8 @@ export async function POST(
                               type: entityToSave.avatar?.type,
                               size: entityToSave.avatar?.size,
                               data: entityToSave.avatar?.data,
+                              thumbnail: "",
+                              extension: "",
                           },
                       }
                     : undefined,

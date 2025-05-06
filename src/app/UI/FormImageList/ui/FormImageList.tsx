@@ -164,6 +164,8 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                             id: "",
                                             type: file.type,
                                             size: file.size,
+                                            extension: "",
+                                            thumbnail: "",
                                             data: base64,
                                             isDefault: false,
                                         };

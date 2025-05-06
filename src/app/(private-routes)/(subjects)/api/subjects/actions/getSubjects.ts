@@ -160,7 +160,11 @@ export const getSubjects = async (
                     gender: true,
                     user: { include: { userRole: true } },
                     viewType: true,
-                    photos: true,
+                    photos: {
+                        omit: {
+                            data: true,
+                        },
+                    },
                 },
             }),
             prisma.subject.count({ where: whereInput }),

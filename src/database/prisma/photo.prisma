@@ -1,8 +1,10 @@
 model Photo {
   id        String  @id @default(cuid())
-  type      String?
-  size      Int?
-  data      String?
+  type      String
+  size      Int
+  thumbnail String
+  data      String
+  extension String
   isDefault Boolean @default(false)
 
   user   User?   @relation(fields: [userId], references: [id])

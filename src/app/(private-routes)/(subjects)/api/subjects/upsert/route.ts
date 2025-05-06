@@ -11,6 +11,7 @@ import {
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 import { checkServerAuth } from "@/app/lib/auth/AuthenticatedUser";
 import { ConsoleColor, ConsoleLog } from "@/app/lib/console/consoleLog";
+import sharp from "sharp";
 
 export async function POST(
     request: NextRequest,
@@ -28,7 +29,7 @@ export async function POST(
         const dataString = formData.get("entity-data") as string;
         const entityToSave = JSON.parse(dataString);
 
-        ConsoleLog("Validating data...", ConsoleColor.Yellow);
+        // ConsoleLog("Validating data...", ConsoleColor.Yellow);
 
         // Валидация данных
         const validatedData = await validateObject(
@@ -36,26 +37,64 @@ export async function POST(
             entityToSave,
         );
 
-        ConsoleLog("Data validated...Upserting...", ConsoleColor.Yellow);
+        if (entityToSave.photos?.length > 0) {
+            const buffer = new Buffer(entityToSave.photos[0].data, "base64");
+
+            if (buffer) {
+                const meta = await sharp(buffer).metadata();
+
+                ConsoleLog(JSON.stringify(meta), ConsoleColor.Green);
+            }
+        }
+
+        // ConsoleLog("Data validated...Upserting...", ConsoleColor.Yellow);
 
         // console.log(JSON.stringify(entityToSave.photosIdsToDelete));
 
         const upsertedData = await prisma.subject.upsert({
             create: {
                 ...validatedData,
+                // TODO DEBUG
                 photos: entityToSave.photos
                     ? {
-                          create: entityToSave.photos?.map(
-                              (photo: PhotoEntity) => {
-                                  return {
-                                      type: photo.type,
-                                      size: photo.size,
-                                      data: photo.data,
-                                  };
-                              },
+                          create: await Promise.all(
+                              entityToSave.photos?.map((photo: PhotoEntity) => {
+                                  const buffer = new Buffer(
+                                      entityToSave.photos[0].data,
+                                      "base64",
+                                  );
+
+                                  if (buffer) {
+                                      // Возвращаем промис
+                                      return sharp(buffer)
+                                          .metadata()
+                                          .then((metaData) => {
+                                              return {
+                                                  type: metaData.format,
+                                                  size: metaData.size,
+                                                  thumbnail: "",
+                                                  data: photo.data,
+                                                  extension: "todoIT",
+                                              };
+                                          });
+                                  }
+                              }),
                           ),
                       }
                     : undefined,
+                // photos: entityToSave.photos
+                //     ? {
+                //           create: entityToSave.photos?.map(
+                //               (photo: PhotoEntity) => {
+                //                   return {
+                //                       type: photo.type,
+                //                       size: photo.size,
+                //                       data: photo.data,
+                //                   };
+                //               },
+                //           ),
+                //       }
+                //     : undefined,
                 initiator: entityToSave.initiator?.id
                     ? { connect: { id: entityToSave.initiator?.id } }
                     : undefined,
@@ -79,18 +118,57 @@ export async function POST(
                 ...validatedData,
                 photos: entityToSave.photos
                     ? {
-                          create: entityToSave.photos
-                              ?.filter(
-                                  (photo: PhotoEntity) =>
-                                      photo.id === undefined || photo.id === "",
-                              )
-                              .map((photo: PhotoEntity) => {
-                                  return {
-                                      type: photo.type,
-                                      size: photo.size,
-                                      data: photo.data,
-                                  };
-                              }),
+                          // create: entityToSave.photos
+                          //     ?.filter(
+                          //         (photo: PhotoEntity) =>
+                          //             photo.id === undefined || photo.id === "",
+                          //     )
+                          //     .map((photo: PhotoEntity) => {
+                          //         return {
+                          //             type: photo.type,
+                          //             size: photo.size,
+                          //             data: photo.data,
+                          //         };
+                          //     }),
+                          create: await Promise.all(
+                              entityToSave.photos
+                                  ?.filter(
+                                      (photo: PhotoEntity) =>
+                                          photo.id === undefined ||
+                                          photo.id === "",
+                                  )
+                                  .map((photo: PhotoEntity) => {
+                                      const buffer = new Buffer(
+                                          entityToSave.photos[0].data,
+                                          "base64",
+                                      );
+
+                                      if (buffer) {
+                                          // Возвращаем промис
+                                          return sharp(buffer)
+                                              .metadata()
+                                              .then((metaData) => {
+                                                  return sharp(buffer)
+                                                      .resize({ width: 30 })
+                                                      .blur()
+                                                      .toBuffer()
+                                                      .then((resizedData) => {
+                                                          return {
+                                                              type: metaData.format,
+                                                              size: metaData.size,
+                                                              thumbnail:
+                                                                  resizedData.toString(
+                                                                      "base64",
+                                                                  ),
+                                                              data: photo.data,
+                                                              extension:
+                                                                  "todoIT",
+                                                          };
+                                                      });
+                                              });
+                                      }
+                                  }),
+                          ),
                           delete: entityToSave.photosIdsToDelete?.map(
                               (id: string) => {
                                   return { id: id };
@@ -132,7 +210,7 @@ export async function POST(
             },
         });
 
-        ConsoleLog("Data upserted...", ConsoleColor.Yellow);
+        // ConsoleLog("Data upserted...", ConsoleColor.Yellow);
 
         return ResponseData.Ok(upsertedData as SubjectEntity).toNextResponse();
     } catch (error) {

@@ -191,6 +191,7 @@ export const SubjectsDropDownList = memo((props: SubjectsDropDownListProps) => {
                         }
                         setIsModalOpen(false);
                     }}
+                    onDataChanged={() => {}}
                 />
             </Modal>
         </DynamicModuleLoader>
