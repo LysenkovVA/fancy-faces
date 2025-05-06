@@ -10,7 +10,6 @@ import React, {
 import { Badge, Button, Divider, Flex, Input, Typography } from "antd";
 import {
     ClearOutlined,
-    DoubleLeftOutlined,
     FilterOutlined,
     SearchOutlined,
 } from "@ant-design/icons";
@@ -24,6 +23,9 @@ import {
     PRIMARY_VARIANT_COLOR,
     SURFACE_COLOR,
 } from "@/app/lib/themes/primary-theme";
+import collapsePng from "../../../lib/assets/png/collapse.png";
+import { Picture } from "@/app/UI/Picture";
+import { FORM_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
 
 const PANEL_WIDTH = 300;
 const PANEL_WIDTH_COLLAPSED = 50;
@@ -160,13 +162,24 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                         style={{
                             color: ON_SURFACE_COLOR,
                             fontSize: 16,
+                            fontWeight: "bold",
                         }}
                     >
                         {title}
                     </Typography.Text>
+
                     <Button
                         type={"link"}
-                        icon={<DoubleLeftOutlined />}
+                        icon={
+                            <Picture
+                                shape={"picture"}
+                                pictureWidth={FORM_ICON_SIZE}
+                                pictureHeight={FORM_ICON_SIZE}
+                                borderWidth={0}
+                                borderRadius={0}
+                                value={collapsePng.src}
+                            />
+                        }
                         onClick={() =>
                             dispatch(
                                 FilterPanelActions.setCollapsed({
@@ -238,7 +251,7 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
             </Flex>
             <Divider orientation={"center"}>
                 {isFiltering ? (
-                    <div>{"loading..."}</div>
+                    <div>{"Загрузка..."}</div>
                 ) : (
                     <Typography.Text
                         style={{ color: ON_SURFACE_COLOR }}
