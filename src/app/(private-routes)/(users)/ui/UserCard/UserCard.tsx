@@ -2,7 +2,7 @@
 
 import React, { CSSProperties, memo } from "react";
 import { UserEntity } from "../../model/types/UserEntity";
-import { App, Card, Flex, Skeleton } from "antd";
+import { App, Card, Flex, Skeleton, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import { deleteUserByIdThunk } from "../../model/thunks/deleteUserByIdThunk";
 import { useAppDispatch } from "@/app/lib/store";
@@ -11,7 +11,8 @@ import { DeleteCardButton } from "@/app/UI/DeleteCardButton";
 import { Picture } from "@/app/UI/Picture";
 import { useUserFilters } from "@/app/(private-routes)/(users)/ui/UsersFilterPanel/hooks/useUserFilters";
 import { HighlightedText } from "@/app/UI/HighlightedText/HighlightedText";
-import { DeleteOutlined } from "@ant-design/icons";
+import { FORM_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
+import deletePng from "@/app/lib/assets/png/delete.png";
 
 export interface UserCardProps {
     style?: CSSProperties;
@@ -63,9 +64,26 @@ export const UserCard = memo((props: UserCardProps) => {
                     onClick={() => {
                         if (user?.id) {
                             confirm({
-                                title: "Удаление",
+                                title: (
+                                    <Flex
+                                        align={"center"}
+                                        justify={"start"}
+                                        gap={4}
+                                    >
+                                        <Typography.Text>
+                                            {"Удаление"}
+                                        </Typography.Text>
+                                    </Flex>
+                                ),
                                 icon: (
-                                    <DeleteOutlined style={{ color: "red" }} />
+                                    <Picture
+                                        shape={"picture"}
+                                        pictureWidth={FORM_ICON_SIZE}
+                                        pictureHeight={FORM_ICON_SIZE}
+                                        borderWidth={0}
+                                        borderRadius={0}
+                                        value={deletePng.src}
+                                    />
                                 ),
                                 content: `Удалить "${user?.name}"?`,
                                 okText: "Да",

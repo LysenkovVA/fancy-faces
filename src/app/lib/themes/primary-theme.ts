@@ -59,10 +59,8 @@ export const primaryTheme: ThemeConfig = {
             defaultBorderColor: SECONDARY_VARIANT_COLOR,
             defaultActiveBorderColor: SECONDARY_VARIANT_COLOR,
             defaultActiveColor: SECONDARY_VARIANT_COLOR,
-            // defaultShadow: "0 2px 0 rgba(0,0,0,0.02)",
-            defaultShadow: `0px 0px 1px 1px ${SECONDARY_VARIANT_COLOR}`,
-            // primaryShadow: "0 2px 0 rgba(5,145,255,0.1)",
-            primaryShadow: `0px 0px 1px 1px ${SECONDARY_VARIANT_COLOR}`,
+            // defaultShadow: `0px 0px 1px 1px ${SECONDARY_VARIANT_COLOR}`,
+            // primaryShadow: `0px 0px 1px 1px ${SECONDARY_VARIANT_COLOR}`,
             // Global token
         },
         FloatButton: {

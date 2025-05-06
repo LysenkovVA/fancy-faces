@@ -2,7 +2,7 @@
 
 import React, { CSSProperties, memo } from "react";
 import { SubjectEntity } from "../../model/types/SubjectEntity";
-import { App, Card, Flex, Skeleton } from "antd";
+import { App, Card, Flex, Skeleton, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import { deleteSubjectByIdThunk } from "../../model/thunks/deleteSubjectByIdThunk";
 import { useAppDispatch } from "@/app/lib/store";
@@ -12,12 +12,15 @@ import { useSubjectFilters } from "@/app/(private-routes)/(subjects)/ui/Subjects
 import { HighlightedText } from "@/app/UI/HighlightedText/HighlightedText";
 import { Picture } from "@/app/UI/Picture";
 import { LabelWithIcon } from "@/app/UI/LabelWithIcon";
-import { CARD_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
+import {
+    CARD_ICON_SIZE,
+    FORM_ICON_SIZE,
+} from "@/app/UI/AppLayout/config/consts";
 import percentPng from "../../../../lib/assets/png/percent.png";
 import agePng from "../../../../lib/assets/png/age.png";
 import genderPng from "../../../../lib/assets/png/gender.png";
-import { DeleteOutlined } from "@ant-design/icons";
 import { PRIMARY_VARIANT_COLOR } from "@/app/lib/themes/primary-theme";
+import deletePng from "@/app/lib/assets/png/delete.png";
 
 export interface SubjectCardProps {
     style?: CSSProperties;
@@ -83,9 +86,26 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                     onClick={() => {
                         if (subject?.id) {
                             confirm({
-                                title: "Удаление",
+                                title: (
+                                    <Flex
+                                        align={"center"}
+                                        justify={"start"}
+                                        gap={4}
+                                    >
+                                        <Typography.Text>
+                                            {"Удаление"}
+                                        </Typography.Text>
+                                    </Flex>
+                                ),
                                 icon: (
-                                    <DeleteOutlined style={{ color: "red" }} />
+                                    <Picture
+                                        shape={"picture"}
+                                        pictureWidth={FORM_ICON_SIZE}
+                                        pictureHeight={FORM_ICON_SIZE}
+                                        borderWidth={0}
+                                        borderRadius={0}
+                                        value={deletePng.src}
+                                    />
                                 ),
                                 content: `Удалить "${subject?.name}"?`,
                                 okText: "Да",
