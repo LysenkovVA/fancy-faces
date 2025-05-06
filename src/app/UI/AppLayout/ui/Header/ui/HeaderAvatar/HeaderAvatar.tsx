@@ -8,6 +8,7 @@ import { useAppSelector } from "@/app/lib/store";
 import { getAuthUser } from "@/app/(public-routes)/(login)/model/selectors/authSelectors";
 import { useRouter } from "next/navigation";
 import { ON_PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
+import { UserHelper } from "@/app/(private-routes)/(users)/model/helpers/UserHelper";
 
 export const HeaderAvatar = memo(() => {
     const authUser = useAppSelector(getAuthUser);
@@ -29,13 +30,13 @@ export const HeaderAvatar = memo(() => {
             />
             <Typography.Text
                 style={{
-                    fontWeight: "bold",
-                    fontSize: 14,
+                    fontWeight: "normal",
+                    fontSize: 16,
                     color: ON_PRIMARY_COLOR,
                 }}
                 type={authUser?.id ? undefined : "danger"}
             >
-                {authUser?.name ?? "Ошибка"}
+                {UserHelper.getSurnameWithInitials(authUser) ?? "Ошибка"}
             </Typography.Text>
         </Flex>
     );

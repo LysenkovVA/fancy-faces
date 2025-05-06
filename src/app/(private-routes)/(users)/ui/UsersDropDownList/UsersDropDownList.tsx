@@ -18,6 +18,7 @@ import { getUsersSimpleListThunk } from "../../model/thunks/getUsersSimpleListTh
 import { DropDownList, DropDownOption } from "@/app/UI/DropDownList";
 import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
 import { usersSimpleListReducer } from "@/app/(private-routes)/(users)/model/slices/usersSimpleListSlice";
+import { UserHelper } from "@/app/(private-routes)/(users)/model/helpers/UserHelper";
 
 export interface UsersDropDownListProps {
     placeholder?: string;
@@ -51,7 +52,7 @@ export const UsersDropDownList = memo((props: UsersDropDownListProps) => {
         return data.map((value: UserEntity): DropDownOption => {
             return {
                 value: value.id,
-                label: value.name,
+                label: UserHelper.getSurnameWithInitials(value),
             };
         });
     }, [data]);

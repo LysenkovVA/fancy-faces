@@ -4,10 +4,12 @@ import React, { memo, useState } from "react";
 import { App, Form } from "antd";
 import { useRouter } from "next/navigation";
 import { EditablePageWrapper } from "@/app/UI/EditablePageWrapper";
-import { DynamicModuleLoader } from "@/app/lib/store";
+import { DynamicModuleLoader, useAppSelector } from "@/app/lib/store";
 import { SubjectForm } from "../SubjectForm/SubjectForm";
 import { CONTENT_HEIGHT } from "@/app/UI/AppLayout";
 import { subjectMultipleDetailsReducer } from "@/app/(private-routes)/(subjects)/model/slices/subjectMultipleDetailsSlice";
+import { getAuthUser } from "@/app/(public-routes)/(login)/model/selectors/authSelectors";
+import { SubjectEntity } from "@/app/(private-routes)/(subjects)";
 
 export interface EditSubjectWidgetProps {
     subjectId?: string;
@@ -20,6 +22,7 @@ export const EditSubjectWidget = memo((props: EditSubjectWidgetProps) => {
     const router = useRouter();
     const [isDataChanged, setIsDataChanged] = useState(false);
     const { confirm } = App.useApp().modal;
+    const user = useAppSelector(getAuthUser);
 
     return (
         <DynamicModuleLoader
@@ -63,6 +66,11 @@ export const EditSubjectWidget = memo((props: EditSubjectWidgetProps) => {
                     form={form}
                     onSubmitted={() => router.back()}
                     entityId={subjectId}
+                    initialData={
+                        subjectId
+                            ? undefined
+                            : ({ date: new Date(), user } as SubjectEntity)
+                    }
                     onDataChanged={() => setIsDataChanged(true)}
                 />
             </EditablePageWrapper>

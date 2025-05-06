@@ -204,8 +204,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["objectNumber"]}
                             placeholder={"Укажите № объекта"}
                             isLoading={isFetching}
-                            required
-                            requiredMessage={"Укажите № объекта"}
+                            // required
+                            // requiredMessage={"Укажите № объекта"}
                         />
                     </Col>
                 </Row>
@@ -215,16 +215,16 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["initiator"]}
                             isLoading={isFetching}
                             mode={"single"}
-                            required
-                            requiredMessage={"Укажите инициатора"}
+                            // required
+                            // requiredMessage={"Укажите инициатора"}
                         />
                     </Col>
                     <Col span={12}>
                         <FormItemInput
                             labelText={"Наименование"}
                             namePath={["name"]}
-                            required={true}
-                            requiredMessage={"Укажите наименование"}
+                            // required={true}
+                            // requiredMessage={"Укажите наименование"}
                             placeholder={"Укажите наименование"}
                             isLoading={isFetching}
                         />
@@ -235,8 +235,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                     imageSrc={locationPng.src}
                     namePath={["location"]}
                     placeholder={"Укажите место"}
-                    required
-                    requiredMessage={"Укажите место"}
+                    // required
+                    // requiredMessage={"Укажите место"}
                     isLoading={isFetching}
                 />
                 <Row gutter={[32, 4]}>
@@ -245,8 +245,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["antropologicalType"]}
                             isLoading={isFetching}
                             mode={"single"}
-                            required
-                            requiredMessage={"Укажите антропологический тип"}
+                            // required
+                            // requiredMessage={"Укажите антропологический тип"}
                             onChange={(value) => {
                                 if (value) {
                                     if (value instanceof Array) {
@@ -295,8 +295,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["age"]}
                             placeholder={"Укажите возраст"}
                             isLoading={isFetching}
-                            required
-                            requiredMessage={"Укажите возраст"}
+                            // required
+                            // requiredMessage={"Укажите возраст"}
                         />
                     </Col>
                 </Row>
@@ -306,8 +306,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["subgroup"]}
                             isLoading={isFetching}
                             mode={"single"}
-                            required
-                            requiredMessage={"Укажите подгруппу"}
+                            // required
+                            // requiredMessage={"Укажите подгруппу"}
                         />
                     </Col>
                     <Col span={12}>
@@ -326,8 +326,8 @@ export const SubjectForm = memo((props: SubjectFormProps) => {
                             namePath={["gender"]}
                             isLoading={isFetching}
                             mode={"single"}
-                            required
-                            requiredMessage={"Укажите пол"}
+                            // required
+                            // requiredMessage={"Укажите пол"}
                         />
                     </Col>
                     <Col span={12}>
