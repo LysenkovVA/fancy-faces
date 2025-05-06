@@ -10,7 +10,7 @@ import React, {
 import { App, Flex, Image, Typography, Upload } from "antd";
 import noImage from "../assets/no-image.png";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
-import { PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
+import { PRIMARY_VARIANT_COLOR } from "@/app/lib/themes/primary-theme";
 import { useAppDispatch } from "@/app/lib/store";
 import { getPhotoByIdThunk } from "@/app/(private-routes)/(photos)/model/thunks/getPhotoByIdThunk";
 import { ResponseData } from "@/app/lib/responses/ResponseData";
@@ -26,7 +26,7 @@ function wrapperPictureStyle(
     shape: "picture" | "avatar",
 ): CSSProperties {
     return {
-        border: `solid ${borderWidth}px ${PRIMARY_COLOR}`,
+        border: `solid ${borderWidth}px ${PRIMARY_VARIANT_COLOR}`,
         borderRadius: shape === "picture" ? borderRadius : "50%",
         width: `calc(${size.width} + 2 * ${borderWidth})`,
         // height: size.height + 2 * borderWidth,
@@ -138,7 +138,7 @@ export const Picture = memo((props: PictureProps) => {
                                 const url = convertBase64ToUrl(photo.thumbnail);
                                 setSrcValue(url);
 
-                                // simulateDelay(2000).then(() => {
+                                // simulateDelay(3000).then(() => {
                                 dispatch(
                                     getPhotoByIdThunk({ id: photo.id }),
                                 ).then((result) => {
