@@ -13,10 +13,12 @@ import {
     Upload,
 } from "antd";
 import { Picture } from "@/app/UI/Picture";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { convertFileToBase64 } from "@/app/UI/Picture/ui/Picture";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 import { PRIMARY_VARIANT_COLOR } from "@/app/lib/themes/primary-theme";
+import deletePng from "../../../lib/assets/png/delete.png";
+import { FORM_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
 
 export interface FormImageListProps {
     form: FormInstance;
@@ -41,7 +43,7 @@ export const FormImageList = memo((props: FormImageListProps) => {
         onDelete,
     } = props;
 
-    const { confirm } = App.useApp().modal;
+    const { confirm, info } = App.useApp().modal;
 
     return (
         <>
@@ -92,12 +94,31 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                             gap={4}
                                             onClick={() => {
                                                 confirm({
-                                                    title: "Удаление",
+                                                    title: (
+                                                        <Flex
+                                                            align={"center"}
+                                                            justify={"start"}
+                                                            gap={4}
+                                                        >
+                                                            <Typography.Text>
+                                                                {"Удаление"}
+                                                            </Typography.Text>
+                                                        </Flex>
+                                                    ),
                                                     icon: (
-                                                        <DeleteOutlined
-                                                            style={{
-                                                                color: "red",
-                                                            }}
+                                                        <Picture
+                                                            shape={"picture"}
+                                                            pictureWidth={
+                                                                FORM_ICON_SIZE
+                                                            }
+                                                            pictureHeight={
+                                                                FORM_ICON_SIZE
+                                                            }
+                                                            borderWidth={0}
+                                                            borderRadius={0}
+                                                            value={
+                                                                deletePng.src
+                                                            }
                                                         />
                                                     ),
                                                     content: `Удалить изображение?`,
@@ -126,12 +147,20 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                                 });
                                             }}
                                         >
-                                            <DeleteOutlined
-                                                style={{
-                                                    color: "red",
-                                                }}
+                                            {/*<DeleteOutlined*/}
+                                            {/*    style={{*/}
+                                            {/*        color: "red",*/}
+                                            {/*    }}*/}
+                                            {/*/>*/}
+                                            <Picture
+                                                shape={"picture"}
+                                                pictureWidth={FORM_ICON_SIZE}
+                                                pictureHeight={FORM_ICON_SIZE}
+                                                borderWidth={0}
+                                                borderRadius={0}
+                                                value={deletePng.src}
                                             />
-                                            <Typography.Text type={"danger"}>
+                                            <Typography.Text>
                                                 {"Удалить"}
                                             </Typography.Text>
                                         </Flex>
