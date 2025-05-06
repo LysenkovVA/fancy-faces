@@ -6,6 +6,7 @@ import { UserEntity } from "../types/UserEntity";
 import { deleteUserByIdThunk } from "../thunks/deleteUserByIdThunk";
 import { UserFilterType } from "../types/UserFilterType";
 import { upsertUserThunk } from "@/app/(private-routes)/(users)/model/thunks/upsertUserThunk";
+import { getPhotoByIdThunk } from "@/app/(private-routes)/(photos)/model/thunks/getPhotoByIdThunk";
 
 const initialState: ListReduxSchema<UserEntity, UserFilterType> = {
     ids: [],
@@ -118,6 +119,24 @@ export const usersListSlice = createSlice({
                 state.error = undefined;
                 userAdapter.upsertOne(state, action.payload.data!);
                 state.totalCount = state.ids.length;
+            })
+            // Обновляем стейт, когда загрузили оригинал изображения
+            .addCase(getPhotoByIdThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.error = undefined;
+                if (state.entities) {
+                    Object.values(state.entities).filter(
+                        (entity: UserEntity) => {
+                            if (entity.avatar?.id === action.payload.data!.id) {
+                                const updated = {
+                                    ...entity,
+                                    avatar: action.payload.data!,
+                                };
+                                userAdapter.upsertOne(state, updated);
+                            }
+                        },
+                    );
+                }
             });
     },
 });

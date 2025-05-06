@@ -6,6 +6,8 @@ import { SubjectEntity } from "../types/SubjectEntity";
 import { deleteSubjectByIdThunk } from "../thunks/deleteSubjectByIdThunk";
 import { SubjectFilterType } from "../types/SubjectFilterType";
 import { upsertSubjectThunk } from "@/app/(private-routes)/(subjects)/model/thunks/upsertSubjectThunk";
+import { getPhotoByIdThunk } from "@/app/(private-routes)/(photos)/model/thunks/getPhotoByIdThunk";
+import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 
 const initialState: ListReduxSchema<SubjectEntity, SubjectFilterType> = {
     ids: [],
@@ -115,6 +117,40 @@ export const subjectsListSlice = createSlice({
                 state.error = undefined;
                 subjectAdapter.upsertOne(state, action.payload.data!);
                 state.totalCount = state.ids.length;
+            })
+            // Обновляем стейт, когда загрузили оригинал изображения
+            .addCase(getPhotoByIdThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.error = undefined;
+                if (state.entities) {
+                    Object.values(state.entities).filter(
+                        (entity: SubjectEntity) => {
+                            if (
+                                entity.photos?.some(
+                                    (photo: PhotoEntity) =>
+                                        photo.id === action.payload.data!.id,
+                                )
+                            ) {
+                                const updated = {
+                                    ...entity,
+                                    photos: [
+                                        ...entity.photos?.map((photo) => {
+                                            if (
+                                                photo.id !==
+                                                action.payload.data!.id
+                                            ) {
+                                                return photo;
+                                            } else {
+                                                return action.payload.data!;
+                                            }
+                                        }),
+                                    ],
+                                };
+                                subjectAdapter.upsertOne(state, updated);
+                            }
+                        },
+                    );
+                }
             });
     },
 });
