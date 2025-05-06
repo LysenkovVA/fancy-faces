@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useCallback, useEffect, useState } from "react";
-import { Divider, Flex, Form, FormInstance, Spin } from "antd";
+import { Col, Divider, Flex, Form, FormInstance, Row, Spin } from "antd";
 
 import {
     DynamicModuleLoader,
@@ -21,7 +21,6 @@ import {
 } from "../../model/selectors/userDetailsSelectors";
 import { UserEntity } from "../../model/types/UserEntity";
 import { ResponseData } from "@/app/lib/responses/ResponseData";
-import { formItemLayout } from "@/app/UI/AppLayout/config/formItemLayout";
 import { FormItemInput } from "@/app/UI/FormItemInput";
 import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
 import {
@@ -33,6 +32,7 @@ import { Picture } from "@/app/UI/Picture";
 import { getAuthUser } from "@/app/(public-routes)/(login)/model/selectors/authSelectors";
 import { ChangePasswordButton } from "@/app/(private-routes)/(users)/ui/UserForm/ChangePasswordButton/ChangePasswordButton";
 import { ChangeLoginButton } from "@/app/(private-routes)/(users)/ui/UserForm/ChangeLoginButton/ChangeLoginButton";
+import { formItemLayout } from "@/app/UI/AppLayout/config/formItemLayout";
 
 export interface UserFormProps {
     form: FormInstance;
@@ -150,6 +150,7 @@ export const UserForm = memo((props: UserFormProps) => {
                     id={"specialityForm"}
                     form={form}
                     {...formItemLayout}
+                    requiredMark={false}
                     disabled={isFetching || isSaving}
                     onFinish={onFinish}
                     clearOnDestroy // Чтобы очищались данные формы
@@ -201,14 +202,6 @@ export const UserForm = memo((props: UserFormProps) => {
                             ) : (
                                 <>
                                     <FormItemInput
-                                        labelText={"Логин"}
-                                        namePath={["login"]}
-                                        isLoading={isFetching}
-                                        placeholder={"Укажите логин"}
-                                        required
-                                        requiredMessage={"Укажите логин"}
-                                    />
-                                    <FormItemInput
                                         labelText={"Пароль"}
                                         namePath={["hashedPassword"]}
                                         isLoading={isFetching}
@@ -221,30 +214,44 @@ export const UserForm = memo((props: UserFormProps) => {
                             <Divider />
                         </>
                     )}
-                    <FormItemInput
-                        labelText={"Фамилия"}
-                        namePath={["surname"]}
-                        required={true}
-                        requiredMessage={"Укажите фамилию"}
-                        placeholder={"Укажите фамилию"}
-                        isLoading={isFetching}
-                    />
-                    <FormItemInput
-                        labelText={"Имя"}
-                        namePath={["name"]}
-                        required={true}
-                        requiredMessage={"Укажите имя"}
-                        placeholder={"Укажите имя"}
-                        isLoading={isFetching}
-                    />
-                    <FormItemInput
-                        labelText={"Отчество"}
-                        namePath={["patronymic"]}
-                        required={true}
-                        requiredMessage={"Укажите отчество"}
-                        placeholder={"Укажите отчество"}
-                        isLoading={isFetching}
-                    />
+                    <Row gutter={[32, 4]}>
+                        <Col span={8}>
+                            <FormItemInput
+                                layout={"vertical"}
+                                imageSrc={""}
+                                labelText={"Фамилия"}
+                                namePath={["surname"]}
+                                required={true}
+                                requiredMessage={"Укажите фамилию"}
+                                placeholder={"Укажите фамилию"}
+                                isLoading={isFetching}
+                            />
+                        </Col>
+                        <Col span={8}>
+                            <FormItemInput
+                                layout={"vertical"}
+                                imageSrc={""}
+                                labelText={"Имя"}
+                                namePath={["name"]}
+                                required={true}
+                                requiredMessage={"Укажите имя"}
+                                placeholder={"Укажите имя"}
+                                isLoading={isFetching}
+                            />
+                        </Col>
+                        <Col span={8}>
+                            <FormItemInput
+                                layout={"vertical"}
+                                imageSrc={""}
+                                labelText={"Отчество"}
+                                namePath={["patronymic"]}
+                                required={true}
+                                requiredMessage={"Укажите отчество"}
+                                placeholder={"Укажите отчество"}
+                                isLoading={isFetching}
+                            />
+                        </Col>
+                    </Row>
                 </Form>
             </Spin>
         </DynamicModuleLoader>

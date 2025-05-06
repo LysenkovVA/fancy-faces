@@ -6,6 +6,7 @@ import { Form, Input, Skeleton } from "antd";
 import { memo } from "react";
 import imagePng from "../../../lib/assets/png/textField.png";
 import { PRIMARY_VARIANT_COLOR } from "@/app/lib/themes/primary-theme";
+import { FormItemLayout } from "antd/es/form/Form";
 
 export interface FormItemInputProps {
     imageSrc?: string;
@@ -17,6 +18,7 @@ export interface FormItemInputProps {
     placeholder: string;
     noStyle?: boolean;
     type?: string;
+    layout?: FormItemLayout | undefined;
 }
 
 export const FormItemInput = memo((props: FormItemInputProps) => {
@@ -30,10 +32,12 @@ export const FormItemInput = memo((props: FormItemInputProps) => {
         placeholder = "",
         noStyle = undefined,
         type,
+        layout = "horizontal",
     } = props;
     return (
         <Form.Item
             noStyle={noStyle}
+            layout={layout}
             label={
                 <LabelWithIcon
                     imageSrc={imageSrc}
