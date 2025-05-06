@@ -1,19 +1,21 @@
 "use client";
 
-import {
+import React, {
     CSSProperties,
     memo,
     useCallback,
     useLayoutEffect,
     useState,
 } from "react";
-import { Button, Flex, Image, Upload } from "antd";
+import { App, Flex, Image, Typography, Upload } from "antd";
 import noImage from "../assets/no-image.png";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 import { PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
 import { useAppDispatch } from "@/app/lib/store";
 import { getPhotoByIdThunk } from "@/app/(private-routes)/(photos)/model/thunks/getPhotoByIdThunk";
 import { ResponseData } from "@/app/lib/responses/ResponseData";
+import deletePng from "@/app/lib/assets/png/delete.png";
+import { FORM_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
 
 const BORDER_RADIUS = 12;
 
@@ -108,6 +110,7 @@ export const Picture = memo((props: PictureProps) => {
     const [srcValue, setSrcValue] = useState<string | undefined>(undefined);
 
     const dispatch = useAppDispatch();
+    const { confirm } = App.useApp().modal;
 
     useLayoutEffect(() => {
         if (value) {
@@ -190,9 +193,32 @@ export const Picture = memo((props: PictureProps) => {
     }, [dispatch, value]);
 
     const onClear = useCallback(() => {
-        setSrcValue(undefined);
-        onChange?.(undefined);
-    }, [onChange]);
+        confirm({
+            title: (
+                <Flex align={"center"} justify={"start"} gap={4}>
+                    <Typography.Text>{"Очистить"}</Typography.Text>
+                </Flex>
+            ),
+            icon: (
+                <Picture
+                    shape={"picture"}
+                    pictureWidth={FORM_ICON_SIZE}
+                    pictureHeight={FORM_ICON_SIZE}
+                    borderWidth={0}
+                    borderRadius={0}
+                    value={deletePng.src}
+                />
+            ),
+            content: `Очистить изображение?`,
+            okText: "Да",
+            okType: "danger",
+            cancelText: "Нет",
+            onOk() {
+                setSrcValue(undefined);
+                onChange?.(undefined);
+            },
+        });
+    }, [confirm, onChange]);
 
     // if (isLoading && !isInitialized) {
     // if (!isInitialized) {
@@ -295,9 +321,26 @@ export const Picture = memo((props: PictureProps) => {
                 pictureContent()
             )}
             {isEditable && srcValue && (
-                <Button type={"link"} danger onClick={onClear}>
-                    {"Удалить"}
-                </Button>
+                <Flex
+                    style={{ cursor: "pointer" }}
+                    align={"center"}
+                    justify={"center"}
+                    gap={4}
+                    onClick={onClear}
+                >
+                    <Picture
+                        value={deletePng.src}
+                        shape={"picture"}
+                        borderWidth={0}
+                        borderRadius={0}
+                        pictureWidth={16}
+                        pictureHeight={16}
+                    />
+                    <Typography.Text>{"Очистить"}</Typography.Text>
+                </Flex>
+                // <Button type={"link"} danger onClick={onClear}>
+                //     {"Удалить"}
+                // </Button>
             )}
         </Flex>
     );
