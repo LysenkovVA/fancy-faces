@@ -18,22 +18,26 @@ import { usePathname } from "next/navigation";
 import { getFilterPanelCollapsedByPath } from "../model/selectors/filterPanelSelectors";
 import { FilterPanelActions } from "../model/slices/FilterPanelSlice";
 import {
+    BOX_SHADOW,
     ON_SURFACE_COLOR,
     PRIMARY_COLOR,
-    PRIMARY_VARIANT_COLOR,
     SURFACE_COLOR,
 } from "@/app/lib/themes/primary-theme";
 import collapsePng from "../../../lib/assets/png/collapse.png";
 import { Picture } from "@/app/UI/Picture";
-import { FORM_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
+import {
+    CONTENT_HEIGHT,
+    FORM_ICON_SIZE,
+} from "@/app/UI/AppLayout/config/consts";
 
+const PANEL_PADDING = 4;
 const PANEL_WIDTH = 300;
 const PANEL_WIDTH_COLLAPSED = 50;
 
 export interface FilterPanelProps {
     children?: ReactNode;
     title?: string;
-    height: number | string;
+    // height: number | string;
     searchValue?: string;
     onSearchValueChanged?: (value: string) => void;
     totalCount?: number;
@@ -50,7 +54,6 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
     const {
         children,
         title,
-        height,
         searchValue,
         onSearchValueChanged,
         totalCount,
@@ -61,13 +64,13 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
     } = props;
 
     const baseStyle: CSSProperties = {
-        height: height,
+        // height: `${CONTENT_HEIGHT}`,
+        height: `calc(${CONTENT_HEIGHT})`,
         borderRadius: 8,
         border: `1px solid ${PRIMARY_COLOR}`,
         background: SURFACE_COLOR,
-        margin: 5,
-        boxShadow: `0px 0px 5px ${PRIMARY_VARIANT_COLOR}`,
-        padding: 8,
+        boxShadow: BOX_SHADOW,
+        padding: PANEL_PADDING,
         transition: "0.0s",
     };
 
@@ -85,7 +88,6 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
     }, [collapsed]);
 
     if (isCollapsed) {
-        let PRIMARY_COLOR;
         return (
             <Flex
                 vertical
@@ -152,11 +154,11 @@ export const FilterPanel = memo((props: FilterPanelProps) => {
                 gap={8}
                 style={{ width: "100%" }}
             >
+                {/*Название и кнопка сворачивания*/}
                 <Flex
                     align={"center"}
                     justify={"space-between"}
-                    gap={4}
-                    style={{ width: "100%", marginBottom: 8 }}
+                    style={{ width: "100%" }}
                 >
                     <Typography.Text
                         style={{

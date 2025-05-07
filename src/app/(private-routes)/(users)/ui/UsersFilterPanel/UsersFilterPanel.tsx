@@ -3,7 +3,6 @@
 import React from "react";
 import { FilterPanel } from "@/app/UI/FilterPanel";
 import { useUserFilters } from "./hooks/useUserFilters";
-import { CONTENT_HEIGHT } from "@/app/UI/AppLayout";
 
 export const UsersFilterPanel = () => {
     const {
@@ -19,7 +18,6 @@ export const UsersFilterPanel = () => {
     return (
         <FilterPanel
             title={"Пользователи"}
-            height={CONTENT_HEIGHT}
             searchValue={search}
             onSearchValueChanged={onChangeSearch}
             totalCount={totalCount}

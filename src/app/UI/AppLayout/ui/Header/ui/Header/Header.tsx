@@ -2,7 +2,7 @@
 
 import React, { memo } from "react";
 import { Flex, Typography } from "antd";
-import { HEADER_HEIGHT } from "@/app/UI/AppLayout/config/consts";
+import { HEADER_HEIGHT, HEADER_WIDTH } from "@/app/UI/AppLayout/config/consts";
 import { HeaderLogo } from "@/app/UI/AppLayout/ui/Header/ui/HeaderLogo/HeaderLogo";
 import { HeaderLogoutButton } from "@/app/UI/AppLayout/ui/Header/ui/HeaderLogoutButton/HeaderLogoutButton";
 import { useAppSelector } from "@/app/lib/store";
@@ -33,7 +33,7 @@ export const Header = memo((props: HeaderProps) => {
         <Flex
             style={{
                 height: HEADER_HEIGHT,
-                width: `100%`,
+                width: HEADER_WIDTH,
                 border: `1px solid ${PRIMARY_VARIANT_COLOR}`,
                 borderRadius: "0 0 16px 16px",
                 background: PRIMARY_COLOR,

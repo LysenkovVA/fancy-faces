@@ -25,6 +25,7 @@ import { UserCard } from "@/app/(private-routes)/(users)/ui/UserCard/UserCard";
 import { CONTENT_HEIGHT } from "@/app/UI/AppLayout";
 import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
 import { UsersFilterPanel } from "@/app/(private-routes)/(users)/ui/UsersFilterPanel/UsersFilterPanel";
+import { BOX_SHADOW_WIDTH } from "@/app/lib/themes/primary-theme";
 
 export interface UsersCardListProps {
     columnsCount: 1 | 2 | 3 | 4 | 6 | 8;
@@ -76,23 +77,25 @@ export const UsersCardList = memo((props: UsersCardListProps) => {
             removeAfterUnmount={false}
         >
             {contextHolder}
-            <Flex align={"start"} justify={"center"} gap={16}>
+            <Flex align={"start"} justify={"center"} gap={8}>
                 <UsersFilterPanel />
-                <FloatButton
-                    type={"primary"}
-                    shape={"circle"}
-                    style={{ bottom: 90 }}
-                    icon={<PlusOutlined />}
-                    onClick={() => router.push("/users/create")}
-                />
                 <InfiniteScroll
                     onScrollEnd={loadNextPart}
-                    height={CONTENT_HEIGHT}
+                    height={`calc(${CONTENT_HEIGHT} + ${BOX_SHADOW_WIDTH * 2}px)`}
+                    style={{
+                        marginTop: `-${BOX_SHADOW_WIDTH}px`,
+                        marginBottom: `-${BOX_SHADOW_WIDTH}px`,
+                    }}
                 >
                     {isInitialized && !isLoading && data.length === 0 && (
                         <Empty />
                     )}
-                    <Row align={"top"} justify={"start"} gutter={[16, 16]}>
+                    <Row
+                        align={"top"}
+                        justify={"start"}
+                        gutter={[16, 8]}
+                        style={{ width: "100%" }}
+                    >
                         {data?.map((entity) => {
                             return (
                                 <Col
@@ -118,6 +121,13 @@ export const UsersCardList = memo((props: UsersCardListProps) => {
                         )}
                     </Row>
                 </InfiniteScroll>
+                <FloatButton
+                    type={"primary"}
+                    shape={"circle"}
+                    style={{ bottom: 90 }}
+                    icon={<PlusOutlined />}
+                    onClick={() => router.push("/users/create")}
+                />
             </Flex>
         </DynamicModuleLoader>
     );

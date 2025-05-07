@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, ReactNode, useEffect, useRef } from "react";
+import { CSSProperties, memo, ReactNode, useRef } from "react";
 import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 import { useThrottle } from "../hooks/useThrottle";
 import {
@@ -11,15 +11,17 @@ import {
 import { InfiniteScrollActions } from "../model/slices/InfiniteScrollSlice";
 import { usePathname } from "next/navigation";
 import { getInfiniteScrollByPath } from "../model/selectors/infiniteScrollSelectors";
+import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
 
 export interface InfinitePageProps {
+    style?: CSSProperties;
     children: ReactNode;
     height: number | string;
     onScrollEnd?: () => void;
 }
 
 export const InfiniteScroll = memo((props: InfinitePageProps) => {
-    const { children, onScrollEnd, height } = props;
+    const { style, children, onScrollEnd, height } = props;
     const pathname = usePathname();
 
     const dispatch = useAppDispatch();
@@ -30,11 +32,11 @@ export const InfiniteScroll = memo((props: InfinitePageProps) => {
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const triggerRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
+    useInitialEffect(() => {
         if (wrapperRef.current) {
             wrapperRef.current.scrollTop = scrollPosition;
         }
-    }, []);
+    });
 
     useInfiniteScroll({
         wrapperRef: wrapperRef,
@@ -59,6 +61,7 @@ export const InfiniteScroll = memo((props: InfinitePageProps) => {
                 width: "100%",
                 height: height,
                 overflowY: "auto",
+                ...style,
             }}
             onScroll={onScroll}
         >

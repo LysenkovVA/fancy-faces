@@ -26,6 +26,9 @@ export const ON_BACKGROUND_COLOR = "#000000";
 export const ON_SURFACE_COLOR = "#000000";
 export const ON_ERROR_COLOR = "#FFFFFF";
 
+export const BOX_SHADOW_WIDTH = 5;
+export const BOX_SHADOW = `0px 0px ${BOX_SHADOW_WIDTH}px ${PRIMARY_VARIANT_COLOR}`;
+
 export const primaryTheme: ThemeConfig = {
     token: {},
     components: {

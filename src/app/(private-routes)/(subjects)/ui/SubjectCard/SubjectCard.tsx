@@ -1,6 +1,6 @@
 "use client";
 
-import React, { CSSProperties, memo } from "react";
+import React, { memo } from "react";
 import { SubjectEntity } from "../../model/types/SubjectEntity";
 import { App, Card, Flex, Skeleton, Typography } from "antd";
 import { useRouter } from "next/navigation";
@@ -19,17 +19,16 @@ import {
 import percentPng from "../../../../lib/assets/png/percent.png";
 import agePng from "../../../../lib/assets/png/age.png";
 import genderPng from "../../../../lib/assets/png/gender.png";
-import { PRIMARY_VARIANT_COLOR } from "@/app/lib/themes/primary-theme";
+import { BOX_SHADOW, BOX_SHADOW_WIDTH } from "@/app/lib/themes/primary-theme";
 import deletePng from "@/app/lib/assets/png/delete.png";
 
 export interface SubjectCardProps {
-    style?: CSSProperties;
     subject?: SubjectEntity;
     isLoading?: boolean;
 }
 
 export const SubjectCard = memo((props: SubjectCardProps) => {
-    const { style, subject, isLoading } = props;
+    const { subject, isLoading } = props;
 
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -40,11 +39,9 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
     return (
         <Card
             style={{
-                // borderWidth: 2,
                 width: "100%",
-                margin: 5,
-                boxShadow: `0px 0px 5px ${PRIMARY_VARIANT_COLOR}`,
-                ...style,
+                margin: BOX_SHADOW_WIDTH,
+                boxShadow: BOX_SHADOW,
             }}
             title={
                 !isLoading ? (

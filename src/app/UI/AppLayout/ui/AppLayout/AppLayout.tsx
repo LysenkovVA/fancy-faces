@@ -8,13 +8,16 @@ import {
     Header as AntHeader,
 } from "antd/es/layout/layout";
 import {
+    CONTENT_HEIGHT,
     CONTENT_PADDING_BOTTOM,
     CONTENT_PADDING_LEFT,
     CONTENT_PADDING_RIGHT,
     CONTENT_PADDING_TOP,
+    CONTENT_WIDTH,
     FOOTER_HEIGHT,
+    FOOTER_WIDTH,
     HEADER_HEIGHT,
-    SIDE_MENU_HEIGHT,
+    HEADER_WIDTH,
 } from "../../config/consts";
 import { Header } from "@/app/UI/AppLayout/ui/Header";
 import { Footer } from "@/app/UI/AppLayout/ui/Footer/Footer";
@@ -34,46 +37,36 @@ export const AppLayout = memo(({ children }: AppLayoutProps) => {
         >
             <AntHeader
                 style={{
+                    width: HEADER_WIDTH,
+                    height: HEADER_HEIGHT,
+                    background: BACKGROUND_COLOR,
                     margin: 0,
                     padding: 0,
                     lineHeight: 0,
-                    background: BACKGROUND_COLOR,
-                    height: HEADER_HEIGHT,
-                    width: "100%",
                 }}
             >
                 <Header />
             </AntHeader>
-            <Layout
+            <Content
                 style={{
-                    width: "100%",
-                    height: SIDE_MENU_HEIGHT,
+                    width: CONTENT_WIDTH,
+                    height: CONTENT_HEIGHT,
+                    paddingTop: CONTENT_PADDING_TOP,
+                    paddingBottom: CONTENT_PADDING_BOTTOM,
+                    paddingLeft: CONTENT_PADDING_LEFT,
+                    paddingRight: CONTENT_PADDING_RIGHT,
                 }}
             >
-                {/*<Sider width={SIDE_MENU_WIDTH}>*/}
-                {/*    <SideMenu />*/}
-                {/*</Sider>*/}
-                <Content
-                    style={{
-                        width: "100%",
-                        height: SIDE_MENU_HEIGHT,
-                        marginLeft: 0,
-                        marginRight: 0,
-                        paddingTop: CONTENT_PADDING_TOP,
-                        paddingBottom: CONTENT_PADDING_BOTTOM,
-                        paddingLeft: CONTENT_PADDING_LEFT,
-                        paddingRight: CONTENT_PADDING_RIGHT,
-                    }}
-                >
-                    {children}
-                </Content>
-            </Layout>
+                {children}
+            </Content>
             <AntFooter
                 style={{
+                    width: FOOTER_WIDTH,
                     height: FOOTER_HEIGHT,
+                    background: BACKGROUND_COLOR,
                     margin: 0,
                     padding: 0,
-                    background: BACKGROUND_COLOR,
+                    lineHeight: 0,
                 }}
             >
                 <Footer />

@@ -202,6 +202,14 @@ export const UserForm = memo((props: UserFormProps) => {
                             ) : (
                                 <>
                                     <FormItemInput
+                                        labelText={"Логин"}
+                                        namePath={["login"]}
+                                        isLoading={isFetching}
+                                        placeholder={"Укажите логин"}
+                                        required
+                                        requiredMessage={"Укажите логин"}
+                                    />
+                                    <FormItemInput
                                         labelText={"Пароль"}
                                         namePath={["hashedPassword"]}
                                         isLoading={isFetching}

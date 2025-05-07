@@ -1,6 +1,6 @@
 "use client";
 
-import React, { CSSProperties, memo } from "react";
+import React, { memo } from "react";
 import { UserEntity } from "../../model/types/UserEntity";
 import { App, Card, Flex, Skeleton, Typography } from "antd";
 import { useRouter } from "next/navigation";
@@ -13,15 +13,15 @@ import { useUserFilters } from "@/app/(private-routes)/(users)/ui/UsersFilterPan
 import { HighlightedText } from "@/app/UI/HighlightedText/HighlightedText";
 import { FORM_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
 import deletePng from "@/app/lib/assets/png/delete.png";
+import { BOX_SHADOW, BOX_SHADOW_WIDTH } from "@/app/lib/themes/primary-theme";
 
 export interface UserCardProps {
-    style?: CSSProperties;
     user?: UserEntity;
     isLoading?: boolean;
 }
 
 export const UserCard = memo((props: UserCardProps) => {
-    const { style, user, isLoading } = props;
+    const { user, isLoading } = props;
 
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -32,9 +32,9 @@ export const UserCard = memo((props: UserCardProps) => {
     return (
         <Card
             style={{
-                borderWidth: 1,
                 width: "100%",
-                ...style,
+                margin: BOX_SHADOW_WIDTH,
+                boxShadow: BOX_SHADOW,
             }}
             title={
                 !isLoading ? (

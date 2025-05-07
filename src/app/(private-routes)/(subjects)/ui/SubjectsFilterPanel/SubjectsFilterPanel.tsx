@@ -25,7 +25,6 @@ export const SubjectsFilterPanel = () => {
     return (
         <FilterPanel
             title={"Объекты"}
-            height={CONTENT_HEIGHT}
             searchValue={search}
             onSearchValueChanged={onChangeSearch}
             totalCount={totalCount}
