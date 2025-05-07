@@ -67,7 +67,7 @@ export const AntropologicalTypeFilter = memo(
                 removeAfterUnmount={false}
             >
                 <FilterTree
-                    title={"Антр. тип"}
+                    title={"Антропологический тип"}
                     treeData={treeData}
                     value={checkedIds}
                     onChangeChecked={onChangeChecked}
