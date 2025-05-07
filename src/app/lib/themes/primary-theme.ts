@@ -154,5 +154,9 @@ export const primaryTheme: ThemeConfig = {
             // Global token
             colorBorder: PRIMARY_VARIANT_COLOR,
         },
+        Carousel: {
+            dotOffset: -8,
+            colorBgContainer: PRIMARY_VARIANT_COLOR,
+        },
     },
 };

@@ -4,7 +4,7 @@ import React, {
     CSSProperties,
     memo,
     useCallback,
-    useLayoutEffect,
+    useEffect,
     useState,
 } from "react";
 import { App, Flex, Image, Typography, Upload } from "antd";
@@ -112,7 +112,7 @@ export const Picture = memo((props: PictureProps) => {
     const dispatch = useAppDispatch();
     const { confirm } = App.useApp().modal;
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (value) {
             // Стринговое значение
             if (typeof value === "string") {
@@ -127,14 +127,23 @@ export const Picture = memo((props: PictureProps) => {
                     // Если есть идентификатор
                     if (photo?.id) {
                         // Если данные оригинала есть
-                        if (photo?.data) {
-                            const url = convertBase64ToUrl(photo.data);
+                        if (photo?.data !== undefined) {
+                            console.log("Picture", "setting photo.data...");
+                            const url = convertBase64ToUrl(photo.data!);
                             setSrcValue(url);
+                            console.log(
+                                "Picture",
+                                "photo.data has been set...",
+                            );
                             // setIsInitialized(true);
                             // setIsLoading(false);
                         } else {
                             // Если есть предпросмотр изображения
                             if (photo?.thumbnail) {
+                                console.log(
+                                    "Picture",
+                                    "setting photo.thumbnail... and dispatching photo...",
+                                );
                                 const url = convertBase64ToUrl(photo.thumbnail);
                                 setSrcValue(url);
 
@@ -146,6 +155,10 @@ export const Picture = memo((props: PictureProps) => {
                                         result.meta.requestStatus ===
                                         "fulfilled"
                                     ) {
+                                        console.log(
+                                            "Picture",
+                                            "photo dispatched...",
+                                        );
                                         const loadedPhoto =
                                             result.payload as ResponseData<PhotoEntity>;
 
@@ -153,6 +166,10 @@ export const Picture = memo((props: PictureProps) => {
                                             loadedPhoto.isOk &&
                                             loadedPhoto.data.data
                                         ) {
+                                            console.log(
+                                                "Picture",
+                                                "setting photo.data after dispatched...",
+                                            );
                                             const url = convertBase64ToUrl(
                                                 loadedPhoto.data.data,
                                             );

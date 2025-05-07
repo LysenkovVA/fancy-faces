@@ -24,6 +24,7 @@ import { BOX_SHADOW, BOX_SHADOW_WIDTH } from "@/app/lib/themes/primary-theme";
 import deletePng from "@/app/lib/assets/png/delete.png";
 import dayjs from "dayjs";
 import { UserHelper } from "@/app/(private-routes)/(users)/model/helpers/UserHelper";
+import { PicturesCarousel } from "@/app/UI/PicturesCarousel";
 
 export interface SubjectCardProps {
     subject?: SubjectEntity;
@@ -130,15 +131,20 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                 gap={16}
                 style={{ width: "100%" }}
             >
-                <Picture
-                    shape={"picture"}
-                    pictureWidth={150}
-                    pictureHeight={150}
-                    value={
-                        !subject?.photos || subject.photos.length === 0
-                            ? undefined
-                            : subject?.photos[0]
-                    }
+                {/*<Picture*/}
+                {/*    shape={"picture"}*/}
+                {/*    pictureWidth={150}*/}
+                {/*    pictureHeight={150}*/}
+                {/*    value={*/}
+                {/*        !subject?.photos || subject.photos.length === 0*/}
+                {/*            ? undefined*/}
+                {/*            : subject?.photos[0]*/}
+                {/*    }*/}
+                {/*/>*/}
+                <PicturesCarousel
+                    pictureWidth={200}
+                    pictureHeight={200}
+                    entities={subject?.photos}
                 />
                 <Flex
                     style={{
