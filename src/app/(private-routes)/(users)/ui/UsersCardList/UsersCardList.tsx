@@ -25,7 +25,11 @@ import { UserCard } from "@/app/(private-routes)/(users)/ui/UserCard/UserCard";
 import { CONTENT_HEIGHT } from "@/app/UI/AppLayout";
 import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
 import { UsersFilterPanel } from "@/app/(private-routes)/(users)/ui/UsersFilterPanel/UsersFilterPanel";
-import { BOX_SHADOW_WIDTH } from "@/app/lib/themes/primary-theme";
+import {
+    BOX_SHADOW_WIDTH,
+    ON_SECONDARY_COLOR,
+    SECONDARY_VARIANT_COLOR,
+} from "@/app/lib/themes/primary-theme";
 
 export interface UsersCardListProps {
     columnsCount: 1 | 2 | 3 | 4 | 6 | 8;
@@ -124,8 +128,13 @@ export const UsersCardList = memo((props: UsersCardListProps) => {
                 <FloatButton
                     type={"primary"}
                     shape={"circle"}
-                    style={{ bottom: 90 }}
-                    icon={<PlusOutlined />}
+                    style={{
+                        border: `1px solid ${SECONDARY_VARIANT_COLOR}`,
+                        bottom: 90,
+                    }}
+                    icon={
+                        <PlusOutlined style={{ color: ON_SECONDARY_COLOR }} />
+                    }
                     onClick={() => router.push("/users/create")}
                 />
             </Flex>

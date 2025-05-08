@@ -24,8 +24,12 @@ import { SubjectCard } from "@/app/(private-routes)/(subjects)/ui/SubjectCard/Su
 import { CONTENT_HEIGHT } from "@/app/UI/AppLayout";
 import { SubjectsFilterPanel } from "@/app/(private-routes)/(subjects)/ui/SubjectsFilterPanel/SubjectsFilterPanel";
 import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
+import {
+    BOX_SHADOW_WIDTH,
+    ON_SECONDARY_COLOR,
+    SECONDARY_VARIANT_COLOR,
+} from "@/app/lib/themes/primary-theme";
 import { PlusOutlined } from "@ant-design/icons";
-import { BOX_SHADOW_WIDTH } from "@/app/lib/themes/primary-theme";
 
 export interface SubjectsCardListProps {
     columnsCount: 1 | 2 | 3 | 4 | 6 | 8;
@@ -125,9 +129,12 @@ export const SubjectsCardList = memo((props: SubjectsCardListProps) => {
                     type={"primary"}
                     shape={"circle"}
                     style={{
+                        border: `1px solid ${SECONDARY_VARIANT_COLOR}`,
                         bottom: 90,
                     }}
-                    icon={<PlusOutlined />}
+                    icon={
+                        <PlusOutlined style={{ color: ON_SECONDARY_COLOR }} />
+                    }
                     onClick={() => router.push("/subjects/create")}
                 />
             </Flex>
