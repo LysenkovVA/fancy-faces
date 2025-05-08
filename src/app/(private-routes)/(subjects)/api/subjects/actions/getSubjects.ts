@@ -152,7 +152,7 @@ export const getSubjects = async (
                 skip,
                 take,
                 where: whereInput,
-                orderBy: [{ name: "asc" }],
+                orderBy: [{ createdAt: "asc" }],
                 include: {
                     initiator: true,
                     antropologicalType: true,

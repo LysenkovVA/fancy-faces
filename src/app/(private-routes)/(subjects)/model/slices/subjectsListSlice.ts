@@ -8,6 +8,10 @@ import { SubjectFilterType } from "../types/SubjectFilterType";
 import { upsertSubjectThunk } from "@/app/(private-routes)/(subjects)/model/thunks/upsertSubjectThunk";
 import { getPhotoByIdThunk } from "@/app/(private-routes)/(photos)/model/thunks/getPhotoByIdThunk";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
+import { upsertUserThunk } from "@/app/(private-routes)/(users)/model/thunks/upsertUserThunk";
+import { upsertAntropologicalTypeThunk } from "@/app/(private-routes)/(antropological-types)/model/thunks/upsertAntropologicalTypeThunk";
+import { upsertInitiatorThunk } from "@/app/(private-routes)/(initiators)/model/thunks/upsertInitiatorThunk";
+import { upsertSubgroupThunk } from "@/app/(private-routes)/(subgroups)/model/thunks/upsertSubgroupThunk";
 
 const initialState: ListReduxSchema<SubjectEntity, SubjectFilterType> = {
     ids: [],
@@ -120,8 +124,6 @@ export const subjectsListSlice = createSlice({
             })
             // Обновляем стейт, когда загрузили оригинал изображения
             .addCase(getPhotoByIdThunk.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.error = undefined;
                 if (state.entities) {
                     Object.values(state.entities).filter(
                         (entity: SubjectEntity) => {
@@ -150,6 +152,84 @@ export const subjectsListSlice = createSlice({
                             }
                         },
                     );
+                }
+            })
+            // Обновление антропологического типа
+            .addCase(
+                upsertAntropologicalTypeThunk.fulfilled,
+                (state, action) => {
+                    if (state.entities) {
+                        Object.values(state.entities)
+                            .filter((subject: SubjectEntity) => {
+                                return (
+                                    subject.user?.id === action.payload.data!.id
+                                );
+                            })
+                            .map((subject: SubjectEntity) => {
+                                subjectAdapter.updateOne(state, {
+                                    id: subject.id,
+                                    changes: {
+                                        ...subject,
+                                        antropologicalType:
+                                            action.payload.data!,
+                                    },
+                                });
+                            });
+                    }
+                },
+            )
+            // Обновление инициатора
+            .addCase(upsertInitiatorThunk.fulfilled, (state, action) => {
+                if (state.entities) {
+                    Object.values(state.entities)
+                        .filter((subject: SubjectEntity) => {
+                            return subject.user?.id === action.payload.data!.id;
+                        })
+                        .map((subject: SubjectEntity) => {
+                            subjectAdapter.updateOne(state, {
+                                id: subject.id,
+                                changes: {
+                                    ...subject,
+                                    initiator: action.payload.data!,
+                                },
+                            });
+                        });
+                }
+            })
+            // Обновление подгруппы
+            .addCase(upsertSubgroupThunk.fulfilled, (state, action) => {
+                if (state.entities) {
+                    Object.values(state.entities)
+                        .filter((subject: SubjectEntity) => {
+                            return subject.user?.id === action.payload.data!.id;
+                        })
+                        .map((subject: SubjectEntity) => {
+                            subjectAdapter.updateOne(state, {
+                                id: subject.id,
+                                changes: {
+                                    ...subject,
+                                    subgroup: action.payload.data!,
+                                },
+                            });
+                        });
+                }
+            })
+            // Обновление пользователя
+            .addCase(upsertUserThunk.fulfilled, (state, action) => {
+                if (state.entities) {
+                    Object.values(state.entities)
+                        .filter((subject: SubjectEntity) => {
+                            return subject.user?.id === action.payload.data!.id;
+                        })
+                        .map((subject: SubjectEntity) => {
+                            subjectAdapter.updateOne(state, {
+                                id: subject.id,
+                                changes: {
+                                    ...subject,
+                                    user: action.payload.data!,
+                                },
+                            });
+                        });
                 }
             });
     },
