@@ -6,7 +6,7 @@ import { StoreProvider } from "@/app/lib/store";
 import { AuthProvider } from "@/app/lib/providers/AuthProvider";
 
 export const metadata: Metadata = {
-    title: "FancyFaces",
+    title: "Фотопортрет",
     description: "",
 };
 

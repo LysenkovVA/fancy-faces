@@ -20,6 +20,7 @@ import { GenderFilterType } from "@/app/(private-routes)/(genders)/model/types/G
 import { ViewTypeFilterType } from "@/app/(private-routes)/(view-types)/model/types/ViewTypeFilterType";
 import { AntropologicalTypeFilterType } from "@/app/(private-routes)/(antropological-types)/model/types/AntropologicalTypeFilterType";
 import { InitiatorFilterType } from "@/app/(private-routes)/(initiators)/model/types/InitiatorFilterType";
+import { CompareSubjectsListSchema } from "@/app/(private-routes)/(subjects)/model/types/CompareSubjectsListSchema";
 
 /**
  * Схема глобального состояния
@@ -32,6 +33,8 @@ export interface GlobalStateSchema {
     infiniteScrollSchema: InfiniteScrollSchema;
     // Параметры панелей фильтров
     filterPanelSchema: FilterPanelSchema;
+    // Список сравнения
+    compareSubjectsListSchema: CompareSubjectsListSchema;
 
     gendersSimpleListSchema?: SimpleListReduxSchema<
         GenderEntity,

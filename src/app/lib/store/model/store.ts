@@ -11,6 +11,7 @@ import { createReducerManager } from "./reducerManager";
 import { InfiniteScrollReducer } from "@/app/UI/InfiniteScroll/model/slices/InfiniteScrollSlice";
 import { FilterPanelReducer } from "@/app/UI/FilterPanel/model/slices/FilterPanelSlice";
 import { authReducer } from "@/app/(public-routes)/(login)";
+import { compareSubjectsListReducer } from "@/app/(private-routes)/(compare-list)/model/slices/compareSubjectsListSlice";
 
 /**
  * Центральное хранилище стейта.
@@ -25,6 +26,7 @@ export const createReduxStore = (initialState?: GlobalStateSchema) => {
         authSchema: authReducer,
         infiniteScrollSchema: InfiniteScrollReducer,
         filterPanelSchema: FilterPanelReducer,
+        compareSubjectsListSchema: compareSubjectsListReducer,
     });
 
     const store = configureStore<GlobalStateSchema>({

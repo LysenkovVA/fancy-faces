@@ -5,7 +5,7 @@ import { SubjectEntity } from "../../model/types/SubjectEntity";
 import { App, Card, Flex, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import { deleteSubjectByIdThunk } from "../../model/thunks/deleteSubjectByIdThunk";
-import { useAppDispatch } from "@/app/lib/store";
+import { useAppDispatch, useAppSelector } from "@/app/lib/store";
 import { EditCardButton } from "@/app/UI/EditCardButton";
 import { DeleteCardButton } from "@/app/UI/DeleteCardButton";
 import { useSubjectFilters } from "@/app/(private-routes)/(subjects)/ui/SubjectsFilterPanel/hooks/useSubjectFilters";
@@ -25,6 +25,9 @@ import deletePng from "@/app/lib/assets/png/delete.png";
 import dayjs from "dayjs";
 import { UserHelper } from "@/app/(private-routes)/(users)/model/helpers/UserHelper";
 import { PicturesCarousel } from "@/app/UI/PicturesCarousel";
+import { CompareCardButton } from "@/app/(private-routes)/(subjects)/ui/CompareCardButton/CompareCardButton";
+import { compareSubjectsListActions } from "@/app/(private-routes)/(compare-list)/model/slices/compareSubjectsListSlice";
+import { getIsPresentAtCompareSubjectsList } from "@/app/(private-routes)/(compare-list)/model/selectors/compareSubjectsListSelectors";
 
 export interface SubjectCardProps {
     subject?: SubjectEntity;
@@ -35,6 +38,9 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
     const { subject, isLoading } = props;
 
     const dispatch = useAppDispatch();
+    const isPresent = useAppSelector((state) =>
+        getIsPresentAtCompareSubjectsList(state, subject?.id),
+    );
     const router = useRouter();
     const { confirm } = App.useApp().modal;
 
@@ -72,6 +78,28 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
             // }
             size={"small"}
             actions={[
+                <CompareCardButton
+                    key={"compare"}
+                    isLoading={isLoading}
+                    entityId={subject?.id}
+                    onClick={() => {
+                        if (subject?.id) {
+                            if (isPresent) {
+                                dispatch(
+                                    compareSubjectsListActions.removeSubject(
+                                        subject.id,
+                                    ),
+                                );
+                            } else {
+                                dispatch(
+                                    compareSubjectsListActions.addSubject(
+                                        subject,
+                                    ),
+                                );
+                            }
+                        }
+                    }}
+                />,
                 <EditCardButton
                     key={"edit"}
                     isLoading={isLoading}

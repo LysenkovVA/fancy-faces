@@ -1,9 +1,12 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { initAuthDataThunk } from "@/app/(public-routes)/(login)/model/services/initAuthDataThunk";
-import { useAppDispatch } from "@/app/lib/store";
+import { useAppDispatch, useAppSelector } from "@/app/lib/store";
 import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
+import { getAuthUser } from "@/app/(public-routes)/(login)/model/selectors/authSelectors";
+import { initCompareListThunk } from "@/app/(private-routes)/(compare-list)/model/thunks/initCompareListThunk";
+import { getCompareSubjectsListIsInitialized } from "@/app/(private-routes)/(compare-list)/model/selectors/compareSubjectsListSelectors";
 
 /**
  * Провайдер, который получает авторизованного пользователя при обновлении страницы
@@ -12,28 +15,25 @@ import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
  * @constructor
  */
 export function AuthProvider({ children }: { children: ReactNode }) {
-    // console.log("AuthProvider render");
     const dispatch = useAppDispatch();
-    // const userData = useAppSelector(getAuthUser);
-    // const isInitialized = useAppSelector(getUserAuthDataIsInitialized);
+
+    const authUser = useAppSelector(getAuthUser);
+    const isCompareListInitialized = useAppSelector(
+        getCompareSubjectsListIsInitialized,
+    );
 
     useInitialEffect(() => {
         dispatch(initAuthDataThunk());
-        // console.log("dispatching initAuthDataThunk");
-        // dispatch(initAuthDataThunk()).then((resolve) => {
-        //     if (resolve.meta.requestStatus === "fulfilled") {
-        //         const payload = resolve.payload as UserEntity;
-        //
-        //         if (payload) {
-        //             console.log(
-        //                 "initAuthDataThunk dispatch payload",
-        //                 JSON.stringify(payload),
-        //             );
-        //             dispatch(authActions.setAuthData(payload));
-        //         }
-        //     }
-        // });
     });
+
+    useEffect(() => {
+        if (!isCompareListInitialized) {
+            if (authUser?.id) {
+                console.log("user authenticated... getting compare list");
+                dispatch(initCompareListThunk({}));
+            }
+        }
+    }, [authUser?.id, dispatch, isCompareListInitialized]);
 
     return <>{children}</>;
 }

@@ -26,6 +26,9 @@
       "@/*": [
         "./src/*"
       ],
+      "@/assets/*": [
+        "./src/app/lib/assets/png/*"
+      ]
     }
   },
   "ts-node": {

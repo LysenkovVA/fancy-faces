@@ -122,10 +122,6 @@ export const Picture = memo((props: PictureProps) => {
                                         result.meta.requestStatus ===
                                         "fulfilled"
                                     ) {
-                                        console.log(
-                                            "Picture",
-                                            "photo dispatched...",
-                                        );
                                         const loadedPhoto =
                                             result.payload as ResponseData<PhotoEntity>;
 

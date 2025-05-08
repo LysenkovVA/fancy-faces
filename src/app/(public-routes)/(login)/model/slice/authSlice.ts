@@ -22,6 +22,7 @@ export const authSlice = createSlice({
             state.entityData = action.payload;
         },
         logout: (state) => {
+            localStorage.removeItem("compareList");
             state.entityData = undefined;
             state._isInitialized = false;
         },

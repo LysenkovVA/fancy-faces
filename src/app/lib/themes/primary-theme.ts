@@ -24,6 +24,7 @@ export const ON_SECONDARY_COLOR = "#000000";
 export const ON_BACKGROUND_COLOR = "#000000";
 // Текст на фоне контролов
 export const ON_SURFACE_COLOR = "#000000";
+export const ON_SURFACE_SECONDARY_COLOR = "#bdbcbc";
 export const ON_ERROR_COLOR = "#FFFFFF";
 
 export const BOX_SHADOW_WIDTH = 5;

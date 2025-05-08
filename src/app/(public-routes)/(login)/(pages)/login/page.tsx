@@ -4,7 +4,7 @@ import { getSession } from "@/app/lib/auth/cookies";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-    title: "FancyFaces | Авторизация",
+    title: "Фотопортрет | Авторизация",
 };
 
 export default async function Login() {

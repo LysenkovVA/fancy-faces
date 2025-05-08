@@ -8,11 +8,17 @@ import { Picture } from "@/app/UI/Picture";
 export interface PicturesCarouselProps {
     pictureWidth: string | number | undefined;
     pictureHeight: number | undefined;
-    entities?: PhotoEntity[];
+    entities: PhotoEntity[] | undefined;
+    picturePreview?: boolean;
 }
 
 export const PicturesCarousel = (props: PicturesCarouselProps) => {
-    const { pictureHeight = 50, pictureWidth, entities } = props;
+    const {
+        pictureHeight = 50,
+        pictureWidth = 50,
+        entities,
+        picturePreview = false,
+    } = props;
 
     const content = useMemo(() => {
         return entities && entities.length > 0 ? (
@@ -24,6 +30,7 @@ export const PicturesCarousel = (props: PicturesCarouselProps) => {
                     pictureWidth={pictureWidth}
                     pictureHeight={pictureHeight}
                     borderWidth={0}
+                    picturePreview={picturePreview}
                 />
             ))
         ) : (
@@ -38,7 +45,10 @@ export const PicturesCarousel = (props: PicturesCarouselProps) => {
 
     return (
         <Carousel
-            style={{ width: pictureWidth, height: pictureHeight }}
+            style={{
+                width: pictureWidth,
+                height: pictureHeight,
+            }}
             dots={true}
         >
             {content}

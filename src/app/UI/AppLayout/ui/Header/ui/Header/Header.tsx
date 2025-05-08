@@ -19,6 +19,7 @@ import {
 } from "@/app/lib/themes/primary-theme";
 import { Picture } from "@/app/UI/Picture";
 import usersPng from "../../../../../../lib/assets/png/users.png";
+import { CompareSubjectsList } from "@/app/(private-routes)/(compare-list)/ui/CompareSubjectsList/ui/CompareSubjectsList";
 
 export interface HeaderProps {}
 
@@ -48,6 +49,7 @@ export const Header = memo((props: HeaderProps) => {
             >
                 <HeaderLogo />
                 <Flex align={"center"} justify={"center"} gap={16}>
+                    <CompareSubjectsList />
                     {isAdmin && (
                         <Flex
                             style={{ cursor: "pointer" }}
@@ -73,13 +75,6 @@ export const Header = memo((props: HeaderProps) => {
                                 {"Пользователи"}
                             </Typography.Text>
                         </Flex>
-                        // <Button
-                        //     style={{ color: ON_PRIMARY_COLOR }}
-                        //     type={"link"}
-                        //     onClick={() => router.push("/users")}
-                        // >
-                        //     {"Пользователи"}
-                        // </Button>
                     )}
                     {initialized && <HeaderAvatar />}
                     <HeaderLogoutButton />
