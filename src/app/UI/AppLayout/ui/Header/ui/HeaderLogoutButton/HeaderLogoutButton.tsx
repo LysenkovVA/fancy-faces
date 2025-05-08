@@ -4,7 +4,7 @@ import React, { memo } from "react";
 import { Button } from "antd";
 import { clearSession } from "@/app/lib/auth/cookies";
 import { authActions } from "@/app/(public-routes)/(login)";
-import { useAppDispatch } from "@/app/lib/store";
+import { useAppDispatch, useAppStore } from "@/app/lib/store";
 import { useRouter } from "next/navigation";
 import { Picture } from "@/app/UI/Picture";
 import logoutPng from "../../../../../../lib/assets/png/logout.png";
@@ -18,6 +18,7 @@ export const HeaderLogoutButton = memo((props: LogoutButtonProps) => {
 
     const router = useRouter();
     const dispatch = useAppDispatch();
+    const store = useAppStore();
 
     return (
         <Button
@@ -40,9 +41,13 @@ export const HeaderLogoutButton = memo((props: LogoutButtonProps) => {
                 />
             }
             onClick={async () => {
+                // Удаляем все редюсеры
+                // TODO - внести все редюсеры сюда!!!
+                store.reducerManager.remove("subjectsListSchema");
+
                 await clearSession();
                 dispatch(authActions.logout());
-                router.push("/login");
+                router.replace("/login");
             }}
         />
     );
