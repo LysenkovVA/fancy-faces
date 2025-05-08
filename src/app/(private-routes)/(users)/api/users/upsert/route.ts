@@ -8,6 +8,7 @@ import { UserEntity, UserEntitySchema } from "../../../model/types/UserEntity";
 import { checkServerAuth } from "@/app/lib/auth/AuthenticatedUser";
 import { getUserById } from "../[id]/actions/getUserById";
 import bcrypt from "bcryptjs";
+import { ServerFiles } from "@/app/lib/utils/serverFiles";
 
 export async function POST(
     request: NextRequest,
@@ -58,9 +59,13 @@ export async function POST(
                           create: {
                               type: entityToSave.avatar?.type,
                               size: entityToSave.avatar?.size,
-                              thumbnail: "",
-                              extension: "",
+                              thumbnail: await ServerFiles.resizeBase64Image(
+                                  30,
+                                  entityToSave.avatar?.data,
+                              ),
+                              extension: entityToSave.avatar?.extension,
                               data: entityToSave.avatar?.data,
+                              isDefault: true,
                           },
                       }
                     : undefined,
@@ -73,9 +78,13 @@ export async function POST(
                           create: {
                               type: entityToSave.avatar?.type,
                               size: entityToSave.avatar?.size,
+                              thumbnail: await ServerFiles.resizeBase64Image(
+                                  30,
+                                  entityToSave.avatar?.data,
+                              ),
+                              extension: entityToSave.avatar?.extension,
                               data: entityToSave.avatar?.data,
-                              thumbnail: "",
-                              extension: "",
+                              isDefault: true,
                           },
                       }
                     : undefined,

@@ -1,7 +1,7 @@
 "use client";
 
 import { CSSProperties, memo, useCallback, useEffect } from "react";
-import { Button, Flex, Form, Image, Typography } from "antd";
+import { Button, Flex, Form, Typography } from "antd";
 import { logoPNG } from "@/app/lib/assets";
 import useNotification from "antd/es/notification/useNotification";
 import { useRouter } from "next/navigation";
@@ -19,6 +19,7 @@ import {
 import { FormItemInput } from "@/app/UI/FormItemInput";
 import userPng from "../../../../../../lib/assets/png/user.png";
 import passwordPng from "../../../../../../lib/assets/png/password.png";
+import { Picture } from "@/app/UI/Picture";
 
 export interface LoginFormProps {
     style?: CSSProperties;
@@ -67,12 +68,11 @@ export const LoginForm = memo((props: LoginFormProps) => {
                 justify={"center"}
                 gap={4}
             >
-                <Image
-                    preview={false}
-                    src={logoPNG.src}
-                    alt={"logo"}
-                    height={80}
-                    width={"auto"}
+                <Picture
+                    value={logoPNG.src}
+                    shape={"picture"}
+                    pictureWidth={80}
+                    pictureHeight={80}
                 />
                 <Typography.Text
                     style={{

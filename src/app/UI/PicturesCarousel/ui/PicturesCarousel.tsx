@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useMemo } from "react";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 import { Carousel } from "antd";
@@ -37,7 +39,7 @@ export const PicturesCarousel = (props: PicturesCarouselProps) => {
     return (
         <Carousel
             style={{ width: pictureWidth, height: pictureHeight }}
-            // dots={true}
+            dots={true}
         >
             {content}
         </Carousel>

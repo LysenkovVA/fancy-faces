@@ -14,11 +14,11 @@ import {
 } from "antd";
 import { Picture } from "@/app/UI/Picture";
 import { PlusOutlined } from "@ant-design/icons";
-import { convertFileToBase64 } from "@/app/UI/Picture/ui/Picture";
 import { PhotoEntity } from "@/app/(private-routes)/(photos)";
 import { PRIMARY_VARIANT_COLOR } from "@/app/lib/themes/primary-theme";
 import deletePng from "../../../lib/assets/png/delete.png";
 import { FORM_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
+import { ClientFiles } from "@/app/lib/utils/clientFiles";
 
 export interface FormImageListProps {
     form: FormInstance;
@@ -171,36 +171,11 @@ export const FormImageList = memo((props: FormImageListProps) => {
                                 <Upload
                                     showUploadList={false}
                                     beforeUpload={async (file) => {
-                                        // TODO Здесь можно проверять различные параметры файлов
-                                        const arrayBufferView = new Uint8Array(
-                                            await file.arrayBuffer(),
-                                        );
-                                        const blob = new Blob(
-                                            [arrayBufferView],
-                                            {
-                                                type: file.type,
-                                            },
-                                        );
-                                        const urlCreator =
-                                            window.URL || window.webkitURL;
-                                        const objUrl =
-                                            urlCreator.createObjectURL(blob);
-
-                                        const base64 =
-                                            await convertFileToBase64(file);
-
-                                        const newValue: PhotoEntity = {
-                                            id: "",
-                                            type: file.type,
-                                            size: file.size,
-                                            extension: "",
-                                            thumbnail: "",
-                                            data: base64,
-                                            isDefault: false,
-                                        };
-
+                                        const newValue =
+                                            await ClientFiles.convertFileToPhotoEntity(
+                                                file,
+                                            );
                                         add(newValue);
-
                                         return false;
                                     }}
                                     maxCount={1}

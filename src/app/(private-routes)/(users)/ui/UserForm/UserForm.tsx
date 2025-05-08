@@ -172,6 +172,7 @@ export const UserForm = memo((props: UserFormProps) => {
                             pictureWidth={150}
                             pictureHeight={150}
                             isEditable
+                            borderWidth={2}
                         />
                     </Form.Item>
                     {authUser?.userRole.name === "ADMIN" && (
