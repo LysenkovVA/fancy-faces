@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useMemo, useState } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import { SubgroupEntity } from "../../model/types/SubgroupEntity";
 import {
     DynamicModuleLoader,
@@ -13,20 +13,18 @@ import {
     getSubgroupsSimpleListIsInitialized,
     getSubgroupsSimpleListIsLoading,
 } from "../../model/selectors/subgroupsSimpleListSelectors";
-import { Form, Modal, Typography } from "antd";
+import { App, Flex, Form, Typography } from "antd";
 import { getSubgroupsSimpleListThunk } from "../../model/thunks/getSubgroupsSimpleListThunk";
 import { DropDownList, DropDownOption } from "@/app/UI/DropDownList";
-
-import { SubgroupForm } from "../SubgroupForm/SubgroupForm";
-import {
-    FORM_ICON_SIZE,
-    MODAL_TITLE_MARGIN_BOTTOM,
-    MODAL_WIDTH,
-} from "@/app/UI/AppLayout/config/consts";
-import { LabelWithIcon } from "@/app/UI/LabelWithIcon";
-import subgroupPng from "../../../../lib/assets/png/subgroup.png";
 import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
 import { subgroupsSimpleListReducer } from "../../model/slices/subgroupsSimpleListSlice";
+import { ModalSaveCancelDelete } from "@/app/UI/ModalSaveCancelDelete";
+import subgroupPng from "@/assets/subgroup.png";
+import { SubgroupForm } from "@/app/(private-routes)/(subgroups)";
+import { Picture } from "@/app/UI/Picture";
+import { FORM_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
+import deletePng from "@/assets/delete.png";
+import { deleteSubgroupByIdThunk } from "@/app/(private-routes)/(subgroups)/model/thunks/deleteSubgroupByIdThunk";
 
 export interface SubgroupsDropDownListProps {
     placeholder?: string;
@@ -48,6 +46,8 @@ export const SubgroupsDropDownList = memo(
         const isInitialized = useAppSelector(
             getSubgroupsSimpleListIsInitialized,
         );
+
+        const { confirm } = App.useApp().modal;
 
         const [isModalOpen, setIsModalOpen] = useState(false);
         // Признак того, что модалка открывается для создания новой записи
@@ -125,6 +125,38 @@ export const SubgroupsDropDownList = memo(
             [data, mode, onChange],
         );
 
+        const onDeleteCallback = useCallback(
+            (entityId?: string) => {
+                if (entityId) {
+                    confirm({
+                        title: (
+                            <Flex align={"center"} justify={"start"} gap={4}>
+                                <Typography.Text>{"Удаление"}</Typography.Text>
+                            </Flex>
+                        ),
+                        icon: (
+                            <Picture
+                                shape={"picture"}
+                                pictureWidth={FORM_ICON_SIZE}
+                                pictureHeight={FORM_ICON_SIZE}
+                                borderWidth={0}
+                                borderRadius={0}
+                                value={deletePng.src}
+                            />
+                        ),
+                        content: `Удалить запись из базы данных? Эта операция необратима. Вы уверены?`,
+                        okText: "Да",
+                        okType: "danger",
+                        cancelText: "Нет",
+                        onOk() {
+                            dispatch(deleteSubgroupByIdThunk({ id: entityId }));
+                        },
+                    });
+                }
+            },
+            [confirm, dispatch],
+        );
+
         return (
             <DynamicModuleLoader
                 reducers={{
@@ -154,34 +186,18 @@ export const SubgroupsDropDownList = memo(
                 {error && (
                     <Typography.Text type={"danger"}>{error}</Typography.Text>
                 )}
-                <Modal
-                    title={
-                        <LabelWithIcon
-                            textStyle={{
-                                marginBottom: MODAL_TITLE_MARGIN_BOTTOM,
-                            }}
-                            imageSrc={subgroupPng.src}
-                            labelText={
-                                isModalCreate ? "Новая подгруппа" : "Подгруппа"
-                            }
-                            iconSize={FORM_ICON_SIZE}
-                        />
-                    }
-                    okType={"primary"}
-                    okText={"Сохранить"}
-                    cancelText={"Отмена"}
+                <ModalSaveCancelDelete
+                    isOpen={isModalOpen}
+                    iconSrc={subgroupPng.src}
+                    title={isModalCreate ? "Новая подгруппа" : "Подгруппа"}
                     onOk={() => form.submit()}
                     onCancel={() => setIsModalOpen(false)}
                     onClose={() => setIsModalOpen(false)}
-                    destroyOnClose
-                    open={isModalOpen}
-                    styles={{
-                        body: {
-                            maxHeight: "calc(100vh * 0.5)",
-                            overflowY: "auto",
-                        },
+                    onDelete={() => {
+                        onDeleteCallback(editableValue?.id);
+                        setEditableValue(undefined);
+                        setIsModalOpen(false);
                     }}
-                    width={MODAL_WIDTH}
                 >
                     <SubgroupForm
                         form={form}
@@ -200,7 +216,7 @@ export const SubgroupsDropDownList = memo(
                             setIsModalOpen(false);
                         }}
                     />
-                </Modal>
+                </ModalSaveCancelDelete>
             </DynamicModuleLoader>
         );
     },

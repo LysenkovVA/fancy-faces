@@ -8,9 +8,7 @@ import { Picture } from "@/app/UI/Picture";
 import { useRouter } from "next/navigation";
 import { ON_PRIMARY_COLOR } from "@/app/lib/themes/primary-theme";
 
-export interface HeaderLogoProps {}
-
-export const HeaderLogo = memo((props: HeaderLogoProps) => {
+export const HeaderLogo = memo(() => {
     const router = useRouter();
     return (
         <Flex

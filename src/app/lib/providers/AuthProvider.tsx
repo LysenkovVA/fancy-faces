@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!isCompareListInitialized) {
             if (authUser?.id) {
                 console.log("user authenticated... getting compare list");
-                dispatch(initCompareListThunk({}));
+                dispatch(initCompareListThunk());
             }
         }
     }, [authUser?.id, dispatch, isCompareListInitialized]);

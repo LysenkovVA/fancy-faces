@@ -85,4 +85,5 @@ export interface ReducerManager {
     reduce: (state: GlobalStateSchema | undefined, action: Action) => any;
     add: (key: GlobalStateSchemaKey, reducer: Reducer) => void;
     remove: (key: GlobalStateSchemaKey) => void;
+    clearOnLogout: () => void;
 }

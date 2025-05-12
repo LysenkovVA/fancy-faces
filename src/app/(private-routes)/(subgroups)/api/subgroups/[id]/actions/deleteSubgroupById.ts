@@ -16,7 +16,7 @@ export async function deleteSubgroupById(
 
         if (!candidate) {
             return ResponseData.BadRequest([
-                `Подгруппа с ID=${id} не была удален`,
+                `Подгруппа с ID=${id} не была удалена`,
             ]);
         }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useMemo, useState } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import { AntropologicalTypeEntity } from "../../model/types/AntropologicalTypeEntity";
 import {
     DynamicModuleLoader,
@@ -13,19 +13,18 @@ import {
     getAntropologicalTypesSimpleListIsInitialized,
     getAntropologicalTypesSimpleListIsLoading,
 } from "../../model/selectors/antropologicalTypesSimpleListSelectors";
-import { Form, Modal, Typography } from "antd";
+import { App, Flex, Form, Typography } from "antd";
 import { getAntropologicalTypesSimpleListThunk } from "../../model/thunks/getAntropologicalTypesSimpleListThunk";
 import { DropDownList, DropDownOption } from "@/app/UI/DropDownList";
 import { antropologicalTypesSimpleListReducer } from "../../model/slices/antropologicalTypesSimpleListSlice";
 import { AntropologicalTypeForm } from "@/app/(private-routes)/(antropological-types)/ui/AntropologicalTypeForm/AntropologicalTypeForm";
-import {
-    FORM_ICON_SIZE,
-    MODAL_TITLE_MARGIN_BOTTOM,
-    MODAL_WIDTH,
-} from "@/app/UI/AppLayout/config/consts";
-import { LabelWithIcon } from "@/app/UI/LabelWithIcon";
+import { FORM_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
 import antropologicalTypePng from "../../../../lib/assets/png/antropologicType.png";
 import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
+import { Picture } from "@/app/UI/Picture";
+import deletePng from "@/assets/delete.png";
+import { deleteAntropologicalTypeByIdThunk } from "@/app/(private-routes)/(antropological-types)/model/thunks/deleteAntropologicalTypeByIdThunk";
+import { ModalSaveCancelDelete } from "@/app/UI/ModalSaveCancelDelete";
 
 export interface AntropologicalTypesDropDownListProps {
     placeholder?: string;
@@ -51,6 +50,8 @@ export const AntropologicalTypesDropDownList = memo(
         const isInitialized = useAppSelector(
             getAntropologicalTypesSimpleListIsInitialized,
         );
+
+        const { confirm } = App.useApp().modal;
 
         const [isModalOpen, setIsModalOpen] = useState(false);
         // Признак того, что модалка открывается для создания новой записи
@@ -130,6 +131,42 @@ export const AntropologicalTypesDropDownList = memo(
             [data, mode, onChange],
         );
 
+        const onDeleteCallback = useCallback(
+            (entityId?: string) => {
+                if (entityId) {
+                    confirm({
+                        title: (
+                            <Flex align={"center"} justify={"start"} gap={4}>
+                                <Typography.Text>{"Удаление"}</Typography.Text>
+                            </Flex>
+                        ),
+                        icon: (
+                            <Picture
+                                shape={"picture"}
+                                pictureWidth={FORM_ICON_SIZE}
+                                pictureHeight={FORM_ICON_SIZE}
+                                borderWidth={0}
+                                borderRadius={0}
+                                value={deletePng.src}
+                            />
+                        ),
+                        content: `Удалить запись из базы данных? Эта операция необратима. Вы уверены?`,
+                        okText: "Да",
+                        okType: "danger",
+                        cancelText: "Нет",
+                        onOk() {
+                            dispatch(
+                                deleteAntropologicalTypeByIdThunk({
+                                    id: entityId,
+                                }),
+                            );
+                        },
+                    });
+                }
+            },
+            [confirm, dispatch],
+        );
+
         return (
             <DynamicModuleLoader
                 reducers={{
@@ -160,36 +197,22 @@ export const AntropologicalTypesDropDownList = memo(
                 {error && (
                     <Typography.Text type={"danger"}>{error}</Typography.Text>
                 )}
-                <Modal
+                <ModalSaveCancelDelete
+                    isOpen={isModalOpen}
+                    iconSrc={antropologicalTypePng.src}
                     title={
-                        <LabelWithIcon
-                            textStyle={{
-                                marginBottom: MODAL_TITLE_MARGIN_BOTTOM,
-                            }}
-                            imageSrc={antropologicalTypePng.src}
-                            labelText={
-                                isModalCreate
-                                    ? "Новый антропологический тип"
-                                    : "Антропологический тип"
-                            }
-                            iconSize={FORM_ICON_SIZE}
-                        />
+                        isModalCreate
+                            ? "Новый антропологический тип"
+                            : "Антропологический тип"
                     }
-                    okType={"primary"}
-                    okText={"Сохранить"}
-                    cancelText={"Отмена"}
                     onOk={() => form.submit()}
                     onCancel={() => setIsModalOpen(false)}
                     onClose={() => setIsModalOpen(false)}
-                    destroyOnClose
-                    open={isModalOpen}
-                    styles={{
-                        body: {
-                            maxHeight: "calc(100vh * 0.5)",
-                            overflowY: "auto",
-                        },
+                    onDelete={() => {
+                        onDeleteCallback(editableValue?.id);
+                        setEditableValue(undefined);
+                        setIsModalOpen(false);
                     }}
-                    width={MODAL_WIDTH}
                 >
                     <AntropologicalTypeForm
                         form={form}
@@ -208,7 +231,7 @@ export const AntropologicalTypesDropDownList = memo(
                             setIsModalOpen(false);
                         }}
                     />
-                </Modal>
+                </ModalSaveCancelDelete>
             </DynamicModuleLoader>
         );
     },

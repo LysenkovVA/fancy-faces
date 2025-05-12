@@ -4,6 +4,10 @@ import {
     GlobalStateSchemaKey,
     ReducerManager,
 } from "./types/GlobalStateSchema";
+import { authReducer } from "@/app/(public-routes)/(login)";
+import { InfiniteScrollReducer } from "@/app/UI/InfiniteScroll/model/slices/InfiniteScrollSlice";
+import { FilterPanelReducer } from "@/app/UI/FilterPanel/model/slices/FilterPanelSlice";
+import { compareSubjectsListReducer } from "@/app/(private-routes)/(compare-list)/model/slices/compareSubjectsListSlice";
 
 export function createReducerManager(
     initialReducers: ReducersMapObject<GlobalStateSchema>,
@@ -54,6 +58,25 @@ export function createReducerManager(
 
             delete reducers[key];
             keysToRemove.push(key);
+            combinedReducer = combineReducers(reducers);
+        },
+
+        clearOnLogout: () => {
+            // Очистка стейта
+            // Удаление всех редюсеров
+            const keysToClear = Object.keys(reducers);
+
+            for (const key of keysToClear) {
+                delete reducers[key as GlobalStateSchemaKey];
+                keysToRemove.push(key as GlobalStateSchemaKey);
+            }
+
+            // Добавление обязательных
+            reducers["authSchema"] = authReducer;
+            reducers["infiniteScrollSchema"] = InfiniteScrollReducer;
+            reducers["filterPanelSchema"] = FilterPanelReducer;
+            reducers["compareSubjectsListSchema"] = compareSubjectsListReducer;
+
             combinedReducer = combineReducers(reducers);
         },
     };

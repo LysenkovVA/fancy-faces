@@ -6,6 +6,7 @@ import { SimpleListReduxSchema } from "@/app/lib/types/SimpleListReduxSchema";
 import { SubgroupEntity } from "../types/SubgroupEntity";
 import { subgroupAdapter } from "../adapter/subgroupAdapter";
 import { SubgroupFilterType } from "@/app/(private-routes)/(subgroups)/model/types/SubgroupFilterType";
+import { upsertAntropologicalTypeThunk } from "@/app/(private-routes)/(antropological-types)/model/thunks/upsertAntropologicalTypeThunk";
 
 const initialState: SimpleListReduxSchema<SubgroupEntity, SubgroupFilterType> =
     {
@@ -99,7 +100,32 @@ export const subgroupsSimpleListSlice = createSlice({
             .addCase(deleteSubgroupByIdThunk.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
-            });
+            })
+            // Обновление антропологического типа
+            .addCase(
+                upsertAntropologicalTypeThunk.fulfilled,
+                (state, action) => {
+                    if (state.entities) {
+                        Object.values(state.entities)
+                            .filter((subgroup: SubgroupEntity) => {
+                                return (
+                                    subgroup.antropologicalType?.id ===
+                                    action.payload.data!.id
+                                );
+                            })
+                            .map((subgroup: SubgroupEntity) => {
+                                subgroupAdapter.updateOne(state, {
+                                    id: subgroup.id,
+                                    changes: {
+                                        ...subgroup,
+                                        antropologicalType:
+                                            action.payload.data!,
+                                    },
+                                });
+                            });
+                    }
+                },
+            );
     },
 });
 

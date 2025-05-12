@@ -1,6 +1,6 @@
 {
   "name": "fancy-faces",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -11,7 +11,7 @@
     "db:standalone:windows:push": "npm run db:standalone:windows:client:generate && dotenv -e .env.standalone.windows -- npm exec prisma db push",
     "db:standalone:windows:seed": "dotenv -e .env.standalone.windows -- npx prisma db seed",
     "db:standalone:windows:init": "npm run db:standalone:windows:client:generate && npm run db:standalone:windows:reset && npm run db:standalone:windows:push && npm run db:standalone:windows:seed",
-    "start": "next start",
+    "start": "node .next/standalone/server.js",
     "lint": "next lint",
     "export": "next export",
     "db:client:generate:dev": "dotenv -e .env.development -- npm exec prisma generate --schema",

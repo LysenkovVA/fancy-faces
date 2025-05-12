@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useMemo, useState } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import { InitiatorEntity } from "../../model/types/InitiatorEntity";
 import {
     DynamicModuleLoader,
@@ -13,20 +13,19 @@ import {
     getInitiatorsSimpleListIsInitialized,
     getInitiatorsSimpleListIsLoading,
 } from "../../model/selectors/initiatorsSimpleListSelectors";
-import { Form, Modal, Typography } from "antd";
+import { App, Flex, Form, Typography } from "antd";
 import { getInitiatorsSimpleListThunk } from "../../model/thunks/getInitiatorsSimpleListThunk";
 import { DropDownList, DropDownOption } from "@/app/UI/DropDownList";
 
 import { InitiatorForm } from "../InitiatorForm/InitiatorForm";
-import {
-    FORM_ICON_SIZE,
-    MODAL_TITLE_MARGIN_BOTTOM,
-    MODAL_WIDTH,
-} from "@/app/UI/AppLayout/config/consts";
-import { LabelWithIcon } from "@/app/UI/LabelWithIcon";
+import { FORM_ICON_SIZE } from "@/app/UI/AppLayout/config/consts";
 import initiatorPng from "../../../../lib/assets/png/initiator.png";
 import { useInitialEffect } from "@/app/lib/hooks/useInitialEffect";
 import { initiatorsSimpleListReducer } from "../../model/slices/initiatorsSimpleListSlice";
+import { Picture } from "@/app/UI/Picture";
+import deletePng from "@/assets/delete.png";
+import { deleteInitiatorByIdThunk } from "@/app/(private-routes)/(initiators)/model/thunks/deleteInitiatorByIdThunk";
+import { ModalSaveCancelDelete } from "@/app/UI/ModalSaveCancelDelete";
 
 export interface InitiatorsDropDownListProps {
     placeholder?: string;
@@ -48,6 +47,8 @@ export const InitiatorsDropDownList = memo(
         const isInitialized = useAppSelector(
             getInitiatorsSimpleListIsInitialized,
         );
+
+        const { confirm } = App.useApp().modal;
 
         const [isModalOpen, setIsModalOpen] = useState(false);
         // Признак того, что модалка открывается для создания новой записи
@@ -125,6 +126,40 @@ export const InitiatorsDropDownList = memo(
             [data, mode, onChange],
         );
 
+        const onDeleteCallback = useCallback(
+            (entityId?: string) => {
+                if (entityId) {
+                    confirm({
+                        title: (
+                            <Flex align={"center"} justify={"start"} gap={4}>
+                                <Typography.Text>{"Удаление"}</Typography.Text>
+                            </Flex>
+                        ),
+                        icon: (
+                            <Picture
+                                shape={"picture"}
+                                pictureWidth={FORM_ICON_SIZE}
+                                pictureHeight={FORM_ICON_SIZE}
+                                borderWidth={0}
+                                borderRadius={0}
+                                value={deletePng.src}
+                            />
+                        ),
+                        content: `Удалить запись из базы данных? Эта операция необратима. Вы уверены?`,
+                        okText: "Да",
+                        okType: "danger",
+                        cancelText: "Нет",
+                        onOk() {
+                            dispatch(
+                                deleteInitiatorByIdThunk({ id: entityId }),
+                            );
+                        },
+                    });
+                }
+            },
+            [confirm, dispatch],
+        );
+
         return (
             <DynamicModuleLoader
                 reducers={{
@@ -154,34 +189,18 @@ export const InitiatorsDropDownList = memo(
                 {error && (
                     <Typography.Text type={"danger"}>{error}</Typography.Text>
                 )}
-                <Modal
-                    title={
-                        <LabelWithIcon
-                            textStyle={{
-                                marginBottom: MODAL_TITLE_MARGIN_BOTTOM,
-                            }}
-                            imageSrc={initiatorPng.src}
-                            labelText={
-                                isModalCreate ? "Новый инициатор" : "Инициатор"
-                            }
-                            iconSize={FORM_ICON_SIZE}
-                        />
-                    }
-                    okType={"primary"}
-                    okText={"Сохранить"}
-                    cancelText={"Отмена"}
+                <ModalSaveCancelDelete
+                    isOpen={isModalOpen}
+                    iconSrc={initiatorPng.src}
+                    title={isModalCreate ? "Новый инициатор" : "Инициатор"}
                     onOk={() => form.submit()}
                     onCancel={() => setIsModalOpen(false)}
                     onClose={() => setIsModalOpen(false)}
-                    destroyOnClose
-                    open={isModalOpen}
-                    styles={{
-                        body: {
-                            maxHeight: "calc(100vh * 0.5)",
-                            overflowY: "auto",
-                        },
+                    onDelete={() => {
+                        onDeleteCallback(editableValue?.id);
+                        setEditableValue(undefined);
+                        setIsModalOpen(false);
                     }}
-                    width={MODAL_WIDTH}
                 >
                     <InitiatorForm
                         form={form}
@@ -200,7 +219,7 @@ export const InitiatorsDropDownList = memo(
                             setIsModalOpen(false);
                         }}
                     />
-                </Modal>
+                </ModalSaveCancelDelete>
             </DynamicModuleLoader>
         );
     },

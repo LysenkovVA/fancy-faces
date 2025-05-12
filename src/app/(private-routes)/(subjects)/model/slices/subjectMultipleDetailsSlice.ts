@@ -5,6 +5,9 @@ import { SubjectEntity } from "../types/SubjectEntity";
 import { MultipleDetailsReduxSchema } from "@/app/lib/types/MultipleDetailsReduxSchema";
 import { getSubjectByIdThunk } from "../thunks/getSubjectByIdThunk";
 import { upsertSubjectThunk } from "../thunks/upsertSubjectThunk";
+import { deleteSubgroupByIdThunk } from "@/app/(private-routes)/(subgroups)/model/thunks/deleteSubgroupByIdThunk";
+import { deleteInitiatorByIdThunk } from "@/app/(private-routes)/(initiators)/model/thunks/deleteInitiatorByIdThunk";
+import { deleteAntropologicalTypeByIdThunk } from "@/app/(private-routes)/(antropological-types)/model/thunks/deleteAntropologicalTypeByIdThunk";
 
 const initialState: MultipleDetailsReduxSchema<SubjectEntity> = {
     details: {},
@@ -126,6 +129,51 @@ export const subjectMultipleDetailsSlice = createSlice({
                 state.details[action.meta.arg.formId].isFetching = false;
                 state.details[action.meta.arg.formId].isSaving = false;
                 state.details[action.meta.arg.formId].error = action.payload;
+            })
+            // Удаление инициатора
+            .addCase(deleteInitiatorByIdThunk.fulfilled, (state, action) => {
+                Object.values(state.details).map((details) => {
+                    if (
+                        details.entityFormData?.initiator?.id ===
+                        action.payload.data?.id
+                    ) {
+                        details.entityFormData = {
+                            ...details.entityFormData!,
+                            initiator: undefined,
+                        };
+                    }
+                });
+            })
+            // Удаление антропологического типа
+            .addCase(
+                deleteAntropologicalTypeByIdThunk.fulfilled,
+                (state, action) => {
+                    Object.values(state.details).map((details) => {
+                        if (
+                            details.entityFormData?.antropologicalType?.id ===
+                            action.payload.data?.id
+                        ) {
+                            details.entityFormData = {
+                                ...details.entityFormData!,
+                                antropologicalType: undefined,
+                            };
+                        }
+                    });
+                },
+            )
+            // Удаление подгруппы
+            .addCase(deleteSubgroupByIdThunk.fulfilled, (state, action) => {
+                Object.values(state.details).map((details) => {
+                    if (
+                        details.entityFormData?.subgroup?.id ===
+                        action.payload.data?.id
+                    ) {
+                        details.entityFormData = {
+                            ...details.entityFormData!,
+                            subgroup: undefined,
+                        };
+                    }
+                });
             });
     },
 });

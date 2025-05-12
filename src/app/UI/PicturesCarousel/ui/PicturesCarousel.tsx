@@ -41,7 +41,7 @@ export const PicturesCarousel = (props: PicturesCarouselProps) => {
                 pictureHeight={pictureHeight}
             />
         );
-    }, [entities, pictureHeight, pictureWidth]);
+    }, [entities, pictureHeight, picturePreview, pictureWidth]);
 
     return (
         <Carousel

@@ -23,6 +23,7 @@ export const createReduxStore = (initialState?: GlobalStateSchema) => {
     const reducerManger = createReducerManager({
         // В корневой редюсер добавляются только те редюсеры,
         // которые являются обязательными
+        // НЕ ЗАБЫТЬ ДОБАВЛЯТЬ НОВЫЕ В В МЕТОД clearOnLogout в редюсер менеджер, т.к. они пересоздаются при logout
         authSchema: authReducer,
         infiniteScrollSchema: InfiniteScrollReducer,
         filterPanelSchema: FilterPanelReducer,

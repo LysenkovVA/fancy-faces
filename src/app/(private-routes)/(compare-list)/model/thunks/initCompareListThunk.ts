@@ -6,11 +6,9 @@ import { SubjectEntity } from "../../../(subjects)/model/types/SubjectEntity";
 import { ThunkConfig } from "@/app/lib/store";
 import { getSubjectByIdThunk } from "@/app/(private-routes)/(subjects)/model/thunks/getSubjectByIdThunk";
 
-export interface InitCompareListThunkProps {}
-
 export const initCompareListThunk = createAsyncThunk<
     SubjectEntity[] | undefined,
-    InitCompareListThunkProps,
+    void,
     ThunkConfig<string>
 >("initCompareListThunk", async (props, thunkApi) => {
     const { rejectWithValue, dispatch } = thunkApi;

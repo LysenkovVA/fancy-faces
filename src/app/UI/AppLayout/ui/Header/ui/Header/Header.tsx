@@ -20,10 +20,9 @@ import {
 import { Picture } from "@/app/UI/Picture";
 import usersPng from "../../../../../../lib/assets/png/users.png";
 import { CompareSubjectsList } from "@/app/(private-routes)/(compare-list)/ui/CompareSubjectsList/ui/CompareSubjectsList";
+import Link from "next/link";
 
-export interface HeaderProps {}
-
-export const Header = memo((props: HeaderProps) => {
+export const Header = memo(() => {
     const initialized = useAppSelector(getUserAuthDataIsInitialized);
     const authUser = useAppSelector(getAuthUser);
     const isAdmin = authUser?.userRole.name === "ADMIN";
@@ -47,7 +46,16 @@ export const Header = memo((props: HeaderProps) => {
                 align={"center"}
                 justify={"space-between"}
             >
-                <HeaderLogo />
+                <Flex align={"center"} justify={"start"} gap={16}>
+                    <HeaderLogo />
+                    <Link
+                        // type={"text"}
+                        href={"/subjects"}
+                        style={{ color: ON_PRIMARY_COLOR, fontSize: 20 }}
+                    >
+                        {"Объекты"}
+                    </Link>
+                </Flex>
                 <Flex align={"center"} justify={"center"} gap={16}>
                     <CompareSubjectsList />
                     {isAdmin && (

@@ -43,7 +43,8 @@ export const HeaderLogoutButton = memo((props: LogoutButtonProps) => {
             onClick={async () => {
                 // Удаляем все редюсеры
                 // TODO - внести все редюсеры сюда!!!
-                store.reducerManager.remove("subjectsListSchema");
+                store.reducerManager.clearOnLogout();
+                // store.reducerManager.remove("subjectsListSchema");
 
                 await clearSession();
                 dispatch(authActions.logout());

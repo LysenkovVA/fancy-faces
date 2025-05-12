@@ -12,6 +12,9 @@ import { upsertUserThunk } from "@/app/(private-routes)/(users)/model/thunks/ups
 import { upsertAntropologicalTypeThunk } from "@/app/(private-routes)/(antropological-types)/model/thunks/upsertAntropologicalTypeThunk";
 import { upsertInitiatorThunk } from "@/app/(private-routes)/(initiators)/model/thunks/upsertInitiatorThunk";
 import { upsertSubgroupThunk } from "@/app/(private-routes)/(subgroups)/model/thunks/upsertSubgroupThunk";
+import { deleteInitiatorByIdThunk } from "@/app/(private-routes)/(initiators)/model/thunks/deleteInitiatorByIdThunk";
+import { deleteAntropologicalTypeByIdThunk } from "@/app/(private-routes)/(antropological-types)/model/thunks/deleteAntropologicalTypeByIdThunk";
+import { deleteSubgroupByIdThunk } from "@/app/(private-routes)/(subgroups)/model/thunks/deleteSubgroupByIdThunk";
 
 const initialState: ListReduxSchema<SubjectEntity, SubjectFilterType> = {
     ids: [],
@@ -162,7 +165,8 @@ export const subjectsListSlice = createSlice({
                         Object.values(state.entities)
                             .filter((subject: SubjectEntity) => {
                                 return (
-                                    subject.user?.id === action.payload.data!.id
+                                    subject.antropologicalType?.id ===
+                                    action.payload.data!.id
                                 );
                             })
                             .map((subject: SubjectEntity) => {
@@ -183,7 +187,10 @@ export const subjectsListSlice = createSlice({
                 if (state.entities) {
                     Object.values(state.entities)
                         .filter((subject: SubjectEntity) => {
-                            return subject.user?.id === action.payload.data!.id;
+                            return (
+                                subject.initiator?.id ===
+                                action.payload.data!.id
+                            );
                         })
                         .map((subject: SubjectEntity) => {
                             subjectAdapter.updateOne(state, {
@@ -201,7 +208,9 @@ export const subjectsListSlice = createSlice({
                 if (state.entities) {
                     Object.values(state.entities)
                         .filter((subject: SubjectEntity) => {
-                            return subject.user?.id === action.payload.data!.id;
+                            return (
+                                subject.subgroup?.id === action.payload.data!.id
+                            );
                         })
                         .map((subject: SubjectEntity) => {
                             subjectAdapter.updateOne(state, {
@@ -227,6 +236,68 @@ export const subjectsListSlice = createSlice({
                                 changes: {
                                     ...subject,
                                     user: action.payload.data!,
+                                },
+                            });
+                        });
+                }
+            })
+            .addCase(deleteInitiatorByIdThunk.fulfilled, (state, action) => {
+                if (state.entities) {
+                    Object.values(state.entities)
+                        .filter((subject: SubjectEntity) => {
+                            return (
+                                subject.initiator?.id ===
+                                action.payload.data!.id
+                            );
+                        })
+                        .map((subject: SubjectEntity) => {
+                            subjectAdapter.updateOne(state, {
+                                id: subject.id,
+                                changes: {
+                                    ...subject,
+                                    initiator: undefined,
+                                },
+                            });
+                        });
+                }
+            })
+            .addCase(
+                deleteAntropologicalTypeByIdThunk.fulfilled,
+                (state, action) => {
+                    if (state.entities) {
+                        Object.values(state.entities)
+                            .filter((subject: SubjectEntity) => {
+                                return (
+                                    subject.antropologicalType?.id ===
+                                    action.payload.data!.id
+                                );
+                            })
+                            .map((subject: SubjectEntity) => {
+                                subjectAdapter.updateOne(state, {
+                                    id: subject.id,
+                                    changes: {
+                                        ...subject,
+                                        antropologicalType: undefined,
+                                    },
+                                });
+                            });
+                    }
+                },
+            )
+            .addCase(deleteSubgroupByIdThunk.fulfilled, (state, action) => {
+                if (state.entities) {
+                    Object.values(state.entities)
+                        .filter((subject: SubjectEntity) => {
+                            return (
+                                subject.subgroup?.id === action.payload.data!.id
+                            );
+                        })
+                        .map((subject: SubjectEntity) => {
+                            subjectAdapter.updateOne(state, {
+                                id: subject.id,
+                                changes: {
+                                    ...subject,
+                                    subgroup: undefined,
                                 },
                             });
                         });
