@@ -40,7 +40,7 @@ export const FormItemTextArea = memo((props: FormItemTextAreaProps) => {
         <Form.Item
             layout={layout}
             noStyle={noStyle}
-            name={namePath}
+            // name={namePath}
             label={
                 <LabelWithIcon
                     imageSrc={imageSrc}
@@ -52,15 +52,18 @@ export const FormItemTextArea = memo((props: FormItemTextAreaProps) => {
         >
             {!isLoading ? (
                 <Flex>
-                    <Input.TextArea
-                        id={namePath[0]}
-                        autoComplete={"off"}
-                        placeholder={placeholder}
-                        autoSize={{ minRows: rowsCount }}
-                        style={{
-                            boxShadow: `0px 1px 5px ${PRIMARY_VARIANT_COLOR}`,
-                        }}
-                    />
+                    <Form.Item noStyle name={namePath}>
+                        <Input.TextArea
+                            id={namePath[0]}
+                            autoComplete={"off"}
+                            placeholder={placeholder}
+                            autoSize={{ minRows: rowsCount }}
+                            style={{
+                                boxShadow: `0px 1px 5px ${PRIMARY_VARIANT_COLOR}`,
+                            }}
+                        />
+                    </Form.Item>
+
                     {backgroundImageSrc !== undefined && (
                         <Picture
                             style={{

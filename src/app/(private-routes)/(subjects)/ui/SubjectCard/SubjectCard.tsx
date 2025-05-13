@@ -206,7 +206,7 @@ export const SubjectCard = memo((props: SubjectCardProps) => {
                         />
                         <LabelWithIcon
                             imageSrc={agePng.src}
-                            labelText={subject?.age ?? ""}
+                            labelText={subject?.age ?? "-"}
                             iconSize={CARD_ICON_SIZE}
                             search={highlightedSearch}
                         />
