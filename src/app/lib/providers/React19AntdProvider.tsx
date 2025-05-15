@@ -16,7 +16,7 @@ import { primaryTheme } from "@/app/lib/themes/primary-theme";
 /**
  * Локализация
  */
-dayjs.locale("ru");
+dayjs.locale("ru", { weekStart: 1 });
 
 /**
  * Провайдер для работы компонентов Ant Design в React 19
